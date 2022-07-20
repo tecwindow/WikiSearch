@@ -1,0 +1,3 @@
+wxpython
+nlpia2_wikipedia
+pyperclip
