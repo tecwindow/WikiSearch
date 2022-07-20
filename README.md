@@ -1,46 +1,33 @@
-# البحث في ويكيبيديا
-هذا سكربت بسيط مصمم بلغة python يتيح لك البحث في الموسوعة العالمية ويكيبيديا.
+# WikiSearch
+This simple program enables you to search Wikipedia, the free encyclopedia, without having to open your browser.
 
-![WikiSearch-ViewArticle](https://user-images.githubusercontent.com/44323153/180079004-24e8672f-c9a4-4f0f-b0fd-322f9982c569.jpg)
+## Features
+* Look up any article quickly and efficiently.
+* View the entire article from within the program.
+* Browse more than one article at a time in separate windows.
+* Save articles as text files on your PC.
+* Change the color of the entire frame while reading the article. The next versions will allow further customizations to the colors and fonts.
+* An auto-updater that allows users quick access to new features.
 
-
-
-## المميزات
-* يمكنك البحث عن أي مقال تريده
-* يمكنك اختيار لغة البحث 
-* يمكنك الإحتفاظ بالمقال كملف نصي txt
-* يمكنك فتح المقال في المتصفح الافتراضي الخاص بك
-* يمكنك الحصول على رابط المقال 
-* يمكنك تبديل ثيمات البرنامج
-* يمكنك تحديث البرنامج من داخله
-
-## المتطلبات 
+## Requirements
 Python 3.xx 
 
-## المكتبات التي تم استخدامها 
+## Modules and packages
 * wxpython
 * json
 * nlpia2_wikipedia
 * threading 
 * pyperclip
 * webbrowser
-*request
-* subprocess
-* os
 
-## طريقة الإستخدام
-* قم بتثبيت جميع المكتبات 
+## How to use
+* install  all packages using pip
 `pip install -r requirements.txt`
-* قم بتشغيل ملف main.py
-`python WikiSearch.pyy`
-* إبدأ البحث عن ما تريده
+* start WikiSearch.py
+`python WikiSearch.py
+* Search for what you want
 
-## ملاحظة 
-تم بناء هذا المشروع بواسطة 
-MesterPerfect https://github.com/MesterPerfect/
-MahmoudAtef https://github.com/MahmoudAtefFarook
-QaisAlrefai https://github.com/QaisAlrefai
-
-إذا أعجبك المشروع:
-Star the Repo - WikiSearch
-Follow me on GitHub - tecwindow
+## Program developers:
+* MesterPerfect https://github.com/mesterPerfect
+* QaisAlrefai https://github.com/QaisAlrefai
+* MahmoudAtef https://github.com/MahmoudAtefFarook
