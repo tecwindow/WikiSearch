@@ -19,6 +19,9 @@ Python 3.xx
 * threading 
 * pyperclip
 * webbrowser
+*request
+* subprocess
+* os
 
 ## How to use
 * install  all packages using pip
