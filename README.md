@@ -3,7 +3,7 @@ This simple program enables you to search Wikipedia, the free encyclopedia, with
 
 ## Features
 * Look up any article quickly and efficiently.
-* View the entire article from within the program.
+* View the entire article within the program.
 * Browse more than one article at a time in separate windows.
 * Save articles as text files on your PC.
 * Change the color of the entire frame while reading the article. The next versions will allow further customizations to the colors and fonts.
