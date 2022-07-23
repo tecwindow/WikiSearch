@@ -25,7 +25,7 @@ class ViewSearch(wx.Dialog):
 		self.ViewArticle = wx.Button(Panel, -1, "View Article", pos=(10,235), size=(120,30))
 		self.ViewArticle.SetDefault()
 		self.OpenInWebBrowser = wx.Button(Panel, -1, "Open in browser", pos=(140,235), size=(120,30))
-		self.CopyArticleLink = wx.Button(Panel, -1, "Copy the article link", pos=(10,280), size=(120,30))
+		self.CopyArticleLink = wx.Button(Panel, -1, "Copy article link", pos=(10,280), size=(120,30))
 		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, "GoBack", pos=(140,280), size=(120,30))
 
 		# Show List Results
