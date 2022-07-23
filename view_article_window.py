@@ -25,14 +25,24 @@ class ViewArticleWindow(wx.Frame):
 		# Create Menus.
 		menubar = wx.MenuBar()
 		actions = wx.Menu()
-		CopyArticleItem = actions.Append(-1, "Copy article	ctrl+1")
-		CopyArticleLinkItem = actions.Append(-1, "Copy article link	ctrl+2")
-		SaveArticleItem = actions.Append(-1, "save article	ctrl+3")
-		ChangeThemeItem = actions.Append(-1, "change Theme	ctrl+4")
-		CloseArticleItem = actions.Append(-1, "close article window	ctrl+5")
-		CloseProgramItem = actions.Append(-1, "Close the program	ctrl+6")
+		self.CopyArticleItem = actions.Append(-1, "Copy article\tctrl+shift+c")
+		self.CopyArticleLinkItem = actions.Append(-1, "Copy article link\tctrl+alt+c")
+		self.SaveArticleItem = actions.Append(-1, "save article\tctrl+s")
+		self.ChangeThemeItem = actions.Append(-1, "change Theme\tctrl+T")
+		self.CloseArticleItem = actions.Append(-1, "close article window\tctrl+w")
+		self.CloseProgramItem = actions.Append(-1, "Close the program\tctrl+F4")
 		menubar.Append(actions, "Actions")
 		self.SetMenuBar(menubar)
+
+		self.hotKeys = wx.AcceleratorTable([
+			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
+			(wx.ACCEL_CTRL+wx.ACCEL_ALT, ord("C"), self.CopyArticleLinkItem.GetId()),
+			(wx.ACCEL_CTRL, ord("S"), self.SaveArticleItem.GetId()),
+			(wx.ACCEL_CTRL, ord("T"), self.ChangeThemeItem.GetId()),
+			(wx.ACCEL_CTRL, ord("W"), self.CloseArticleItem.GetId()),
+			(wx.ACCEL_CTRL,wx.WXK_F4, self.CloseProgramItem.GetId()),
+		])
+		Panel.SetAcceleratorTable(self.hotKeys)
 
 		# Create RichEdit to View Article Content
 		self.ArticleTitle = wx.StaticText(Panel, -1, "please wait:", pos=(10,10), size=(380,30))
@@ -40,11 +50,11 @@ class ViewArticleWindow(wx.Frame):
 
 
 		# Create Buttons
-		self.CopyArticle = wx.Button(Panel, -1, "Copy article", pos=(10,500), size=(120,30))
-		self.SaveArticle = wx.Button(Panel, -1, "save article", pos=(140,500), size=(120,30))
+		self.CopyArticle = wx.Button(Panel, -1, "Copy article\t(ctrl+shift+c)", pos=(10,500), size=(120,30))
+		self.SaveArticle = wx.Button(Panel, -1, "save article\t(ctrl+s)", pos=(140,500), size=(120,30))
 		self.SaveArticle.SetDefault()
-		self.CopyArticleLink = wx.Button(Panel, -1, "Copy article link", pos=(270,500), size=(120,30))
-		self.CloseArticle = wx.Button(Panel, -1, "Close", pos=(400,500), size=(120,30))
+		self.CopyArticleLink = wx.Button(Panel, -1, "Copy article link\t(ctrl+alt+c)", pos=(270,500), size=(120,30))
+		self.CloseArticle = wx.Button(Panel, -1, "Close Article\t(ctrl+w)", pos=(400,500), size=(120,30))
 
 		# Show Article window
 		self.Show()
@@ -56,12 +66,12 @@ class ViewArticleWindow(wx.Frame):
 		self.CloseArticle.Bind(wx.EVT_BUTTON, self.OnCloseArticle)
 
 		# events for Menus
-		self.Bind(wx.EVT_MENU, self.OnCopyArticle, CopyArticleItem) 
-		self.Bind(wx.EVT_MENU, self.OnCopyArticleLink, CopyArticleLinkItem) 
-		self.Bind(wx.EVT_MENU, self.OnSaveArticle, SaveArticleItem) 
-		self.Bind(wx.EVT_MENU, self.OnCloseArticle, CloseArticleItem) 
-		self.Bind(wx.EVT_MENU, self.OnChangeTheme, ChangeThemeItem) 
-		self.Bind(wx.EVT_MENU, self.OnCloseProgram, CloseProgramItem) 
+		self.Bind(wx.EVT_MENU, self.OnCopyArticle, self.CopyArticleItem) 
+		self.Bind(wx.EVT_MENU, self.OnCopyArticleLink, self.CopyArticleLinkItem) 
+		self.Bind(wx.EVT_MENU, self.OnSaveArticle, self.SaveArticleItem) 
+		self.Bind(wx.EVT_MENU, self.OnCloseArticle, self.CloseArticleItem) 
+		self.Bind(wx.EVT_MENU, self.OnChangeTheme, self.ChangeThemeItem) 
+		self.Bind(wx.EVT_MENU, self.OnCloseProgram, self.CloseProgramItem) 
 
 	def OpenThread(self):
 		try:
