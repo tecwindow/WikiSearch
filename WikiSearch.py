@@ -79,6 +79,7 @@ class window(wx.Frame):
 		MesterPerfect = ContactMenu.Append(-1, "MesterPerfect on Telegram")
 		Help.AppendSubMenu(ContactMenu, "Contact us")
 		self.CheckForItem = Help.Append(-1, "Check for update")
+		self.CloseProgramItem = Help.Append(-1, "Close program")
 		menubar.Append(Help, "help")
 		self.SetMenuBar(menubar)
 
@@ -96,6 +97,7 @@ class window(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/MahmoodAtef"), MahmoodAtef)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/MesterPerfect"), MesterPerfect)
 		self.Bind(wx.EVT_MENU, lambda event: os.startfile("help me.html"), HelpFile)
+		self.Bind(wx.EVT_MENU, self.OnClose, self.CloseProgramItem)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.SearchText.Bind(wx.EVT_TEXT, lambda event: check().start())
 
