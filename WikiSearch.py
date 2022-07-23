@@ -65,12 +65,12 @@ class window(wx.Frame):
 		self.StartSearch = wx.Button(Panel, -1, "start search", pos=(10,235), size=(120,30))
 		self.StartSearch.SetDefault()
 		self.StartSearch.Enabled = False
-		self.Close = wx.Button(Panel, -1, "Close the program", pos=(250,235), size=(120,30))
+		self.Close = wx.Button(Panel, -1, "Close the program\t(ctrl+w)", pos=(250,235), size=(120,30))
 
 		#creating menu bar
 		menubar = wx.MenuBar()
 		Help = wx.Menu()
-		HelpFile = Help.Append(-1, "Help file \tF1")
+		self.HelpFile = Help.Append(-1, "Help file\tF1")
 		AboutProgramItem = Help.Append(-1, "About")
 		ContactMenu = wx.Menu()
 		TecWindow=ContactMenu.Append(-1, "TecWindow on Telegram")
@@ -78,10 +78,17 @@ class window(wx.Frame):
 		MahmoodAtef=ContactMenu.Append(-1, "mahmoodatef on Telegram")
 		MesterPerfect = ContactMenu.Append(-1, "MesterPerfect on Telegram")
 		Help.AppendSubMenu(ContactMenu, "Contact us")
-		self.CheckForItem = Help.Append(-1, "Check for update")
-		self.CloseProgramItem = Help.Append(-1, "Close program")
+		self.CheckForItem = Help.Append(-1, "Check for update\tctrl+u")
+		self.CloseProgramItem = Help.Append(-1, "Close program\tctrl+w")
 		menubar.Append(Help, "help")
 		self.SetMenuBar(menubar)
+
+		self.hotKeys = wx.AcceleratorTable([
+			(wx.ACCEL_CTRL, ord("W"), self.CloseProgramItem.GetId()),
+			(0, wx.WXK_F1, self.HelpFile.GetId()),
+			(wx.ACCEL_CTRL, ord("U"), self.CheckForItem.GetId()),
+		])
+		Panel.SetAcceleratorTable(self.hotKeys)
 
 		# Show Main window
 		self.Show()
@@ -96,7 +103,7 @@ class window(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/QaisAlrefai"), QaisAlrefai)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/MahmoodAtef"), MahmoodAtef)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/MesterPerfect"), MesterPerfect)
-		self.Bind(wx.EVT_MENU, lambda event: os.startfile("help me.html"), HelpFile)
+		self.Bind(wx.EVT_MENU, lambda event: os.startfile("help me.html"), self.HelpFile)
 		self.Bind(wx.EVT_MENU, self.OnClose, self.CloseProgramItem)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.SearchText.Bind(wx.EVT_TEXT, lambda event: check().start())
