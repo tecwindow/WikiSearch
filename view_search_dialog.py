@@ -22,11 +22,19 @@ class ViewSearch(wx.Dialog):
 		self.ListResults = wx.ListBox(Panel, -1, pos=(10,30), size=(290,170))
 
 		# Create Buttons
-		self.ViewArticle = wx.Button(Panel, -1, "View Article", pos=(10,235), size=(120,30))
+		self.ViewArticle = wx.Button(Panel, -1, "View Article\t(Alt+V)", pos=(10,235), size=(120,30))
 		self.ViewArticle.SetDefault()
-		self.OpenInWebBrowser = wx.Button(Panel, -1, "Open in browser", pos=(140,235), size=(120,30))
-		self.CopyArticleLink = wx.Button(Panel, -1, "Copy article link", pos=(10,280), size=(120,30))
-		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, "GoBack", pos=(140,280), size=(120,30))
+		self.OpenInWebBrowser = wx.Button(Panel, -1, "Open in browser\t(Alt+O)", pos=(140,235), size=(120,30))
+		self.CopyArticleLink = wx.Button(Panel, -1, "Copy article link\t(Alt+C)", pos=(10,280), size=(120,30))
+		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, "GoBack\t(Alt+B)", pos=(140,280), size=(120,30))
+
+		self.hotKeys = wx.AcceleratorTable([
+			(wx.ACCEL_ALT, ord("V"), self.ViewArticle.GetId()),
+			(wx.ACCEL_ALT, ord("O"), self.OpenInWebBrowser.GetId()),
+			(wx.ACCEL_ALT, ord("C"), self.CopyArticleLink.GetId()),
+			(wx.ACCEL_ALT, ord("B"), self.GoBack.GetId()),
+		])
+		Panel.SetAcceleratorTable(self.hotKeys)
 
 		# Show List Results
 		self.Show()
@@ -35,6 +43,7 @@ class ViewSearch(wx.Dialog):
 		self.ViewArticle.Bind(wx.EVT_BUTTON, self.OnViewArticleWindow)
 		self.OpenInWebBrowser.Bind(wx.EVT_BUTTON, self.OnOpenInBrowser)
 		self.CopyArticleLink.Bind(wx.EVT_BUTTON, self.OnCopyArticleLink)
+
 
 	#create thread function to show results in list box
 	def OpenThread(self):
