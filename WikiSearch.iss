@@ -1,5 +1,5 @@
 #define MyAppName "WikiSearch"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.1.0"
 #define MyAppPublisher "Tecwindow"
 #define MyAppURL "https://t.me/tecwindow"
 #define MyAppExeName "WikiSearch.exe"
