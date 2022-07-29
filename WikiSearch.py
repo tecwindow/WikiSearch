@@ -9,6 +9,8 @@ import os
 from urllib.request import urlopen
 from view_search_dialog import ViewSearch
 from update_dialog import UpdateDialog
+from settings import *
+from ChLanguages import *
 
 # Create app with wx.
 app= wx.App()
@@ -19,8 +21,8 @@ try:
 	with open('LanguageCodes.json') as json_file:
 		data = json.load(json_file)
 except FileNotFoundError:
-	wx.MessageBox("Some required files are missing.", "Error", style=wx.ICON_ERROR)
-	Exit()
+	wx.MessageBox(_("Some required files are missing."), _("Error"), style=wx.ICON_ERROR)
+	exit()
 
 # Create empty list
 name = []
@@ -32,12 +34,12 @@ for w in data:
 	code.append(w["code"])
 
 # information of program
-CurrntVersion = 1.0
+CurrntVersion = 1.1
 ProgramName = "WikiSearch"
-ProgramDescription = "With this program, you can search or browse any Wikipedia article. site: https://t.me/tecwindow"
+ProgramDescription = _("With this program, you can search or browse any Wikipedia article. site: https://github.com/tecwindow/WikiSearch")
+CurrentSettings = Settings().ReadSettings()
 
 # Create main window with wx.
-
 class window(wx.Frame):
 	def __init__(self):
 		super().__init__(None, title = ProgramName, size=(400, 335))
@@ -46,47 +48,53 @@ class window(wx.Frame):
 		#make window Minimum size.
 		self.Maximize(False)
 		self.EnableMaximizeButton(False)
+		self.Iconize(False)
 
 
 		# Creating panel
 		Panel = wx.Panel(self)
 
 		# Creating ComboBox for languages
-		wx.StaticText(Panel, -1, "Choose the search language:", pos=(15,70), size=(380, 30))
+		wx.StaticText(Panel, -1, _("Choose the search language:"), pos=(15,70), size=(380, 30))
 		self.LanguageSearch = wx.ComboBox(Panel, -1, pos=(15, 100), size=(120, 40), style=wx.CB_READONLY+wx.CB_SORT)
 		self.LanguageSearch.SetItems(name)
-		self.LanguageSearch.Selection = 6
+		self.LanguageSearch.Value = CurrentSettings["SearchLanguage"]
 
 		# Creating  search edit
-		wx.StaticText(Panel, -1, "Enter your search", pos=(160,70), size=(380, 30))
+		wx.StaticText(Panel, -1, _("Enter search words"), pos=(160,70), size=(380, 30))
 		self.SearchText = wx.TextCtrl(Panel, -1, pos=(160, 100), size=(200, 30))
 
 		# Creating Buttons
-		self.StartSearch = wx.Button(Panel, -1, "start search", pos=(10,235), size=(120,30))
+		self.StartSearch = wx.Button(Panel, -1, _("Start search"), pos=(10,235), size=(120,30))
 		self.StartSearch.SetDefault()
 		self.StartSearch.Enabled = False
-		self.Close = wx.Button(Panel, -1, "Close the program\t(ctrl+w)", pos=(250,235), size=(120,30))
+		self.Close = wx.Button(Panel, -1, _("Close the program\t(ctrl+w)"), pos=(250,235), size=(120,30))
 
 		#creating menu bar
 		menubar = wx.MenuBar()
-		Help = wx.Menu()
-		self.HelpFile = Help.Append(-1, "Help file\tF1")
-		AboutProgramItem = Help.Append(-1, "About")
+		MainMenu = wx.Menu()
+		self.HelpFile = MainMenu.Append(-1, _("&Help file\tF1"))
+		AboutProgramItem = MainMenu.Append(-1, _("&About"))
 		ContactMenu = wx.Menu()
 		TecWindow=ContactMenu.Append(-1, "TecWindow on Telegram")
-		QaisAlrefai=ContactMenu.Append(-1, "Qais Alrefai on Telegram")
-		MahmoodAtef=ContactMenu.Append(-1, "mahmoodatef on Telegram")
-		MesterPerfect = ContactMenu.Append(-1, "MesterPerfect on Telegram")
-		Help.AppendSubMenu(ContactMenu, "Contact us")
-		self.CheckForItem = Help.Append(-1, "Check for update\tctrl+u")
-		self.CloseProgramItem = Help.Append(-1, "Close program\tctrl+w")
-		menubar.Append(Help, "help")
+		QaisAlrefai=ContactMenu.Append(-1, "&Qais Alrefai on Telegram")
+		MahmoodAtef=ContactMenu.Append(-1, "&Mahmoodatef on Telegram")
+		MesterPerfect = ContactMenu.Append(-1, "&MesterPerfect on Telegram")
+		MainMenu.AppendSubMenu(ContactMenu, _("&Contact us"))
+		self.PreferencesItem = MainMenu.Append(-1, _("Program &settings\tAlt+S"))
+		self.CheckForItem = MainMenu.Append(-1, _("Check for &update\tctrl+u"))
+		self.CloseProgramItem = MainMenu.Append(-1, _("Close program\tctrl+w"))
+		menubar.Append(MainMenu, _("Main menu"))
+
+
+
 		self.SetMenuBar(menubar)
 
 		self.hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_CTRL, ord("W"), self.CloseProgramItem.GetId()),
 			(0, wx.WXK_F1, self.HelpFile.GetId()),
 			(wx.ACCEL_CTRL, ord("U"), self.CheckForItem.GetId()),
+(wx.ACCEL_ALT, ord("S"), self.PreferencesItem.GetId()),
 		])
 		Panel.SetAcceleratorTable(self.hotKeys)
 
@@ -98,12 +106,13 @@ class window(wx.Frame):
 		self.Close.Bind(wx.EVT_BUTTON, self.OnClose)
 		#events for menu items
 		self.Bind(wx.EVT_MENU, self.OnAboutProgram, AboutProgramItem)
+		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog().ShowModal(), self.PreferencesItem)
 		self.Bind(wx.EVT_MENU, self.OnCheckForItem, self.CheckForItem)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/TecWindow"), TecWindow)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/QaisAlrefai"), QaisAlrefai)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/MahmoodAtef"), MahmoodAtef)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/MesterPerfect"), MesterPerfect)
-		self.Bind(wx.EVT_MENU, lambda event: os.startfile("help me.html"), self.HelpFile)
+		self.Bind(wx.EVT_MENU, self.OnHelp, self.HelpFile)
 		self.Bind(wx.EVT_MENU, self.OnClose, self.CloseProgramItem)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.SearchText.Bind(wx.EVT_TEXT, lambda event: check().start())
@@ -111,51 +120,92 @@ class window(wx.Frame):
 
 	#creating OnClose function to  Close Program.
 	def OnClose(self, event):
-		wx.Exit()
+		try:
+			if self.dialog1.NumberArticle == 1:
+							ArticleCounte = _("There is 1 open article.")
+			elif self.dialog1.NumberArticle > 1:
+				ArticleCounte = _("There are {} open articles.").format(self.dialog1.NumberArticle)
+			if self.dialog1.NumberArticle >= 1:
+				ConfirmClosProgram = wx.MessageDialog(self,_("""{}
+Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+				if ConfirmClosProgram.ShowModal() == wx.ID_YES:
+									wx.Exit()
+				else:
+					return
+			else:
+							wx.Exit()
+		except AttributeError:
+			wx.Exit()
 
 	#creating OnAboutProgram function to show information about this program.
 	def OnAboutProgram(self, event):
-		wx.MessageBox(F"""{ProgramName} Version {CurrntVersion}.
-{ProgramDescription}
-		This program was developed by:
+		wx.MessageBox(_("""{} Version {}.
+{}
+This program was developed by:
 Ahmed Bakr.
 Qais Alrifai.
-Mahmoud Atef.""", "About the program")
+Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("About the program"))
 
 	#creating OnViewSearch function to show search results
 	def OnViewSearch(self, event):
+		CurrentSettings = Settings().ReadSettings()
+		CurrentSettings["SearchLanguage"] = self.LanguageSearch.Value
+		Settings().WriteSettings(**CurrentSettings)
+
 		#Set language for search
 		try:
 			wikipedia.set_lang(code[self.LanguageSearch.GetSelection()])
 		except:
-			wx.MessageBox("there is no internet connection ", "Connection error", style=wx.ICON_ERROR)
+			wx.MessageBox(_("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR)
 			return None
 
 		#geting text of search
 		TextSearch = self.SearchText.Value
 		#Show dialog of search results
-		dialog1 = ViewSearch(self, TextSearch)
+		self.dialog1 = ViewSearch(self, TextSearch)
 		#start thread function to add search results for list box in dialog.
-		thread1 = threading.Thread(target=dialog1.OpenThread, daemon=True)
+		thread1 = threading.Thread(target=self.dialog1.OpenThread, daemon=True)
 		thread1.start()
 
 	#creating function to check for update
-	def OnCheckForItem(self, event):
+	def OnCheckForItem(self, event, AutoCheck= "no"):
 		#geting the  recent version from online info file.
 		url = "https://raw.githubusercontent.com/tecwindow/WikiSearch/main/WikiSearch.json"
 		try:
 			response = urlopen(url)
 		except:
-			wx.MessageBox("there is no internet connection ", "Connection error", style=wx.ICON_ERROR)
+			wx.MessageBox(_("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR)
 			return None
 		data_json = json.loads(response.read())
 		RecentVersion = float(data_json["version"])
 		#Show the update dialog if there is new version.
 		if RecentVersion > CurrntVersion:
-			UpdateDialog(self)
+			UpdateDialog(self, RecentVersion)
 		#if there is no  new version show MessageBox tell that.
 		else:
-			wx.MessageBox(f"You are using version {CurrntVersion} which is the latest version.", "No update available")
+			if AutoCheck == "yes":
+				pass
+			else:
+				wx.MessageBox(_("You are using version {} which is the latest version.").format(CurrntVersion), _("No update available"))
+
+	def OnHelp(self, event):
+
+		language = {
+		"english": "en",
+		"arabic": "ar",
+		"spanish": "es"
+		}
+
+		CurrentLanguage = language[CurrentSettings["Language"]]
+		HelpFile = os.getcwd() + "/" + "help/" + CurrentLanguage + "/" + "help me.html"
+
+		if os.path.exists(HelpFile):
+			os.startfile(HelpFile)
+		else:
+			os.startfile(os.getcwd() + "/" + "help/en/help me.html")
+
+#end of class
+
 
 # creating thread to disable start search buttion if search edit is empty.
 class check(threading.Thread):
@@ -173,5 +223,12 @@ class check(threading.Thread):
 
 
 
+
+
 main_window = window()
+
+if CurrentSettings["AutoUpdate"] == "True":
+	main_window.OnCheckForItem(None, AutoCheck="yes")
+
+
 app.MainLoop()    
