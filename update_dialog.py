@@ -7,10 +7,11 @@ from urllib.request import urlopen
 import os
 import json
 import subprocess
+from ChLanguages import *
+
 
 #geting what's new and download ling from online info file.
 try:
-#	url = "https://mx-blind.com/WikiSearch/WikiSearch.json"
 	url = "https://raw.githubusercontent.com/tecwindow/WikiSearch/main/WikiSearch.json"
 	response = urlopen(url)
 	data_json = json.loads(response.read())
@@ -35,8 +36,8 @@ if os.path.exists(path):
 
 #creating update dialog 
 class UpdateDialog(wx.Dialog):
-	def __init__(self, parent):
-		super().__init__(None, title = "there is an update", size=(300, 300))
+	def __init__(self, parent, RecentVersion):
+		super().__init__(None, title = _("There is an update"), size=(300, 300))
 		self.Center()
 		self.Maximize(False)
 
@@ -44,13 +45,13 @@ class UpdateDialog(wx.Dialog):
 		Panel = wx.Panel(self)
 
 		#creating field to show what's new.
-		wx.StaticText(Panel, -1, "What's new in this version?", pos=(20,20), size=(170, 30))
-		self.WhatsNew = wx.TextCtrl(Panel, -1, value=f"{whatIsNew}", pos=(10,60), size=(250,90))
+		wx.StaticText(Panel, -1, _("What's new in version {}?").format(RecentVersion), pos=(20,20), size=(170, 30))
+		self.WhatsNew = wx.TextCtrl(Panel, -1, value=whatIsNew, pos=(10,60), size=(250,90))
 
 		# Creating Buttons
-		self.Update = wx.Button(Panel, -1, "Update", pos=(20,200), size=(60,30))
+		self.Update = wx.Button(Panel, -1, _("&Update"), pos=(20,200), size=(60,30))
 		self.Update.SetDefault()
-		self.Close = wx.Button(Panel, wx.ID_CANCEL, "Cancel", pos=(90,200), size=(60,30))
+		self.Close = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(90,200), size=(60,30))
 
 		#show the dialog
 		self.Show()
@@ -60,7 +61,7 @@ class UpdateDialog(wx.Dialog):
 
 	#creating OnDownloadUpdate function  to show progress dialog.
 	def OnDownloadUpdate(self,  event):
-		ProgressDialog = progress_dialog("downloading update", "please wait", maximum=100, parent=self, style=wx.PD_CAN_ABORT)
+		ProgressDialog = progress_dialog(_("Downloading update"), _("Please wait."), maximum=100, parent=self, style=wx.PD_CAN_ABORT)
 
 
 #creating progress dialog
