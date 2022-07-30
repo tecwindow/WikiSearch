@@ -10,7 +10,10 @@ from urllib.request import urlopen
 from view_search_dialog import ViewSearch
 from update_dialog import UpdateDialog
 from settings import *
-from ChLanguages import *
+from functions import *
+
+#Set language for main window 
+_ = SetLanguage(Settings().ReadSettings())
 
 # Create app with wx.
 app= wx.App()
@@ -38,6 +41,9 @@ CurrntVersion = 1.1
 ProgramName = "WikiSearch"
 ProgramDescription = _("With this program, you can search or browse any Wikipedia article. site: https://github.com/tecwindow/WikiSearch")
 CurrentSettings = Settings().ReadSettings()
+
+
+
 
 # Create main window with wx.
 class window(wx.Frame):

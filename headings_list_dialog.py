@@ -2,9 +2,13 @@
 # import project libraries.
 import wx
 import re
-from ChLanguages import *
+from settings import Settings
+from functions import *
 
+#Set language  for Headings List Dialog
+_ = SetLanguage(Settings().ReadSettings())
 
+#creating Headings List Dialog
 class HeadingsListDialog(wx.Dialog):
 	def __init__(self, parent, content):
 		super().__init__(parent, title=_("Headings in this article"), size=(300, 320))

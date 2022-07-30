@@ -7,7 +7,11 @@ from urllib.request import urlopen
 import os
 import json
 import subprocess
-from ChLanguages import *
+from settings import Settings
+from functions import *
+
+#Set language for update dialog
+_ = SetLanguage(Settings().ReadSettings())
 
 
 #geting what's new and download ling from online info file.

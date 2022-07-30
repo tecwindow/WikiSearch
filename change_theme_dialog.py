@@ -1,10 +1,15 @@
 #-*- coding: utf-8 -*-
 # import project libraries.
 import wx
-from ChLanguages import *
+from settings import Settings
+from functions import *
+
+#Set language  for Change ThemeDialog
+_ = SetLanguage(Settings().ReadSettings())
 
 colourList = ["Aquamarine", "Black", "Blue", "Blue Violet", "Brown", "Cadet Blue", "Coral", "Cornflower Blue", "Cyan", "Dark Grey", "Dark Green", "Brown"]
 
+#Creating Change ThemeDialog
 class ChangeTheme(wx.Dialog):
 
 	def __init__(self):

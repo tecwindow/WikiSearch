@@ -2,7 +2,8 @@ import wx
 import configparser
 import os
 import sys
-from ChLanguages import *
+from functions import *
+
 
 class Settings:
 	def __init__(self):
@@ -66,7 +67,10 @@ class Settings:
 
 #end of class
 
-# Create main window with wx.
+#Set language for Settings Dialog
+_ = SetLanguage(Settings().ReadSettings())
+
+# Create Settings Dialog
 class SettingsDialog(wx.Dialog):
 	def __init__(self):
 		super().__init__(None, title=_("Program Settings"), size=(400, 335))

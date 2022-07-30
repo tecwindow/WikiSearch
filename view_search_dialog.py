@@ -8,8 +8,10 @@ import webbrowser
 import accessible_output2.outputs.auto
 from view_article_window import ViewArticleWindow
 from settings import Settings
-from ChLanguages import *
+from functions import *
 
+#Set language for View  Search Dialog
+_ = SetLanguage(Settings().ReadSettings())
 
 #create View  Search Dialog
 class ViewSearch(wx.Dialog):

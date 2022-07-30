@@ -9,7 +9,10 @@ import re
 from change_theme_dialog import ChangeTheme
 from headings_list_dialog import HeadingsListDialog
 from settings import Settings
-from ChLanguages import *
+from functions import *
+
+#Set language for View Article window
+_ = SetLanguage(Settings().ReadSettings())
 
 colourList = ["Aquamarine", "Black", "Blue", "Blue Violet", "Brown", "Cadet Blue", "Coral", "Cornflower Blue", "Cyan", "Dark Grey", "Dark Green", "Brown"]
 
