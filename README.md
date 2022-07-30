@@ -33,12 +33,12 @@ Python 3.xx
 
 ## Modules and packages
 * accessible_output2
-* wxpython
 * nlpia2_wikipedia
 * webbrowser
 * subprocess
 * threading 
 * pyperclip
+* wxpython
 * request
 * json
 * os
