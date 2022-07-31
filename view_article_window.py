@@ -5,7 +5,6 @@ import nlpia2_wikipedia as wikipedia
 import pyperclip
 import accessible_output2.outputs.auto
 import os
-import re
 from change_theme_dialog import ChangeTheme
 from headings_list_dialog import HeadingsListDialog
 from settings import Settings
@@ -65,7 +64,7 @@ class ViewArticleWindow(wx.Frame):
 
 		# Create RichEdit to View Article Content
 		self.ArticleTitle = wx.StaticText(Panel, -1, _("Please wait."), pos=(10,10), size=(380,30))
-		self.ViewArticle = wx.TextCtrl(Panel, -1, pos=(30,40), size=(480,420), style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY)
+		self.ViewArticle = wx.TextCtrl(Panel, -1, pos=(30,40), size=(480,420), style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY+wx.HSCROLL)
 		#Getting current font and colour for text
 		self.font = self.ViewArticle.GetFont()
 		self.colour  = self.ViewArticle.GetForegroundColour()
@@ -127,7 +126,9 @@ do you want to show similar results for this  article?
 			return None
 
 		self.title = wikipedia.page(self.GetValues).title
+		self.Content = self.Content.replace(". ", ".\n")
 		self.ViewArticle.Value = self.Content
+		self.o.speak(_("Article loaded"), interrupt=True)
 		self.SetTitle(_("View {}").format(self.title))
 		self.ArticleTitle.SetLabel(self.title)
 		self.GoToHeading.Enable(enable=True)
@@ -138,7 +139,7 @@ do you want to show similar results for this  article?
 		self.SaveArticle.Enable(enable=True)
 		self.CopyArticleLink.Enable(enable=True)
 		self.url = wikipedia.page(self.GetValues).url
-		self.o.speak(_("Article loaded"), interrupt=True)
+
 
 	# Copy Article Content
 	def OnCopyArticle(self, event):
@@ -191,7 +192,7 @@ do you want to show similar results for this  article?
 			ArticleCounte = _("There are {} open articles.").format(self.handle.NumberArticle)
 		if (self.handle.NumberArticle >= 1) and (state == "True"):
 			ConfirmClosProgram = wx.MessageDialog(self, _("""{}
-Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+Do you want to close the program anyway?""").format(ArticleCounte), "Confirm", style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
 			if ConfirmClosProgram.ShowModal() == wx.ID_YES:
 								wx.Exit()
 			else:
@@ -201,6 +202,8 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 	def OnGoToheading(self, event):
 		position = HeadingsListDialog(self, self.Content).ShowModal()
+		if position == wx.ID_CANCEL:
+			return None
 		self.ViewArticle.SetInsertionPoint(position)
 		self.ViewArticle.SetFocus()
 

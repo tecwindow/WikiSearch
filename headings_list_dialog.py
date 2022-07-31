@@ -27,6 +27,7 @@ class HeadingsListDialog(wx.Dialog):
 		for x in self.result:
 				NewResult.append(x.replace("=", ""))
 		self.HeadingsList.SetItems(NewResult)
+		self.HeadingsList.Selection = 0
 
 		# Create Buttons
 		self.Go = wx.Button(Panel, -1, _("Go\t(Alt+h)"), pos=(10,235), size=(120,30))
