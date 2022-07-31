@@ -3,9 +3,10 @@
 def SetLanguage(CurrentSettings):
 
 	language = {
-	"english": "en", 
-	"arabic": "ar",
-	"spanish": "es"
+	"english": "en",
+	"Arabic": "ar",
+	"Español": "es",
+	"Français": "fr"
 	}
 
 	CurrentLanguage = language[CurrentSettings["Language"]]

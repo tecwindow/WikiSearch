@@ -1,0 +1,354 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2022-07-29 19:42+0300\n"
+"PO-Revision-Date: 2022-07-31 18:48+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Generator: Poedit 3.0\n"
+
+#: WikiSearch.py:25
+msgid "Some required files are missing."
+msgstr "Certains fichiers requis sont manquants."
+
+#: WikiSearch.py:25 view_search_dialog.py:73 view_search_dialog.py:87
+#: view_search_dialog.py:99
+msgid "Error"
+msgstr "Erreur"
+
+#: WikiSearch.py:40
+msgid ""
+"With this program, you can search or browse any Wikipedia article. site: "
+"https://github.com/tecwindow/WikiSearch"
+msgstr ""
+"Avec ce programme, vous pouvez rechercher ou parcourir n'importe quel "
+"article de Wikipedia. site : https://github.com/tecwindow/WikiSearch"
+
+#: WikiSearch.py:58
+msgid "Choose the search language:"
+msgstr "Choisissez la langue de recherche :"
+
+#: WikiSearch.py:64
+msgid "Enter search words"
+msgstr "Saisissez les mots de recherche"
+
+#: WikiSearch.py:68
+msgid "Start search"
+msgstr "Démarrer la recherche"
+
+#: WikiSearch.py:71
+msgid "Close the program\t(ctrl+w)"
+msgstr "Fermer le programme\t(ctrl+w)"
+
+#: WikiSearch.py:76
+msgid "&Help file\tF1"
+msgstr "Fichier d'&aide\tF1"
+
+#: WikiSearch.py:77
+msgid "&About"
+msgstr "A &propos"
+
+#: WikiSearch.py:83
+msgid "&Contact us"
+msgstr "&Contactez-nous"
+
+#: WikiSearch.py:84
+msgid "Program &settings\tAlt+S"
+msgstr "&réglages du programme\tAlt+S"
+
+#: WikiSearch.py:85
+msgid "Check for &update\tctrl+u"
+msgstr "Vérifier la &se à jour"
+
+#: WikiSearch.py:86
+msgid "Close program\tctrl+w"
+msgstr "Fermer le programme\tctrl+w"
+
+#: WikiSearch.py:87
+msgid "Main menu"
+msgstr "Menu principal"
+
+#: WikiSearch.py:125 view_article_window.py:184
+msgid "There is 1 open article."
+msgstr "1 article est ouvert."
+
+#: WikiSearch.py:127 view_article_window.py:186
+msgid "There are {} open articles."
+msgstr "{} articles sont ouverts."
+
+#: WikiSearch.py:129 view_article_window.py:188
+msgid ""
+"{}\n"
+"Do you want to close the program anyway?"
+msgstr ""
+"{}\n"
+"Voulez-vous quand même fermer le programme ?"
+
+#: WikiSearch.py:130 settings.py:136
+msgid "Confirm"
+msgstr "Confirmer"
+
+#: WikiSearch.py:142
+msgid ""
+"{} Version {}.\n"
+"{}\n"
+"This program was developed by:\n"
+"Ahmed Bakr.\n"
+"Qais Alrifai.\n"
+"Mahmoud Atef."
+msgstr ""
+"{} Version {}.\n"
+"{}\n"
+"Ce programme a été développé par :\n"
+"Ahmed Bakr.\n"
+"Qais Alrifai.\n"
+"Mahmoud Atef."
+
+#: WikiSearch.py:147
+msgid "About the program"
+msgstr "A propos du programme"
+
+#: WikiSearch.py:159 WikiSearch.py:177
+msgid "Connection error"
+msgstr "Erreur de connexion"
+
+#: WikiSearch.py:159 WikiSearch.py:177 view_search_dialog.py:65
+msgid "There is no internet connection."
+msgstr "Pas de connexion internet."
+
+#: WikiSearch.py:189
+msgid "No update available"
+msgstr "Aucune mise à jour n'a été trouvée."
+
+#: WikiSearch.py:189
+msgid "You are using version {} which is the latest version."
+msgstr ""
+"Vous utilisez la version {} qui se trouve être la dernière version."
+
+#: change_theme_dialog.py:14
+msgid "Change theme"
+msgstr "Changer le thème"
+
+#: change_theme_dialog.py:18
+msgid "Choose theme"
+msgstr "Choisir le thème"
+
+#: change_theme_dialog.py:22
+msgid "&Change"
+msgstr "&Changer"
+
+#: change_theme_dialog.py:24 headings_list_dialog.py:30 settings.py:110
+#: update_dialog.py:55
+msgid "&Cancel"
+msgstr "&Annuler"
+
+#: headings_list_dialog.py:10
+msgid "Headings in this article"
+msgstr "Entêtes de cet article"
+
+#: headings_list_dialog.py:18
+msgid "Choose a heading"
+msgstr "Choisissez une entête"
+
+#: headings_list_dialog.py:28
+msgid "Go\t(Alt+h)"
+msgstr "Aller\t(Alt+h)"
+
+#: settings.py:73
+msgid "Program Settings"
+msgstr "Réglages du programme"
+
+#: settings.py:84
+msgid "Choose language:"
+msgstr "Choisir la langue :"
+
+#: settings.py:90
+msgid "Choose the number of results:"
+msgstr "Définir le nombre de résultats à afficher :"
+
+#: settings.py:95
+msgid "Show Close message when at least an article is open"
+msgstr ""
+"Afficher le message de fermeture du programme lorsqu'au moins un article "
+"est ouvert"
+
+#: settings.py:99
+msgid "Check for updates automatically"
+msgstr "Vérifier les mises à jour automatiquement"
+
+#: settings.py:103
+msgid "Close the article via the Escape key"
+msgstr "Fermer l'article via la touche Échap"
+
+#: settings.py:108
+msgid "&Save changes"
+msgstr "&Sauvegarder les modifications"
+
+#: settings.py:135
+msgid ""
+"You must restart the program for the new language to take effect.\n"
+"Do you want to restart the program now?"
+msgstr ""
+"Vous devez redémarrer le programme pour que la nouvelle langue prenne "
+"effet.\n"
+"Voulez-vous redémarrer le programme maintenant ?"
+
+#: update_dialog.py:41
+msgid "There is an update"
+msgstr "Nouvelle version de WikiSearch"
+
+#: update_dialog.py:49
+msgid "What's new in version {}?"
+msgstr "Nouveautés de la version {}"
+
+#: update_dialog.py:53
+msgid "&Update"
+msgstr "&Mettre àjour"
+
+#: update_dialog.py:65
+msgid "Downloading update"
+msgstr "Téléchargement de la mise à jour"
+
+#: update_dialog.py:65 view_article_window.py:65
+msgid "Please wait."
+msgstr "Veuiller patienter."
+
+#: view_article_window.py:21
+msgid "View article"
+msgstr "Voir l'article"
+
+#: view_article_window.py:38
+msgid "Copy article\tctrl+shift+c"
+msgstr "Copier l'article\tctrl+maj+c"
+
+#: view_article_window.py:40
+msgid "Copy article link\tctrl+alt+c"
+msgstr "Copier le lien de l'article\tctrl+alt+c"
+
+#: view_article_window.py:42
+msgid "Save article\tctrl+s"
+msgstr "Sauvegarder l'article\tctrl+s"
+
+#: view_article_window.py:44
+msgid "Go to a &heading \tCtrl+h"
+msgstr "Aller à une &entête\tCtrl+h"
+
+#: view_article_window.py:46
+msgid "Change theme\tctrl+T"
+msgstr "Changer le thème\tctrl+T"
+
+#: view_article_window.py:47
+msgid "Close article window\tctrl+w"
+msgstr "Fermer la fenêtre de l'article\tctrl+w"
+
+#: view_article_window.py:48
+msgid "Close the program\tctrl+F4"
+msgstr "Fermer le programme\tctrl+F4"
+
+#: view_article_window.py:49
+msgid "Actions"
+msgstr "Actions"
+
+#: view_article_window.py:70
+msgid "Copy article\t(ctrl+shift+c)"
+msgstr "Copier l'article\t(ctrl+maj+c)"
+
+#: view_article_window.py:72
+msgid "Save article\t(ctrl+s)"
+msgstr "sauvegarder l'article\t(ctrl+s)"
+
+#: view_article_window.py:75
+msgid "Copy article link\t(ctrl+alt+c)"
+msgstr "Copier le lien de l'article\t(ctrl+alt+c)"
+
+#: view_article_window.py:77
+msgid "Close article\t(ctrl+w)"
+msgstr "Fermer l'article\t(ctrl+w)"
+
+#: view_article_window.py:106
+msgid "Loading article:"
+msgstr "Chargement de l'article :"
+
+#: view_article_window.py:108
+msgid ""
+"This article is no longer available.\n"
+"do you want to show similar results for this  article?\n"
+msgstr ""
+"Cet article n'est plus disponible.\n"
+"voulez-vous montrer des résultats similaires pour cet article ?\n"
+
+#: view_article_window.py:110
+msgid "Warning"
+msgstr "Avertissement"
+
+#: view_article_window.py:126
+msgid "View {}"
+msgstr "Afficher"
+
+#: view_article_window.py:136
+msgid "Article loaded"
+msgstr "Article chargé"
+
+#: view_article_window.py:141
+msgid "Article copied."
+msgstr "Article copié."
+
+#: view_article_window.py:147 view_search_dialog.py:97
+msgid "Article link copied."
+msgstr "Lien de l'article copié."
+
+#: view_article_window.py:153
+msgid "Save {}:"
+msgstr "Sauvegarder {}:"
+
+#: view_search_dialog.py:18 view_search_dialog.py:27
+msgid "Search results"
+msgstr "Résultats de recherche"
+
+#: view_search_dialog.py:31
+msgid "View Article\t(Alt+V)"
+msgstr "Afficher l'article\t(Alt+V)"
+
+#: view_search_dialog.py:34
+msgid "Open in browser\t(Alt+O)"
+msgstr "Ouvrir dans le navigateur\t(Alt+O)"
+
+#: view_search_dialog.py:36
+msgid "Copy article link\t(Alt+C)"
+msgstr "Copier le lien de l'article\t(Alt+C)"
+
+#: view_search_dialog.py:38
+msgid "GoBack\t(Alt+B)"
+msgstr "Retour\t(Alt+B)"
+
+#: view_search_dialog.py:65
+msgid "Connection Error"
+msgstr "Erreur de connexion"
+
+#: view_search_dialog.py:73
+msgid "We couldn't find  any articles that match your search."
+msgstr "Aucun article correspondant à votre recherche n'a pu être trouvé."
+
+#: view_search_dialog.py:85
+msgid "Opening:"
+msgstr "Ouverture de :"
+
+#: view_search_dialog.py:87
+msgid "This link cannot be opened in the browser."
+msgstr "Ce lien ne peut pas être ouvert dans le navigateur."
+
+#: view_search_dialog.py:99
+msgid "This link cannot be copied."
+msgstr ""
+"Cet article n'est plus disponible.\n"
+"voulez-vous montrer des résultats similaires pour cet article ?"

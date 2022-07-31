@@ -85,7 +85,7 @@ class SettingsDialog(wx.Dialog):
 
 		# Creating ComboBox for languages
 		wx.StaticText(Panel, -1, _("Choose language:"), pos=(15,20), size=(380, 30))
-		self.ProgramLanguage = wx.ComboBox(Panel, -1, choices=['arabic', 'english', 'spanish'], pos=(15, 50), size=(120, 40), style=wx.CB_READONLY+wx.CB_SORT)
+		self.ProgramLanguage = wx.ComboBox(Panel, -1, choices=['Arabic', 'english', 'Español', 'Français',], pos=(15, 50), size=(120, 40), style=wx.CB_READONLY+wx.CB_SORT)
 		self.ProgramLanguage.Value = self.CurrentSettings["Language"]
 
 		# Creating SpinCtrl for Results Number
