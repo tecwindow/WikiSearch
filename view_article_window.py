@@ -191,7 +191,7 @@ do you want to show similar results for this  article?
 			ArticleCounte = _("There are {} open articles.").format(self.handle.NumberArticle)
 		if (self.handle.NumberArticle >= 1) and (state == "True"):
 			ConfirmClosProgram = wx.MessageDialog(self, _("""{}
-Do you want to close the program anyway?""").format(ArticleCounte), "Confirm", style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
 			if ConfirmClosProgram.ShowModal() == wx.ID_YES:
 								wx.Exit()
 			else:
