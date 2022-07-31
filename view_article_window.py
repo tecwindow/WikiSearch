@@ -44,6 +44,7 @@ class ViewArticleWindow(wx.Frame):
 		self.SaveArticleItem.Enable(enable=False)
 		self.GoToHeading = actions.Append(-1, _("Go to a &heading \tCtrl+h"))
 		self.GoToHeading.Enable(enable=False)
+		self.FontItem = actions.Append(-1, _("Change font \tCtrl+d"))
 		self.ChangeThemeItem = actions.Append(-1, _("Change theme\tctrl+T"))
 		self.CloseArticleItem = actions.Append(-1, _("Close article window\tctrl+w"))
 		self.CloseProgramItem = actions.Append(-1, _("Close the program\tctrl+F4"))
@@ -65,7 +66,9 @@ class ViewArticleWindow(wx.Frame):
 		# Create RichEdit to View Article Content
 		self.ArticleTitle = wx.StaticText(Panel, -1, _("Please wait."), pos=(10,10), size=(380,30))
 		self.ViewArticle = wx.TextCtrl(Panel, -1, pos=(30,40), size=(480,420), style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY)
-
+		#Getting current font and colour for text
+		self.font = self.ViewArticle.GetFont()
+		self.colour  = self.ViewArticle.GetForegroundColour()
 
 		# Create Buttons
 		self.CopyArticle = wx.Button(Panel, -1, _("Copy article\t(ctrl+shift+c)"), pos=(10,500), size=(120,30))
@@ -99,6 +102,7 @@ class ViewArticleWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnCloseProgram, self.CloseProgramItem) 
 		self.Bind(wx.EVT_MENU, self.OnGoToheading, self.GoToHeading)
 		self.Bind(wx.EVT_MENU, self.OnEscape, id=self.rand_id)
+		self.Bind(wx.EVT_MENU, self.OnFont, self.FontItem)
 
 	def OpenThread(self):
 
@@ -209,3 +213,25 @@ Do you want to close the program anyway?""").format(ArticleCounte), "Confirm", s
 			self.Destroy()
 		else:
 			pass
+
+#creating OnFont function to change font
+	def OnFont(self, event):
+
+		#Set current font and colour in font dialog.
+		data = wx.FontData()
+		data.EnableEffects(True)
+		data.SetInitialFont(self.font)
+		data.SetColour(self.colour)
+
+		#Creating font dialog.
+		FontDialog = wx.FontDialog(self, data)
+
+		#Getting font and colour information that user will choose.
+		if FontDialog.ShowModal() == wx.ID_OK:
+			data = FontDialog.GetFontData()
+			self.font = data.GetChosenFont()
+			self.colour = data.GetColour()
+
+		#Set new font and colour.
+			self.ViewArticle.SetFont(self.font)
+			self.ViewArticle.SetForegroundColour(self.colour)
