@@ -1,4 +1,4 @@
-﻿import wx
+import wx
 import configparser
 import os
 import sys
@@ -42,14 +42,14 @@ class Settings:
 		self.config.set("default", "close message", NewSettings["CloseMessage"])
 		self.config.set("default", "search language", NewSettings["SearchLanguage"])
 
-		with open(self.path, "w", encoding='utf-8') as config_file:
+		with open(self.path, "w") as config_file:
 			self.config.write(config_file)
 
 	def ReadSettings(self):
 
 		while 1:
 			try:
-				self.config.read(self.path, encoding='utf-8')
+				self.config.read(self.path)
 				CurrentSettings = {
 				"Language": self.config.get("default", "language"),
 				"ActivEscape": self.config.get("default", "activ escape"),
