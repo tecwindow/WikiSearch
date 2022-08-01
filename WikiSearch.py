@@ -199,7 +199,8 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		language = {
 		"english": "en",
 		"arabic": "ar",
-		"spanish": "es"
+		"Español": "es",
+		"Français": "fr"
 		}
 
 		CurrentLanguage = language[CurrentSettings["Language"]]
