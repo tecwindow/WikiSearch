@@ -204,12 +204,12 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		}
 
 		CurrentLanguage = language[CurrentSettings["Language"]]
-		HelpFile = os.getcwd() + "/" + "help/" + CurrentLanguage + "/" + "help me.html"
+		HelpFile = os.getcwd() + "/" + "help/" + CurrentLanguage + "/" + "HelpMe.html"
 
 		if os.path.exists(HelpFile):
 			os.startfile(HelpFile)
 		else:
-			os.startfile(os.getcwd() + "/" + "help/en/help me.html")
+			os.startfile(os.getcwd() + "/" + "help/en/HelpMe.html")
 
 #end of class
 
