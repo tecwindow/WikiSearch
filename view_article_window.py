@@ -3,10 +3,15 @@
 import wx
 import nlpia2_wikipedia as wikipedia
 import pyperclip
+import webbrowser
 import accessible_output2.outputs.auto
 import os
+import re
+import threading 
+import requests
+from bs4 import BeautifulSoup
 from change_theme_dialog import ChangeTheme
-from headings_list_dialog import HeadingsListDialog
+from dialogs import *
 from settings import Settings
 from functions import *
 
@@ -25,6 +30,9 @@ class ViewArticleWindow(wx.Frame):
 		self.Content = ""
 		self.url = ""
 		self.title = ""
+		self.links = ""
+		self.references = ""
+		self.html = ""
 		self.handle = handle
 		self.o = accessible_output2.outputs.auto.Auto()
 		self.rand_id = wx.NewIdRef(count=1)
@@ -41,8 +49,12 @@ class ViewArticleWindow(wx.Frame):
 		self.CopyArticleLinkItem.Enable(enable=False)
 		self.SaveArticleItem = actions.Append(-1, _("Save article\tctrl+s"))
 		self.SaveArticleItem.Enable(enable=False)
+		self.SaveAsHtmlItem = actions.Append(-1, _("Save article as html\tctrl+t"))
+		self.SaveAsHtmlItem.Enable(enable=False)
 		self.GoToHeading = actions.Append(-1, _("Go to a &heading \tCtrl+h"))
 		self.GoToHeading.Enable(enable=False)
+		self.ReferencesItem = actions.Append(-1, _("R&eferences of article\tCtrl+r"))
+		self.ReferencesItem.Enable(enable=False)
 		self.FontItem = actions.Append(-1, _("Change font \tCtrl+d"))
 		self.ChangeThemeItem = actions.Append(-1, _("Change theme\tctrl+T"))
 		self.CloseArticleItem = actions.Append(-1, _("Close article window\tctrl+w"))
@@ -64,7 +76,7 @@ class ViewArticleWindow(wx.Frame):
 
 		# Create RichEdit to View Article Content
 		self.ArticleTitle = wx.StaticText(Panel, -1, _("Please wait."), pos=(10,10), size=(380,30))
-		self.ViewArticle = wx.TextCtrl(Panel, -1, pos=(30,40), size=(480,420), style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY+wx.HSCROLL)
+		self.ViewArticle = wx.TextCtrl(Panel, -1, pos=(30,40), size=(480,420), style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY)
 		#Getting current font and colour for text
 		self.font = self.ViewArticle.GetFont()
 		self.colour  = self.ViewArticle.GetForegroundColour()
@@ -102,12 +114,16 @@ class ViewArticleWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnGoToheading, self.GoToHeading)
 		self.Bind(wx.EVT_MENU, self.OnEscape, id=self.rand_id)
 		self.Bind(wx.EVT_MENU, self.OnFont, self.FontItem)
+		self.Bind(wx.EVT_MENU, self.OnReferencesItem, self.ReferencesItem)
+		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, self.SaveAsHtmlItem)
 
 	def OpenThread(self):
 
 		try:
-			self.Content = wikipedia.page(self.GetValues).content
+			page = wikipedia.page(self.GetValues)
 			self.o.speak(_("Loading article:"), interrupt=True)
+
+		#In case the article is no longer available.
 		except wikipedia.exceptions.DisambiguationError as e:
 			mgb = wx.MessageDialog(self, _("""This article is no longer available.
 do you want to show similar results for this  article?
@@ -119,18 +135,27 @@ do you want to show similar results for this  article?
 				self.Destroy()
 			self.handle.NumberArticle -=1
 			return None
+
+		#In case There is no internet connection.
 		except :
 			wx.MessageBox("There is no internet connection.", "Connection error", style=wx.ICON_ERROR)
 			self.Destroy()
 			self.handle.NumberArticle -=1
 			return None
 
-		self.title = wikipedia.page(self.GetValues).title
-		self.Content = self.Content.replace(". ", ".\n")
+		#Getting information of article, and show The title and content of it.
+		self.title = page.title
+		self.Content = page.content
 		self.ViewArticle.Value = self.Content
 		self.o.speak(_("Article loaded"), interrupt=True)
 		self.SetTitle(_("View {}").format(self.title))
 		self.ArticleTitle.SetLabel(self.title)
+		self.url = page.url
+		self.links = page.links
+		self.references = page.references
+		self.html = page.html()
+
+#Enable menu items
 		self.GoToHeading.Enable(enable=True)
 		self.CopyArticleItem.Enable(enable=True)
 		self.CopyArticleLinkItem.Enable(enable=True)
@@ -138,8 +163,8 @@ do you want to show similar results for this  article?
 		self.CopyArticle.Enable(enable=True)
 		self.SaveArticle.Enable(enable=True)
 		self.CopyArticleLink.Enable(enable=True)
-		self.url = wikipedia.page(self.GetValues).url
-
+		self.SaveAsHtmlItem.Enable(enable=True)
+		self.ReferencesItem.Enable(enable=True)
 
 	# Copy Article Content
 	def OnCopyArticle(self, event):
@@ -151,8 +176,6 @@ do you want to show similar results for this  article?
 	def OnCopyArticleLink(self, event):
 		pyperclip.copy(self.url)
 		self.o.speak(_("Article link copied."), interrupt=False)
-
-
 
 		# Save Article On a New File.
 	def OnSaveArticle(self, event):
@@ -207,6 +230,10 @@ Do you want to close the program anyway?""").format(ArticleCounte), "Confirm", s
 		self.ViewArticle.SetInsertionPoint(position)
 		self.ViewArticle.SetFocus()
 
+	def OnReferencesItem(self, event):
+		ReferencesDialog = ReferencesListDialog(self, *self.references)
+		threading.Thread(target=ReferencesDialog.OpenThread, daemon=True).start()
+
 	def OnEscape(self, event):
 
 		state = self.CurrentSettings["ActivEscape"]
@@ -238,3 +265,17 @@ Do you want to close the program anyway?""").format(ArticleCounte), "Confirm", s
 		#Set new font and colour.
 			self.ViewArticle.SetFont(self.font)
 			self.ViewArticle.SetForegroundColour(self.colour)
+
+	def OnSaveAsHtml(self, event):
+		SaveFile = wx.FileDialog(self, _("Save {}:").format(self.title), "self.FilePath", F"{self.title}", style=wx.FD_SAVE+wx.FD_OVERWRITE_PROMPT)
+		SaveFile.Wildcard = "Html files (.html)|*.html"
+		SaveFileResult = SaveFile.ShowModal()
+		if SaveFileResult == wx.ID_OK:
+			FilePath = SaveFile.Path
+			#FileName = SaveFile.Filename
+			file = open(FilePath, "w", encoding="utf-8")
+			self.html = DisableLink(self.html)
+			file.write(self.html)
+			file.close()
+		else:
+			return

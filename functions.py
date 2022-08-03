@@ -1,4 +1,10 @@
-﻿import gettext
+﻿# importing the modules
+import gettext
+import re
+import requests
+from bs4 import BeautifulSoup
+
+
 
 # Create a function to add translations to the program
 # This function is used to identify the program with translations added to it by contributors
@@ -10,13 +16,18 @@ def SetLanguage(CurrentSettings):
 # The dictionary value indicates the folder that contains the language files. Example: "en"
 
 	language = {
-	"english": "en",
+	"English": "en",
 	"Arabic": "ar",
 	"Español": "es",
 	"Français": "fr"
 	}
 
-	CurrentLanguage = language[CurrentSettings["Language"]]
+	try:
+		CurrentLanguage = language[CurrentSettings["Language"]]
+	except:
+		_ = gettext.gettext
+		return _
+
 	try:
 		ChangeLanguage = gettext.translation('WikiSearch', localedir='languages', languages=[CurrentLanguage])
 		ChangeLanguage.install()
@@ -25,3 +36,9 @@ def SetLanguage(CurrentSettings):
 		_ = gettext.gettext
 
 	return _
+
+def DisableLink(HtmlContent):
+	HtmlContent = HtmlContent
+	pattern =r'(href\=\".*?\")'
+	result = re.sub(pattern, 'role="link" aria-disabled="false"', HtmlContent, flags=re.MULTILINE)
+	return result
