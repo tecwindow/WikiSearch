@@ -25,7 +25,7 @@ class ViewSearch(wx.Dialog):
 		Panel = wx.Panel(self)
 
 		# Create ListBox
-		wx.StaticText(Panel, -1, _("Search results"), pos=(10,10), size=(380,30))
+		self.ListTitle = wx.StaticText(Panel, -1, _("Search results"), pos=(10,10), size=(380,30))
 		self.ListResults = wx.ListBox(Panel, -1, pos=(10,30), size=(290,170))
 
 		# Create Buttons
@@ -57,6 +57,18 @@ class ViewSearch(wx.Dialog):
 
 	#create thread function to show results in list box
 	def OpenThread(self):
+
+		if not self.TextSearch:
+			self.ListTitle.SetLabel(_("Random article list"))
+			self.SetTitle(_("View random article"))
+			RandomArticlesNumber = Settings().ReadSettings()["RandomArticlesNumber"]
+			RandomArticle = wikipedia.random(pages=RandomArticlesNumber)
+			self.ListResults.SetItems(RandomArticle)
+			self.ViewArticle.Enable(enable=True)
+			self.OpenInWebBrowser.Enable(enable=True)
+			self.CopyArticleLink.Enable(enable=True)
+			return None
+
 
 		ResultsNumber = Settings().ReadSettings()["ResultsNumber"]
 

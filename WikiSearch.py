@@ -48,13 +48,12 @@ CurrentSettings = Settings().ReadSettings()
 # Create main window with wx.
 class window(wx.Frame):
 	def __init__(self):
-		super().__init__(None, title = ProgramName, size=(400, 335))
+		super().__init__(None, title = ProgramName, size=(430, 335))
 		#make window in center.
 		self.Center()
 		#make window Minimum size.
 		self.Maximize(False)
 		self.EnableMaximizeButton(False)
-		self.Iconize(False)
 
 
 		# Creating panel
@@ -67,14 +66,15 @@ class window(wx.Frame):
 		self.LanguageSearch.Value = CurrentSettings["SearchLanguage"]
 
 		# Creating  search edit
-		wx.StaticText(Panel, -1, _("Enter search words"), pos=(160,70), size=(380, 30))
-		self.SearchText = wx.TextCtrl(Panel, -1, pos=(160, 100), size=(200, 30))
+		wx.StaticText(Panel, -1, _("Enter search words"), pos=(190,70), size=(380, 30))
+		self.SearchText = wx.TextCtrl(Panel, -1, pos=(160, 100), size=(230, 30))
 
 		# Creating Buttons
-		self.StartSearch = wx.Button(Panel, -1, _("Start search"), pos=(10,235), size=(120,30))
+		self.StartSearch = wx.Button(Panel, -1, _("Start search"), pos=(10,235), size=(100,30))
 		self.StartSearch.SetDefault()
 		self.StartSearch.Enabled = False
-		self.Close = wx.Button(Panel, -1, _("Close the program\t(ctrl+w)"), pos=(250,235), size=(120,30))
+		self.RandomArticles = wx.Button(Panel, -1, _("View random article"), pos=(130,235), size=(120,30))
+		self.Close = wx.Button(Panel, -1, _("Close the program\t(ctrl+w)"), pos=(270,235), size=(120,30))
 
 		#creating menu bar
 		menubar = wx.MenuBar()
@@ -110,6 +110,8 @@ class window(wx.Frame):
 		# events for buttons
 		self.StartSearch.Bind(wx.EVT_BUTTON, self.OnViewSearch)
 		self.Close.Bind(wx.EVT_BUTTON, self.OnClose)
+		self.RandomArticles.Bind(wx.EVT_BUTTON, self.OnRandomArticle)
+
 		#events for menu items
 		self.Bind(wx.EVT_MENU, self.OnAboutProgram, AboutProgramItem)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog().ShowModal(), self.PreferencesItem)
@@ -173,6 +175,24 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		thread1 = threading.Thread(target=self.dialog1.OpenThread, daemon=True)
 		thread1.start()
 
+	def OnRandomArticle(self, event):
+
+		CurrentSettings = Settings().ReadSettings()
+		CurrentSettings["SearchLanguage"] = self.LanguageSearch.Value
+		Settings().WriteSettings(**CurrentSettings)
+
+		#Set language for random article
+		try:
+			wikipedia.set_lang(code[self.LanguageSearch.GetSelection()])
+		except:
+			wx.MessageBox(_("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR)
+			return None
+		#Show dialog of random article
+		self.dialog1 = ViewSearch(self, None)
+		thread1 = threading.Thread(target=self.dialog1.OpenThread, daemon=True)
+		thread1.start()
+
+
 	#creating function to check for update
 	def OnCheckForItem(self, event, AutoCheck= "no"):
 		#geting the  recent version from online info file.
@@ -197,7 +217,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 	def OnHelp(self, event):
 
 		language = {
-		"english": "en",
+		"English": "en",
 		"arabic": "ar",
 		"Español": "es",
 		"Français": "fr"
@@ -209,7 +229,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		if os.path.exists(HelpFile):
 			os.startfile(HelpFile)
 		else:
-			os.startfile(os.getcwd() + "/" + "help/en/HelpMe.html")
+			os.startfile(os.getcwd() + "/" + "help/en/help me.html")
 
 #end of class
 

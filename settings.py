@@ -23,6 +23,7 @@ class Settings:
 		"Language": "english",
 		"ActivEscape": "False",
 		"ResultsNumber": "20",
+		"RandomArticlesNumber": "20",
 		"AutoUpdate": "True",
 		"CloseMessage": "True",
 		"SearchLanguage": "English"
@@ -38,6 +39,7 @@ class Settings:
 		self.config.set("default", "language", NewSettings["Language"])
 		self.config.set("default", "activ escape", NewSettings["ActivEscape"])
 		self.config.set("default", "results number", NewSettings["ResultsNumber"])
+		self.config.set("default", "random articles number", NewSettings["RandomArticlesNumber"])
 		self.config.set("default", "auto update", NewSettings["AutoUpdate"])
 		self.config.set("default", "close message", NewSettings["CloseMessage"])
 		self.config.set("default", "search language", NewSettings["SearchLanguage"])
@@ -54,6 +56,7 @@ class Settings:
 				"Language": self.config.get("default", "language"),
 				"ActivEscape": self.config.get("default", "activ escape"),
 				"ResultsNumber": self.config.get("default", "results number"),
+				"RandomArticlesNumber": self.config.get("default", "random articles number"),
 				"AutoUpdate": self.config.get("default", "auto update"),
 				"CloseMessage": self.config.get("default", "close message"),
 				"SearchLanguage": self.config.get("default", "search language")
@@ -73,7 +76,7 @@ _ = SetLanguage(Settings().ReadSettings())
 # Create Settings Dialog
 class SettingsDialog(wx.Dialog):
 	def __init__(self):
-		super().__init__(None, title=_("Program Settings"), size=(400, 335))
+		super().__init__(None, title=_("Program Settings"), size=(400, 360))
 		#make window in center.
 		self.Center()
 		#make window Minimum size.
@@ -85,13 +88,18 @@ class SettingsDialog(wx.Dialog):
 
 		# Creating ComboBox for languages
 		wx.StaticText(Panel, -1, _("Choose language:"), pos=(15,20), size=(380, 30))
-		self.ProgramLanguage = wx.ComboBox(Panel, -1, choices=['Arabic', 'english', 'Español', 'Français',], pos=(15, 50), size=(120, 40), style=wx.CB_READONLY+wx.CB_SORT)
+		self.ProgramLanguage = wx.ComboBox(Panel, -1, choices=['Arabic', 'English', 'Español', 'Français',], pos=(15, 50), size=(120, 40), style=wx.CB_READONLY+wx.CB_SORT)
 		self.ProgramLanguage.Value = self.CurrentSettings["Language"]
 
 		# Creating SpinCtrl for Results Number
 		wx.StaticText(Panel, -1, _("Choose the number of results:"), pos=(140,20), size=(380, 30))
 		self.NumberResults = wx.SpinCtrl(Panel, -1, "20", min=1, max=100, style=wx.SP_ARROW_KEYS, pos=(160, 50), size=(50, 20))
 		self.NumberResults.Value = self.CurrentSettings["ResultsNumber"]
+
+		# Creating SpinCtrl for random article Number
+		wx.StaticText(Panel, -1, _("Choose the number of random article results:"), pos=(10,175), size=(380, 30))
+		self.random_articles_number = wx.SpinCtrl(Panel, -1, "20", min=1, max=100, style=wx.SP_ARROW_KEYS, pos=(30, 210), size=(50, 20))
+		self.random_articles_number.Value = self.CurrentSettings["RandomArticlesNumber"]
 
 		# Creating Check Boxes
 		self.VerificationMsg = wx.CheckBox(Panel, -1, label=_("Show Close message when at least an article is open"), pos=(10, 80), size=(380, 30))
@@ -107,9 +115,9 @@ class SettingsDialog(wx.Dialog):
 			self.CloseArticleWithScape.Value = True
 
 		# Create Buttons
-		self.SaveSettings = wx.Button(Panel, -1, _("&Save changes"), pos=(10,190), size=(100,30))
+		self.SaveSettings = wx.Button(Panel, -1, _("&Save changes"), pos=(10,255), size=(100,30))
 		self.SaveSettings.SetDefault()
-		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(120,190), size=(80,30))
+		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(120,255), size=(80,30))
 
 		#event for Save Settings button
 		self.SaveSettings.Bind(wx.EVT_BUTTON, self.OnSaveSettings)
@@ -123,6 +131,7 @@ class SettingsDialog(wx.Dialog):
 		NewSettings = {
 		"Language": self.ProgramLanguage.Value,
 		"ResultsNumber": str(self.NumberResults.Value),
+		"RandomArticlesNumber": str(self.random_articles_number.Value),
 		"CloseMessage": str(self.VerificationMsg.Value),
 		"AutoUpdate": str(self.AutoUpdate.Value),
 		"ActivEscape": str(self.CloseArticleWithScape.Value),
