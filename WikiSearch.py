@@ -73,7 +73,7 @@ class window(wx.Frame):
 		self.StartSearch = wx.Button(Panel, -1, _("Start search"), pos=(10,235), size=(100,30))
 		self.StartSearch.SetDefault()
 		self.StartSearch.Enabled = False
-		self.RandomArticles = wx.Button(Panel, -1, _("View random article"), pos=(130,235), size=(120,30))
+		self.RandomArticles = wx.Button(Panel, -1, _("View random articles"), pos=(130,235), size=(120,30))
 		self.Close = wx.Button(Panel, -1, _("Close the program\t(ctrl+w)"), pos=(270,235), size=(120,30))
 
 		#creating menu bar
