@@ -15,6 +15,7 @@ from dialogs import *
 from settings import Settings
 from functions import *
 
+
 #Set language for View Article window
 _ = SetLanguage(Settings().ReadSettings())
 
@@ -30,8 +31,8 @@ class ViewArticleWindow(wx.Frame):
 		self.Content = ""
 		self.url = ""
 		self.title = ""
-		self.links = ""
-		self.references = ""
+		self.links = []
+		self.references = []
 		self.html = ""
 		self.handle = handle
 		self.o = accessible_output2.outputs.auto.Auto()
@@ -55,6 +56,8 @@ class ViewArticleWindow(wx.Frame):
 		self.GoToHeading.Enable(enable=False)
 		self.ReferencesItem = actions.Append(-1, _("R&eferences of article\tCtrl+r"))
 		self.ReferencesItem.Enable(enable=False)
+		self.LinksItem = actions.Append(-1, _("L&inks of article\tCtrl+l"))
+		self.LinksItem.Enable(enable=False)
 		self.FontItem = actions.Append(-1, _("Change font \tCtrl+d"))
 		self.ChangeThemeItem = actions.Append(-1, _("Change theme\tctrl+T"))
 		self.CloseArticleItem = actions.Append(-1, _("Close article window\tctrl+w"))
@@ -116,6 +119,7 @@ class ViewArticleWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnFont, self.FontItem)
 		self.Bind(wx.EVT_MENU, self.OnReferencesItem, self.ReferencesItem)
 		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, self.SaveAsHtmlItem)
+		self.Bind(wx.EVT_MENU, self.OnLinks, self.LinksItem)
 
 	def OpenThread(self):
 
@@ -165,6 +169,7 @@ do you want to show similar results for this  article?
 		self.CopyArticleLink.Enable(enable=True)
 		self.SaveAsHtmlItem.Enable(enable=True)
 		self.ReferencesItem.Enable(enable=True)
+		self.LinksItem.Enable(enable=True)
 
 	# Copy Article Content
 	def OnCopyArticle(self, event):
@@ -279,3 +284,19 @@ Do you want to close the program anyway?""").format(ArticleCounte), "Confirm", s
 			file.close()
 		else:
 			return
+
+	def OnLinks(self, event):
+
+		from view_search_dialog import ViewSearch
+
+		# Show dialog of article links
+		ArticleLinksDialog  = ViewSearch(self, None)
+		ArticleLinksDialog.SetTitle(_("Article links"))
+		ArticleLinksDialog.ListTitle.SetLabel(_("Article links"))
+#adding the links to list in the dialog.
+		ArticleLinksDialog.ListResults.SetItems(self.links)
+#Enable buttons in the dialog.
+		ArticleLinksDialog.ViewArticle.Enable(enable=True)
+		ArticleLinksDialog.OpenInWebBrowser.Enable(enable=True)
+		ArticleLinksDialog.CopyArticleLink.Enable(enable=True)
+
