@@ -207,7 +207,7 @@ do you want to show similar results for this  article?
 		# Close Program 
 	def OnCloseProgram(self, event):
 
-		state = self.CurrentSettings["CloseMessage"]
+		state = self.CurrentSettings["close message"]
 
 		if self.handle.NumberArticle == 1:
 			ArticleCounte = _("There is 1 open article.")
@@ -236,7 +236,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), "Confirm", s
 
 	def OnEscape(self, event):
 
-		state = self.CurrentSettings["ActivEscape"]
+		state = self.CurrentSettings["activ escape"]
 
 		if state == "True":
 			self.handle.NumberArticle -= 1

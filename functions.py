@@ -23,7 +23,7 @@ def SetLanguage(CurrentSettings):
 	}
 
 	try:
-		CurrentLanguage = language[CurrentSettings["Language"]]
+		CurrentLanguage = language[CurrentSettings["language"]]
 	except:
 		_ = gettext.gettext
 		return _
