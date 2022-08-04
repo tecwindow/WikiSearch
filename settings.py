@@ -20,48 +20,51 @@ class Settings:
 		self.config = configparser.ConfigParser()
 
 		self.DefaultSettings = {
-		"language": "English",
-		"activ escape": "False",
-		"results number": "20",
-		"random articles number": "20",
-		"auto update": "True",
-		"close message": "True",
-		"search language": "English"
+		"Language": "english",
+		"ActivEscape": "False",
+		"ResultsNumber": "20",
+		"RandomArticlesNumber": "20",
+		"AutoUpdate": "True",
+		"CloseMessage": "True",
+		"SearchLanguage": "English"
 				}
 
 	def WriteSettings(self, **NewSettings):
-
-		try:
-			self.config.read(self.path, encoding='utf-8')
-		except:
-			pass
 
 		try:
 			self.config.add_section("default")
 		except configparser.DuplicateSectionError:
 			pass
 
-		for Setting in NewSettings:
-			self.config.set("default", Setting, NewSettings[Setting])
+		self.config.set("default", "language", NewSettings["Language"])
+		self.config.set("default", "activ escape", NewSettings["ActivEscape"])
+		self.config.set("default", "results number", NewSettings["ResultsNumber"])
+		self.config.set("default", "random articles number", NewSettings["RandomArticlesNumber"])
+		self.config.set("default", "auto update", NewSettings["AutoUpdate"])
+		self.config.set("default", "close message", NewSettings["CloseMessage"])
+		self.config.set("default", "search language", NewSettings["SearchLanguage"])
 
 		with open(self.path, "w", encoding='utf-8') as config_file:
 			self.config.write(config_file)
 
 	def ReadSettings(self):
 
-		try:
-			self.config.read(self.path, encoding='utf-8')
-		except:
-			self.WriteSettings(**self.DefaultSettings)
-
-		CurrentSettings = self.DefaultSettings.copy()
-
-		for Setting in CurrentSettings:
+		while 1:
 			try:
-				CurrentSettings[Setting] = self.config.get("default", Setting)
+				self.config.read(self.path, encoding='utf-8')
+				CurrentSettings = {
+				"Language": self.config.get("default", "language"),
+				"ActivEscape": self.config.get("default", "activ escape"),
+				"ResultsNumber": self.config.get("default", "results number"),
+				"RandomArticlesNumber": self.config.get("default", "random articles number"),
+				"AutoUpdate": self.config.get("default", "auto update"),
+				"CloseMessage": self.config.get("default", "close message"),
+				"SearchLanguage": self.config.get("default", "search language")
+				}
+				break
 			except:
-				DefaultSetting = {Setting: self.DefaultSettings[Setting]}
-				self.WriteSettings(**DefaultSetting)
+				self.WriteSettings(**self.DefaultSettings)
+				continue
 
 		return CurrentSettings
 
@@ -86,29 +89,29 @@ class SettingsDialog(wx.Dialog):
 		# Creating ComboBox for languages
 		wx.StaticText(Panel, -1, _("Choose language:"), pos=(15,20), size=(380, 30))
 		self.ProgramLanguage = wx.ComboBox(Panel, -1, choices=['Arabic', 'English', 'Español', 'Français',], pos=(15, 50), size=(120, 40), style=wx.CB_READONLY+wx.CB_SORT)
-		self.ProgramLanguage.Value = self.CurrentSettings["language"]
+		self.ProgramLanguage.Value = self.CurrentSettings["Language"]
 
 		# Creating SpinCtrl for Results Number
 		wx.StaticText(Panel, -1, _("Choose the number of results:"), pos=(140,20), size=(380, 30))
 		self.NumberResults = wx.SpinCtrl(Panel, -1, "20", min=1, max=100, style=wx.SP_ARROW_KEYS, pos=(160, 50), size=(50, 20))
-		self.NumberResults.Value = self.CurrentSettings["results number"]
+		self.NumberResults.Value = self.CurrentSettings["ResultsNumber"]
 
 		# Creating SpinCtrl for random article Number
 		wx.StaticText(Panel, -1, _("Choose the number of random article results:"), pos=(10,175), size=(380, 30))
 		self.random_articles_number = wx.SpinCtrl(Panel, -1, "20", min=1, max=100, style=wx.SP_ARROW_KEYS, pos=(30, 210), size=(50, 20))
-		self.random_articles_number.Value = self.CurrentSettings["random articles number"]
+		self.random_articles_number.Value = self.CurrentSettings["RandomArticlesNumber"]
 
 		# Creating Check Boxes
 		self.VerificationMsg = wx.CheckBox(Panel, -1, label=_("Show Close message when at least an article is open"), pos=(10, 80), size=(380, 30))
-		if self.CurrentSettings["close message"] == "True":
+		if self.CurrentSettings["CloseMessage"] == "True":
 			self.VerificationMsg.Value = True
 
 		self.AutoUpdate = wx.CheckBox(Panel, -1, label=_("Check for updates automatically"), pos=(10, 110), size=(380, 30))
-		if self.CurrentSettings["auto update"] == "True":
+		if self.CurrentSettings["AutoUpdate"] == "True":
 			self.AutoUpdate.Value = True
 
 		self.CloseArticleWithScape = wx.CheckBox(Panel, -1, label=_("Close the article via the Escape key"), pos=(10, 140), size=(380, 30))
-		if self.CurrentSettings["activ escape"] == "True":
+		if self.CurrentSettings["ActivEscape"] == "True":
 			self.CloseArticleWithScape.Value = True
 
 		# Create Buttons
@@ -119,23 +122,25 @@ class SettingsDialog(wx.Dialog):
 		#event for Save Settings button
 		self.SaveSettings.Bind(wx.EVT_BUTTON, self.OnSaveSettings)
 
-		#Show settings dialog
+		# Show Main window
 		self.Show()
 
 	#Save Settings function
 	def OnSaveSettings(self, event):
 
 		NewSettings = {
-		"language": self.ProgramLanguage.Value,
-		"results number": str(self.NumberResults.Value),
-		"random articles number": str(self.random_articles_number.Value),
-		"close message": str(self.VerificationMsg.Value),
-		"auto update": str(self.AutoUpdate.Value),
-		"activ escape": str(self.CloseArticleWithScape.Value),
-		"search language": self.CurrentSettings["SearchLanguage"]
+		"Language": self.ProgramLanguage.Value,
+		"ResultsNumber": str(self.NumberResults.Value),
+		"RandomArticlesNumber": str(self.random_articles_number.Value),
+		"CloseMessage": str(self.VerificationMsg.Value),
+		"AutoUpdate": str(self.AutoUpdate.Value),
+		"ActivEscape": str(self.CloseArticleWithScape.Value),
+		"SearchLanguage": self.CurrentSettings["SearchLanguage"]
 }
 
 		Settings().WriteSettings(**NewSettings)
+
+		self.Destroy()
 
 		if NewSettings["Language"] != self.CurrentSettings["Language"]:
 			ConfirmRestartProgram = wx.MessageDialog(self, _("""You must restart the program for the new language to take effect.
@@ -143,9 +148,7 @@ Do you want to restart the program now?"""), _("Confirm"), style=wx.YES_NO+wx.YE
 			if ConfirmRestartProgram.ShowModal() == wx.ID_YES:
 				os.execv(sys.executable, ['python'] + sys.argv)
 			else:
-						return None
+				return None
 
-		self.Destroy()
 
 #end of class
-

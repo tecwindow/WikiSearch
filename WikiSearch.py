@@ -63,7 +63,7 @@ class window(wx.Frame):
 		wx.StaticText(Panel, -1, _("Choose the search language:"), pos=(15,70), size=(380, 30))
 		self.LanguageSearch = wx.ComboBox(Panel, -1, pos=(15, 100), size=(120, 40), style=wx.CB_READONLY+wx.CB_SORT)
 		self.LanguageSearch.SetItems(name)
-		self.LanguageSearch.Value = CurrentSettings["search language"]
+		self.LanguageSearch.Value = CurrentSettings["SearchLanguage"]
 
 		# Creating  search edit
 		wx.StaticText(Panel, -1, _("Enter search words"), pos=(190,70), size=(380, 30))
@@ -157,7 +157,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 	#creating OnViewSearch function to show search results
 	def OnViewSearch(self, event):
 		CurrentSettings = Settings().ReadSettings()
-		CurrentSettings["search language"] = self.LanguageSearch.Value
+		CurrentSettings["SearchLanguage"] = self.LanguageSearch.Value
 		Settings().WriteSettings(**CurrentSettings)
 
 		#Set language for search
@@ -178,7 +178,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 	def OnRandomArticle(self, event):
 
 		CurrentSettings = Settings().ReadSettings()
-		CurrentSettings["search language"] = self.LanguageSearch.Value
+		CurrentSettings["SearchLanguage"] = self.LanguageSearch.Value
 		Settings().WriteSettings(**CurrentSettings)
 
 		#Set language for random article
@@ -223,7 +223,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		"Français": "fr"
 		}
 
-		CurrentLanguage = language[CurrentSettings["language"]]
+		CurrentLanguage = language[CurrentSettings["Language"]]
 		HelpFile = os.getcwd() + "/" + "help/" + CurrentLanguage + "/" + "HelpMe.html"
 
 		if os.path.exists(HelpFile):
@@ -254,7 +254,7 @@ class check(threading.Thread):
 
 main_window = window()
 
-if CurrentSettings["auto update"] == "True":
+if CurrentSettings["AutoUpdate"] == "True":
 	main_window.OnCheckForItem(None, AutoCheck="yes")
 
 
