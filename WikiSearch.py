@@ -218,7 +218,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 
 		language = {
 		"English": "en",
-		"arabic": "ar",
+		"Arabic": "ar",
 		"Español": "es",
 		"Français": "fr"
 		}
@@ -229,7 +229,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		if os.path.exists(HelpFile):
 			os.startfile(HelpFile)
 		else:
-			os.startfile(os.getcwd() + "/" + "help/en/help me.html")
+			os.startfile(os.getcwd() + "/" + "help/en/HelpMe.html")
 
 #end of class
 
