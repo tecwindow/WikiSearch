@@ -73,7 +73,7 @@ class window(wx.Frame):
 		self.StartSearch = wx.Button(Panel, -1, _("Start search"), pos=(10,235), size=(100,30))
 		self.StartSearch.SetDefault()
 		self.StartSearch.Enabled = False
-		self.RandomArticles = wx.Button(Panel, -1, _("View random articles"), pos=(130,235), size=(120,30))
+		self.RandomArticles = wx.Button(Panel, -1, _("View random articles\t(ctrl+R)"), pos=(130,235), size=(120,30))
 		self.Close = wx.Button(Panel, -1, _("Close the program\t(ctrl+w)"), pos=(270,235), size=(120,30))
 
 		#creating menu bar
@@ -118,6 +118,7 @@ class window(wx.Frame):
 			(wx.ACCEL_CTRL, ord("W"), self.CloseProgramItem.GetId()),
 			(0, wx.WXK_F1, self.HelpFile.GetId()),
 			(wx.ACCEL_CTRL, ord("U"), self.CheckForItem.GetId()),
+(wx.ACCEL_CTRL, ord("R"), self.RandomArticles.GetId()),
 (wx.ACCEL_ALT, ord("S"), self.PreferencesItem.GetId()),
 		])
 		Panel.SetAcceleratorTable(self.hotKeys)
