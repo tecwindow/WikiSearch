@@ -167,6 +167,7 @@ class window(wx.Frame):
 			if self.dialog1.NumberArticle >= 1:
 				ConfirmClosProgram = wx.MessageDialog(self,_("""{}
 Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+				ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
 				if ConfirmClosProgram.ShowModal() == wx.ID_YES:
 									wx.Exit()
 				else:
