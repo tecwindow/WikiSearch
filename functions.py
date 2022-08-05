@@ -1,8 +1,8 @@
 ﻿# importing the modules
 import gettext
 import re
-import requests
-from bs4 import BeautifulSoup
+from urllib.request import urlopen
+import json
 
 
 
@@ -42,3 +42,21 @@ def DisableLink(HtmlContent):
 	pattern =r'(href\=\".*?\")'
 	result = re.sub(pattern, 'role="link" aria-disabled="false"', HtmlContent, flags=re.MULTILINE)
 	return result
+
+def GetOnlineInfo():
+
+	#load and read gson online file
+	url = "https://raw.githubusercontent.com/tecwindow/WikiSearch/main/WikiSearch.json"
+	response = urlopen(url)
+	data_json = json.loads(response.read())
+
+	#Putting information into a dictionary.
+	info = {
+	"name": data_json["name"],
+	"version": data_json["version"],
+	"What's new": data_json["What's new"],
+	"url": data_json["url"]
+	}
+
+	return info
+

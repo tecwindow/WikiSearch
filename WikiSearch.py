@@ -37,11 +37,10 @@ for w in data:
 	code.append(w["code"])
 
 # information of program
-CurrntVersion = 1.1
+CurrntVersion = 1.0
 ProgramName = "WikiSearch"
 ProgramDescription = _("With this program, you can search or browse any Wikipedia article. site: https://github.com/tecwindow/WikiSearch")
 CurrentSettings = Settings().ReadSettings()
-
 
 
 
@@ -73,7 +72,7 @@ class window(wx.Frame):
 		self.StartSearch = wx.Button(Panel, -1, _("Start search"), pos=(10,235), size=(100,30))
 		self.StartSearch.SetDefault()
 		self.StartSearch.Enabled = False
-		self.RandomArticles = wx.Button(Panel, -1, _("View random articles\t(ctrl+R)"), pos=(130,235), size=(120,30))
+		self.RandomArticles = wx.Button(Panel, -1, _("View random article"), pos=(130,235), size=(120,30))
 		self.Close = wx.Button(Panel, -1, _("Close the program\t(ctrl+w)"), pos=(270,235), size=(120,30))
 
 		#creating menu bar
@@ -82,28 +81,10 @@ class window(wx.Frame):
 		self.HelpFile = MainMenu.Append(-1, _("&Help file\tF1"))
 		AboutProgramItem = MainMenu.Append(-1, _("&About"))
 		ContactMenu = wx.Menu()
-		QaisMenu = wx.Menu()
-		QaisEm = QaisMenu.Append(-1, "&E-mail")
-		QaisTe =QaisMenu.Append(-1, "&Telegram")
-		QaisWh =QaisMenu.Append(-1, "&Whats App")
-		QaisTw =QaisMenu.Append(-1, "&Twitter")
-		QaisFa =QaisMenu.Append(-1, "&Facebook")
-		ContactMenu.AppendSubMenu(QaisMenu, _("&Qais Alrefai"))
-		MahmoodMenu = wx.Menu()
-		MahmoodEm =MahmoodMenu.Append(-1, "&E-mail")
-		MahmoodTe =MahmoodMenu.Append(-1, "&Telegram")
-		MahmoodWh =MahmoodMenu.Append(-1, "&Whats App")
-		MahmoodTw =MahmoodMenu.Append(-1, "&Twitter")
-		MahmoodFa =MahmoodMenu.Append(-1, "&Facebook")
-		ContactMenu.AppendSubMenu(MahmoodMenu, _("&Mahmood atef"))
-		MesterPerfectMenu = wx.Menu()
-		MesterPerfectEm =MesterPerfectMenu.Append(-1, "&E-mail")
-		MesterPerfectTe =MesterPerfectMenu.Append(-1, "&Telegram")
-		MesterPerfectWh =MesterPerfectMenu.Append(-1, "&Whats App")
-		MesterPerfectTw =MesterPerfectMenu.Append(-1, "&Twitter")
-		MesterPerfectFa =MesterPerfectMenu.Append(-1, "&Facebook")
-		ContactMenu.AppendSubMenu(MesterPerfectMenu, _("&Ahmed Bakr"))
 		TecWindow=ContactMenu.Append(-1, "TecWindow on Telegram")
+		QaisAlrefai=ContactMenu.Append(-1, "&Qais Alrefai on Telegram")
+		MahmoodAtef=ContactMenu.Append(-1, "&Mahmoodatef on Telegram")
+		MesterPerfect = ContactMenu.Append(-1, "&MesterPerfect on Telegram")
 		MainMenu.AppendSubMenu(ContactMenu, _("&Contact us"))
 		self.PreferencesItem = MainMenu.Append(-1, _("Program &settings\tAlt+S"))
 		self.CheckForItem = MainMenu.Append(-1, _("Check for &update\tctrl+u"))
@@ -118,7 +99,6 @@ class window(wx.Frame):
 			(wx.ACCEL_CTRL, ord("W"), self.CloseProgramItem.GetId()),
 			(0, wx.WXK_F1, self.HelpFile.GetId()),
 			(wx.ACCEL_CTRL, ord("U"), self.CheckForItem.GetId()),
-(wx.ACCEL_CTRL, ord("R"), self.RandomArticles.GetId()),
 (wx.ACCEL_ALT, ord("S"), self.PreferencesItem.GetId()),
 		])
 		Panel.SetAcceleratorTable(self.hotKeys)
@@ -135,23 +115,11 @@ class window(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnAboutProgram, AboutProgramItem)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog().ShowModal(), self.PreferencesItem)
 		self.Bind(wx.EVT_MENU, self.OnCheckForItem, self.CheckForItem)
-		self.Bind(wx.EVT_MENU, self.OnHelp, self.HelpFile)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open("mailto:ww258148@gmail.com"), QaisEm)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/QaisAlrefai"), QaisTe)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://twitter.com/qais_Alrefai"), QaisTw)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://wa.me/962792540394"), QaisWh)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://www.facebook.com/Qais1461"), QaisFa)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open("mailto:mahmoud.atef.987123@gmail.com"), MahmoodEm)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/MahmoodAtef"), MahmoodTe)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://twitter.com/mahmoud_atef999"), MahmoodTw)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://wa.me/201224660664"), MahmoodWh)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://www.facebook.com/mahmoud.atef.000"), MahmoodFa)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open("mailto:AhmedBakr593@gmail.com"), MesterPerfectEm)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/MesterPerfect"), MesterPerfectTe)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://twitter.com/my_nvda"), MesterPerfectTw)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://wa.me/201554240991"), MesterPerfectWh)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://www.facebook.com/my.nvda.1"), MesterPerfectFa)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/TecWindow"), TecWindow)
+		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/QaisAlrefai"), QaisAlrefai)
+		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/MahmoodAtef"), MahmoodAtef)
+		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/MesterPerfect"), MesterPerfect)
+		self.Bind(wx.EVT_MENU, self.OnHelp, self.HelpFile)
 		self.Bind(wx.EVT_MENU, self.OnClose, self.CloseProgramItem)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.SearchText.Bind(wx.EVT_TEXT, lambda event: check().start())
@@ -167,7 +135,6 @@ class window(wx.Frame):
 			if self.dialog1.NumberArticle >= 1:
 				ConfirmClosProgram = wx.MessageDialog(self,_("""{}
 Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
-				ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
 				if ConfirmClosProgram.ShowModal() == wx.ID_YES:
 									wx.Exit()
 				else:
@@ -227,18 +194,20 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 
 	#creating function to check for update
 	def OnCheckForItem(self, event, AutoCheck= "no"):
-		#geting the  recent version from online info file.
-		url = "https://raw.githubusercontent.com/tecwindow/WikiSearch/main/WikiSearch.json"
+
+		#geting the  info recent version from online info file.
 		try:
-			response = urlopen(url)
+			info = GetOnlineInfo()
 		except:
 			wx.MessageBox(_("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR)
 			return None
-		data_json = json.loads(response.read())
-		RecentVersion = float(data_json["version"])
+
+		RecentVersion = float(info["version"])
+		whatIsNew = info["What's new"]
+
 		#Show the update dialog if there is new version.
 		if RecentVersion > CurrntVersion:
-			UpdateDialog(self, RecentVersion)
+			UpdateDialog(self, RecentVersion, whatIsNew)
 		#if there is no  new version show MessageBox tell that.
 		else:
 			if AutoCheck == "yes":
@@ -276,10 +245,6 @@ class check(threading.Thread):
 			main_window.StartSearch.Enabled = False
 		else:
 			main_window.StartSearch.Enabled = True
-
-
-
-
 
 
 

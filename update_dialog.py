@@ -3,8 +3,8 @@
 import wx
 import threading 
 import requests
-from urllib.request import urlopen
 import os
+import shutil
 import json
 import subprocess
 from settings import Settings
@@ -13,34 +13,14 @@ from functions import *
 #Set language for update dialog
 _ = SetLanguage(Settings().ReadSettings())
 
-
-#geting what's new and download ling from online info file.
-try:
-	url = "https://raw.githubusercontent.com/tecwindow/WikiSearch/main/WikiSearch.json"
-	response = urlopen(url)
-	data_json = json.loads(response.read())
-	whatIsNew = data_json["What's new"]
-	DownloadLink = data_json["url"]
-except:
-	pass
-
-#extracting the name file and geting temp path.
-try:
-	file_name = DownloadLink.split('/')[-1]
-	temp = os.getenv("temp")
-	path = str(temp+"/"+file_name)
-except:
-	path = ""
-
 #Delete setup file if is found in temp.
-if os.path.exists(path):
-	os.remove(path)
-
-
+temp = os.path.join(os.getenv("temp"), "WikiSearch")
+if os.path.exists(temp):
+	shutil.rmtree(temp, ignore_errors=False)
 
 #creating update dialog 
 class UpdateDialog(wx.Dialog):
-	def __init__(self, parent, RecentVersion):
+	def __init__(self, parent, RecentVersion, whatIsNew):
 		super().__init__(None, title = _("There is an update"), size=(300, 300))
 		self.Center()
 		self.Maximize(False)
@@ -80,6 +60,17 @@ class progress_dialog(wx.ProgressDialog):
 
 	#creating downloading function
 	def downloading(self):
+
+#geting download ling from online info file.
+		DownloadLink = GetOnlineInfo()["url"]
+
+#extracting the name file and geting temp path.
+		if not os.path.exists(temp):
+			os.mkdir(temp)
+
+		file_name = DownloadLink.split('/')[-1]
+		path = os.path.join(temp, file_name)
+
 		f = open(path, 'wb')
 		with requests.get(DownloadLink, stream=True) as r:
 			downloaded=0
