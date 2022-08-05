@@ -179,12 +179,16 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 	#creating OnAboutProgram function to show information about this program.
 	def OnAboutProgram(self, event):
-		wx.MessageBox(_("""{} Version {}.
+		AboutDialog = wx.MessageDialog(self, _("""{} Version {}.
 {}
 This program was developed by:
 Ahmed Bakr.
 Qais Alrifai.
-Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("About the program"))
+Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("About the program"), style=wx.ICON_INFORMATION+wx.OK)
+		AboutDialog.SetOKLabel(_("&Ok"))
+		AboutDialog.ShowModal()
+
+
 
 	#creating OnViewSearch function to show search results
 	def OnViewSearch(self, event):
@@ -217,7 +221,9 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		try:
 			wikipedia.set_lang(code[self.LanguageSearch.GetSelection()])
 		except:
-			wx.MessageBox(_("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR)
+			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
+			ConnectionError.SetOKLabel(_("&Ok"))
+			ConnectionError.ShowModal()
 			return None
 		#Show dialog of random article
 		self.dialog1 = ViewSearch(self, None)
@@ -233,7 +239,9 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 			info = GetOnlineInfo()
 		except:
 			if AutoCheck == "no":
-				wx.MessageBox(_("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR)
+				ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
+				ConnectionError.SetOKLabel(_("&Ok"))
+				ConnectionError.ShowModal()
 			return None
 
 		RecentVersion = float(info["version"])
@@ -247,7 +255,12 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 			if AutoCheck == "yes":
 				pass
 			else:
-				wx.MessageBox(_("You are using version {} which is the latest version.").format(CurrntVersion), _("No update available"))
+				LatestVersionDialog = wx.MessageDialog(self, _("You are using version {} which is the latest version.").format(CurrntVersion), _("No update available"), style=wx.ICON_INFORMATION+wx.OK)
+				LatestVersionDialog.SetOKLabel(_("&Ok"))
+				LatestVersionDialog.ShowModal()
+
+
+
 
 	def OnHelp(self, event):
 

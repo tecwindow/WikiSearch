@@ -58,32 +58,38 @@ class ViewSearch(wx.Dialog):
 	#create thread function to show results in list box
 	def OpenThread(self):
 
+		# in case display random articles.
 		if not self.TextSearch:
-			self.ListTitle.SetLabel(_("Random article list"))
-			self.SetTitle(_("View random article"))
+			self.ListTitle.SetLabel(_("Random articles"))
+			self.SetTitle(_("View random articles"))
 			RandomArticlesNumber = Settings().ReadSettings()["random articles number"]
 			RandomArticle = wikipedia.random(pages=RandomArticlesNumber)
 			self.ListResults.SetItems(RandomArticle)
+			self.ListResults.Selection = 0
 			self.ViewArticle.Enable(enable=True)
 			self.OpenInWebBrowser.Enable(enable=True)
 			self.CopyArticleLink.Enable(enable=True)
 			return None
 
-
+		# in case display search results.
 		ResultsNumber = Settings().ReadSettings()["results number"]
 
 		try:
 			self.ViewResults = wikipedia.search(self.TextSearch, results=ResultsNumber)
 		except:
-			wx.MessageBox(_("There is no internet connection."), _("Connection Error"), style=wx.ICON_ERROR)
+			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
+			ConnectionError.SetOKLabel(_("&Ok"))
+			ConnectionError.ShowModal()
 			return None
 
 		self.ListResults.SetItems(self.ViewResults)
 		try:
 			self.ListResults.Selection = 0
 		except:
-			self.Destroy()
-			wx.MessageBox(_("We couldn't find  any articles that match your search."), _("Error"), style=wx.ICON_ERROR)
+			UnableToFind = wx.MessageDialog(None, _("We couldn't find  any articles that match your search."), _("Error"), style=wx.ICON_ERROR+wx.OK)
+			UnableToFind.SetOKLabel(_("&Ok"))
+			UnableToFind.ShowModal()
+			self.Close()
 
 		self.ViewArticle.Enable(enable=True)
 		self.OpenInWebBrowser.Enable(enable=True)
@@ -97,7 +103,9 @@ class ViewSearch(wx.Dialog):
 			webbrowser.open_new(url)
 			self.o.speak(_("Opening:"), interrupt=False)
 		except:
-			wx.MessageBox(_("This link cannot be opened in the browser."), _("Error"), style=wx.ICON_ERROR)
+			CantOpen = wx.MessageDialog(self, _("This link cannot be opened in the browser."), _("Error"), style=wx.ICON_ERROR+wx.OK)
+			CantOpen.SetOKLabel(_("&Ok"))
+			CantOpen.ShowModal()
 			return
 
 
@@ -109,7 +117,9 @@ class ViewSearch(wx.Dialog):
 			pyperclip.copy(url)
 			self.o.speak(_("Article link copied."), interrupt=False)
 		except:
-			wx.MessageBox(_("This link cannot be copied."), _("Error"), style=wx.ICON_ERROR)
+			CantCopy = wx.MessageDialog(self, _("This link cannot be copied."), _("Error"), style=wx.ICON_ERROR)
+			CantCopy.SetOKLabel(_("&Ok"))
+			CantCopy.ShowModal()
 			return
 
 	#creating OnViewArticleWindow function  View Article On a New Window
@@ -119,4 +129,6 @@ class ViewSearch(wx.Dialog):
 		window1 = ViewArticleWindow(None, GetValues, self)
 		thread1 = threading.Thread(target=window1.OpenThread, daemon=True)
 		thread1.start()
+		thread2 = threading.Thread(target=window1.OpenThread2, daemon=True)
+		thread2.start()
 
