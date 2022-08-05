@@ -48,21 +48,27 @@ class ViewArticleWindow(wx.Frame):
 		self.CopyArticleItem.Enable(enable=False)
 		self.CopyArticleLinkItem = actions.Append(-1, _("Copy article link\tctrl+alt+c"))
 		self.CopyArticleLinkItem.Enable(enable=False)
-		self.SaveArticleItem = actions.Append(-1, _("Save article\tctrl+s"))
-		self.SaveArticleItem.Enable(enable=False)
-		self.SaveAsHtmlItem = actions.Append(-1, _("Save article as html\tctrl+t"))
-		self.SaveAsHtmlItem.Enable(enable=False)
-		self.GoToHeading = actions.Append(-1, _("Go to a &heading \tCtrl+h"))
+		GoToMenu = wx.Menu()
+		self.GoToHeading = GoToMenu.Append(-1, _("Go to a &heading \tCtrl+h"))
 		self.GoToHeading.Enable(enable=False)
-		self.ReferencesItem = actions.Append(-1, _("R&eferences of article\tCtrl+r"))
+		self.ReferencesItem = GoToMenu.Append(-1, _("&References of article\tCtrl+r"))
 		self.ReferencesItem.Enable(enable=False)
-		self.LinksItem = actions.Append(-1, _("L&inks of article\tCtrl+l"))
+		self.LinksItem = GoToMenu.Append(-1, _("&Links of article\tCtrl+l"))
 		self.LinksItem.Enable(enable=False)
-		self.FontItem = actions.Append(-1, _("Change font \tCtrl+d"))
-		self.ChangeThemeItem = actions.Append(-1, _("Change theme\tctrl+T"))
+		actions.AppendSubMenu(GoToMenu, _("&Go To"))
+		SaveMenu = wx.Menu()
+		self.SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+s"))
+		self.SaveArticleItem.Enable(enable=False)
+		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tctrl+t"))
+		self.SaveAsHtmlItem.Enable(enable=False)
+		actions.AppendSubMenu(SaveMenu, _("&Save"))
 		self.CloseArticleItem = actions.Append(-1, _("Close article window\tctrl+w"))
 		self.CloseProgramItem = actions.Append(-1, _("Close the program\tctrl+F4"))
+		ViewMenu = wx.Menu()
+		self.FontItem = ViewMenu.Append(-1, _("Change &font\tCtrl+d"))
+		self.ChangeThemeItem = ViewMenu.Append(-1, _("Change &theme\tctrl+T"))
 		menubar.Append(actions, _("Actions"))
+		menubar.Append(ViewMenu, _("View"))
 		self.SetMenuBar(menubar)
 
 		self.hotKeys = wx.AcceleratorTable([
@@ -155,9 +161,6 @@ do you want to show similar results for this  article?
 		self.SetTitle(_("View {}").format(self.title))
 		self.ArticleTitle.SetLabel(self.title)
 		self.url = page.url
-		self.links = page.links
-		self.references = page.references
-		self.html = page.html()
 
 #Enable menu items
 		self.GoToHeading.Enable(enable=True)
@@ -167,9 +170,16 @@ do you want to show similar results for this  article?
 		self.CopyArticle.Enable(enable=True)
 		self.SaveArticle.Enable(enable=True)
 		self.CopyArticleLink.Enable(enable=True)
-		self.SaveAsHtmlItem.Enable(enable=True)
-		self.ReferencesItem.Enable(enable=True)
+
+	def OpenThread2(self):
+		page = wikipedia.page(self.GetValues)
+		self.links = page.links
 		self.LinksItem.Enable(enable=True)
+		self.references = page.references
+		self.ReferencesItem.Enable(enable=True)
+		self.html = page.html()
+		self.SaveAsHtmlItem.Enable(enable=True)
+
 
 	# Copy Article Content
 	def OnCopyArticle(self, event):
