@@ -56,8 +56,6 @@ class WepViewArticle(wx.Frame):
 		self.CopyArticleLinkItem = actions.Append(-1, _("Copy article link\tctrl+alt+c"))
 		self.CopyArticleLinkItem.Enable(enable=False)
 		GoToMenu = wx.Menu()
-		self.GoToHeading = GoToMenu.Append(-1, _("Go to a &heading \tCtrl+h"))
-		self.GoToHeading.Enable(enable=False)
 		self.ReferencesItem = GoToMenu.Append(-1, _("&References of article\tCtrl+r"))
 		self.ReferencesItem.Enable(enable=False)
 		self.LinksItem = GoToMenu.Append(-1, _("&Links of article\tCtrl+l"))
@@ -82,7 +80,6 @@ class WepViewArticle(wx.Frame):
 			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
 			(wx.ACCEL_CTRL+wx.ACCEL_ALT, ord("C"), self.CopyArticleLinkItem.GetId()),
 			(wx.ACCEL_CTRL, ord("S"), self.SaveArticleItem.GetId()),
-(wx.ACCEL_CTRL, ord("H"), self.GoToHeading.GetId()),
 			(wx.ACCEL_CTRL, ord("T"), self.ChangeThemeItem.GetId()),
 			(wx.ACCEL_CTRL, ord("W"), self.CloseArticleItem.GetId()),
 			(wx.ACCEL_CTRL,wx.WXK_F4, self.CloseProgramItem.GetId()),
@@ -130,7 +127,6 @@ class WepViewArticle(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnCloseArticle, self.CloseArticleItem) 
 		self.Bind(wx.EVT_MENU, self.OnChangeTheme, self.ChangeThemeItem) 
 		self.Bind(wx.EVT_MENU, self.OnCloseProgram, self.CloseProgramItem) 
-		self.Bind(wx.EVT_MENU, self.OnGoToheading, self.GoToHeading)
 		self.Bind(wx.EVT_MENU, self.OnEscape, id=self.rand_id)
 		self.Bind(wx.EVT_MENU, self.OnFont, self.FontItem)
 		self.Bind(wx.EVT_MENU, self.OnReferencesItem, self.ReferencesItem)
@@ -186,8 +182,6 @@ do you want to show similar results for this  article?
 		self.Content = page.content
 
 #Enable menu items
-		self.GoToHeading.Enable(enable=True)
-		self.CopyArticleItem.Enable(enable=True)
 		self.CopyArticleLinkItem.Enable(enable=True)
 		self.SaveArticleItem.Enable(enable=True)
 		self.SaveAsHtmlItem.Enable(enable=True)
@@ -262,12 +256,6 @@ Do you want to close the program anyway?""").format(ArticleCounte), "Confirm", s
 			wx.Exit()
 			shutil.rmtree(self.temp, ignore_errors=False)
 
-	def OnGoToheading(self, event):
-		position = HeadingsListDialog(self, self.Content).ShowModal()
-		if position == wx.ID_CANCEL:
-			return None
-		self.ViewArticle.SetInsertionPoint(position)
-		self.ViewArticle.SetFocus()
 
 	def OnReferencesItem(self, event):
 		ReferencesDialog = ReferencesListDialog(self, *self.references)
