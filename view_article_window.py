@@ -46,7 +46,7 @@ class ViewArticleWindow(wx.Frame):
 		actions = wx.Menu()
 		self.CopyArticleItem = actions.Append(-1, _("Copy article\tctrl+shift+c"))
 		self.CopyArticleItem.Enable(enable=False)
-		self.CopyArticleLinkItem = actions.Append(-1, _("Copy article link\tctrl+alt+c"))
+		self.CopyArticleLinkItem = actions.Append(-1, _("Copy article link\t+alt+c"))
 		self.CopyArticleLinkItem.Enable(enable=False)
 		GoToMenu = wx.Menu()
 		self.GoToHeading = GoToMenu.Append(-1, _("Go to a &heading \tCtrl+h"))
@@ -59,7 +59,7 @@ class ViewArticleWindow(wx.Frame):
 		SaveMenu = wx.Menu()
 		self.SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+s"))
 		self.SaveArticleItem.Enable(enable=False)
-		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tctrl+t"))
+		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tshift+ctrl+s"))
 		self.SaveAsHtmlItem.Enable(enable=False)
 		actions.AppendSubMenu(SaveMenu, _("&Save"))
 		self.CloseArticleItem = actions.Append(-1, _("Close article window\tctrl+w"))
@@ -73,9 +73,12 @@ class ViewArticleWindow(wx.Frame):
 
 		self.hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
-			(wx.ACCEL_CTRL+wx.ACCEL_ALT, ord("C"), self.CopyArticleLinkItem.GetId()),
+			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("T"), self.SaveAsHtmlItem.GetId()),
+(0+wx.ACCEL_ALT, ord("C"), self.CopyArticleLinkItem.GetId()),
 			(wx.ACCEL_CTRL, ord("S"), self.SaveArticleItem.GetId()),
 (wx.ACCEL_CTRL, ord("H"), self.GoToHeading.GetId()),
+			(wx.ACCEL_CTRL, ord("R"), self.ReferencesItem.GetId()),
+			(wx.ACCEL_CTRL, ord("L"), self.LinksItem.GetId()),
 			(wx.ACCEL_CTRL, ord("T"), self.ChangeThemeItem.GetId()),
 			(wx.ACCEL_CTRL, ord("W"), self.CloseArticleItem.GetId()),
 			(wx.ACCEL_CTRL,wx.WXK_F4, self.CloseProgramItem.GetId()),
@@ -96,7 +99,7 @@ class ViewArticleWindow(wx.Frame):
 		self.SaveArticle = wx.Button(Panel, -1, _("Save article\t(ctrl+s)"), pos=(140,500), size=(120,30))
 		self.SaveArticle.Enable(enable=False)
 		self.SaveArticle.SetDefault()
-		self.CopyArticleLink = wx.Button(Panel, -1, _("Copy article link\t(ctrl+alt+c)"), pos=(270,500), size=(120,30))
+		self.CopyArticleLink = wx.Button(Panel, -1, _("Copy article link\t(alt+c)"), pos=(270,500), size=(120,30))
 		self.CopyArticleLink.Enable(enable=False)
 		self.CloseArticle = wx.Button(Panel, -1, _("Close article\t(ctrl+w)"), pos=(400,500), size=(120,30))
 
@@ -138,6 +141,7 @@ class ViewArticleWindow(wx.Frame):
 			mgb = wx.MessageDialog(self, _("""This article is no longer available.
 do you want to show similar results for this  article?
 """), _("Warning"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_QUESTION+wx.ICON_WARNING)
+			mgb.SetYesNoLabels(_("&Yes"), _("&No"))
 			if mgb.ShowModal() == wx.ID_YES:
 				self.Destroy()
 				self.handle.ListResults.SetItems(e.options)
@@ -148,8 +152,10 @@ do you want to show similar results for this  article?
 
 		#In case There is no internet connection.
 		except :
-			wx.MessageBox("There is no internet connection.", "Connection error", style=wx.ICON_ERROR)
-			self.Destroy()
+			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
+			ConnectionError.SetOKLabel(_("&Ok"))
+			ConnectionError.ShowModal()
+			self.Close()
 			self.handle.NumberArticle -=1
 			return None
 
@@ -157,7 +163,7 @@ do you want to show similar results for this  article?
 		self.title = page.title
 		self.Content = page.content
 		self.ViewArticle.Value = self.Content
-		self.o.speak(_("Article loaded"), interrupt=True)
+		self.o.speak(_("Article loaded."), interrupt=True)
 		self.SetTitle(_("View {}").format(self.title))
 		self.ArticleTitle.SetLabel(self.title)
 		self.url = page.url
@@ -230,7 +236,8 @@ do you want to show similar results for this  article?
 			ArticleCounte = _("There are {} open articles.").format(self.handle.NumberArticle)
 		if (self.handle.NumberArticle >= 1) and (state == "True"):
 			ConfirmClosProgram = wx.MessageDialog(self, _("""{}
-Do you want to close the program anyway?""").format(ArticleCounte), "Confirm", style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+			ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
 			if ConfirmClosProgram.ShowModal() == wx.ID_YES:
 								wx.Exit()
 			else:

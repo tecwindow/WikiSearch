@@ -200,7 +200,9 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		try:
 			wikipedia.set_lang(code[self.LanguageSearch.GetSelection()])
 		except:
-			wx.MessageBox(_("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR)
+			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
+			ConnectionError.SetOKLabel(_("&Ok"))
+			ConnectionError.ShowModal()
 			return None
 
 		#geting text of search
