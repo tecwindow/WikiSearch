@@ -26,7 +26,8 @@ class Settings:
 		"random articles number": "20",
 		"auto update": "True",
 		"close message": "True",
-		"search language": "English"
+		"search language": "English",
+		"wepviewer": "0"
 				}
 
 	def WriteSettings(self, **NewSettings):
@@ -83,18 +84,24 @@ class SettingsDialog(wx.Dialog):
 		# Creating panel
 		Panel = wx.Panel(self)
 
+
+
 		# Creating ComboBox for languages
 		wx.StaticText(Panel, -1, _("Choose language:"), pos=(15,20), size=(380, 30))
 		self.ProgramLanguage = wx.ComboBox(Panel, -1, choices=['Arabic', 'English', 'Español', 'Français',], pos=(15, 50), size=(120, 40), style=wx.CB_READONLY+wx.CB_SORT)
 		self.ProgramLanguage.Value = self.CurrentSettings["language"]
 
+		#creating RadioBox to chews Favorite  view.
+		self.viewer = wx.RadioBox(Panel, -1, label=_("Choose your prefered view:"), choices=[_("Normal View"), _("Web View(Not recommended)")], pos=(10 , 10), size=(380,50)) 
+		self.viewer.Selection = int(self.CurrentSettings["wepviewer"])
+
 		# Creating SpinCtrl for Results Number
-		wx.StaticText(Panel, -1, _("Choose the number of results:"), pos=(140,20), size=(380, 30))
+		wx.StaticText(Panel, -1, _("Select the number of results:"), pos=(140,20), size=(380, 30))
 		self.NumberResults = wx.SpinCtrl(Panel, -1, "20", min=1, max=100, style=wx.SP_ARROW_KEYS, pos=(160, 50), size=(50, 20))
 		self.NumberResults.Value = self.CurrentSettings["results number"]
 
 		# Creating SpinCtrl for random article Number
-		wx.StaticText(Panel, -1, _("Choose the number of random article results:"), pos=(10,175), size=(380, 30))
+		wx.StaticText(Panel, -1, _("Select the number of random articles:"), pos=(10,175), size=(380, 30))
 		self.random_articles_number = wx.SpinCtrl(Panel, -1, "20", min=1, max=100, style=wx.SP_ARROW_KEYS, pos=(30, 210), size=(50, 20))
 		self.random_articles_number.Value = self.CurrentSettings["random articles number"]
 
@@ -132,7 +139,8 @@ class SettingsDialog(wx.Dialog):
 		"close message": str(self.VerificationMsg.Value),
 		"auto update": str(self.AutoUpdate.Value),
 		"activ escape": str(self.CloseArticleWithScape.Value),
-		"search language": self.CurrentSettings["search language"]
+		"search language": self.CurrentSettings["search language"],
+		"wepviewer": str(self.viewer.Selection)
 }
 
 		Settings().WriteSettings(**NewSettings)
@@ -140,6 +148,7 @@ class SettingsDialog(wx.Dialog):
 		if NewSettings["language"] != self.CurrentSettings["language"]:
 			ConfirmRestartProgram = wx.MessageDialog(self, _("""You must restart the program for the new language to take effect.
 Do you want to restart the program now?"""), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+			ConfirmRestartProgram.SetYesNoLabels(_("&Yes"), _("&No"))
 			if ConfirmRestartProgram.ShowModal() == wx.ID_YES:
 				os.execv(sys.executable, ['python'] + sys.argv)
 			else:
