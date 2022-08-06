@@ -7,6 +7,7 @@ import pyperclip
 import webbrowser
 import accessible_output2.outputs.auto
 from view_article_window import ViewArticleWindow
+from wep_viewer import WepViewArticle
 from settings import Settings
 from functions import *
 
@@ -124,9 +125,15 @@ class ViewSearch(wx.Dialog):
 
 	#creating OnViewArticleWindow function  View Article On a New Window
 	def OnViewArticleWindow(self, event):
+
 		GetValues = self.ListResults.GetString(self.ListResults.GetSelection())
+		state = Settings().ReadSettings()["wepviewer"]
+		if state == "0":
+			window1 = ViewArticleWindow(None, GetValues, self)
+		else:
+			window1 = WepViewArticle(None, GetValues, self)
+
 		self.NumberArticle += 1
-		window1 = ViewArticleWindow(None, GetValues, self)
 		thread1 = threading.Thread(target=window1.OpenThread, daemon=True)
 		thread1.start()
 		thread2 = threading.Thread(target=window1.OpenThread2, daemon=True)
