@@ -35,8 +35,13 @@ class ReferencesListDialog(wx.Dialog):
 		self.Show()
 
 	def OpenThread(self):
+
+		pattern = r'^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)'
+
 		for i in range(len(self.references)):
-			self.ReferencesList.Append(_("reference{}").format(i+1))
+			res = re.search(pattern, self.references[i])
+			link = res.group(0)
+			self.ReferencesList.Append(_("reference{}: {}").format(i+1, link))
 
 	def OnGo(self, event):
 		SelectedItem = self.references[self.ReferencesList.Selection]
@@ -60,7 +65,8 @@ class HeadingsListDialog(wx.Dialog):
 		NewResult = []
 
 		for x in self.result:
-				NewResult.append(x.replace("=", ""))
+			x = x.replace("=", "")
+			NewResult.append(x[1:-1])
 		self.HeadingsList.SetItems(NewResult)
 		self.HeadingsList.Selection = 0
 
