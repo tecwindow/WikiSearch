@@ -136,7 +136,7 @@ class WepViewArticle(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnReferencesItem, self.ReferencesItem)
 		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, self.SaveAsHtmlItem)
 		self.Bind(wx.EVT_MENU, self.OnLinks, self.LinksItem)
-		self.Bind(wx.html2.EVT_WEBVIEW_LOADED, lambda event: self.o.speak(_("Article loaded"), interrupt=True))
+		self.Bind(wx.html2.EVT_WEBVIEW_LOADED, lambda event: self.o.speak(_("Article loaded."), interrupt=True))
 
 	def OpenThread(self):
 
@@ -222,7 +222,7 @@ do you want to show similar results for this  article?
 			FilePath = SaveFile.Path
 			#FileName = SaveFile.Filename
 			file = open(FilePath, "w", encoding="utf-8")
-			file.write(self.ViewArticle.Value)
+			file.write(self.Content)
 			file.close()
 		else:
 			return
