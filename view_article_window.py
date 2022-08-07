@@ -57,9 +57,9 @@ class ViewArticleWindow(wx.Frame):
 		self.LinksItem.Enable(enable=False)
 		actions.AppendSubMenu(GoToMenu, _("&Go To"))
 		SaveMenu = wx.Menu()
-		self.SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+s"))
+		self.SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+shift+T"))
 		self.SaveArticleItem.Enable(enable=False)
-		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tshift+ctrl+s"))
+		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tctrl+shift+H"))
 		self.SaveAsHtmlItem.Enable(enable=False)
 		actions.AppendSubMenu(SaveMenu, _("&Save"))
 		self.CloseArticleItem = actions.Append(-1, _("Close article window\tctrl+w"))
@@ -73,9 +73,9 @@ class ViewArticleWindow(wx.Frame):
 
 		self.hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
-			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("T"), self.SaveAsHtmlItem.GetId()),
+			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("H"), self.SaveAsHtmlItem.GetId()),
 (0+wx.ACCEL_ALT, ord("C"), self.CopyArticleLinkItem.GetId()),
-			(wx.ACCEL_CTRL, ord("S"), self.SaveArticleItem.GetId()),
+			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("T"), self.SaveArticleItem.GetId()),
 (wx.ACCEL_CTRL, ord("H"), self.GoToHeading.GetId()),
 			(wx.ACCEL_CTRL, ord("R"), self.ReferencesItem.GetId()),
 			(wx.ACCEL_CTRL, ord("L"), self.LinksItem.GetId()),
@@ -111,7 +111,7 @@ class ViewArticleWindow(wx.Frame):
 
 		# events for buttons
 		self.CopyArticle.Bind(wx.EVT_BUTTON, self.OnCopyArticle)
-		self.SaveArticle.Bind(wx.EVT_BUTTON, self.OnSaveArticle)
+		#self.SaveArticle.Bind(wx.EVT_BUTTON, self.OnSaveArticleMenu)
 		self.CopyArticleLink.Bind(wx.EVT_BUTTON, self.OnCopyArticleLink)
 		self.CloseArticle.Bind(wx.EVT_BUTTON, self.OnCloseArticle)
 		self.Bind(wx.EVT_CLOSE, self.OnCloseArticle)
@@ -266,6 +266,16 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		else:
 			pass
 
+
+	#def OnSaveArticleMenu(self, event):
+		#SaveMenu = wx.Menu()
+		#self.SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+s"))
+		#self.SaveArticleItem.Enable(enable=False)
+		#self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tshift+ctrl+s"))
+		#self.SaveAsHtmlItem.Enable(enable=False)
+
+
+
 #creating OnFont function to change font
 	def OnFont(self, event):
 
@@ -309,7 +319,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		# Show dialog of article links
 		ArticleLinksDialog  = ViewSearch(self, None)
 		ArticleLinksDialog.SetTitle(_("Article links"))
-		ArticleLinksDialog.ListTitle.SetLabel(_("Article links"))
+		ArticleLinksDialog.ListTitle.SetLabel(_("Article links:"))
 #adding the links to list in the dialog.
 		ArticleLinksDialog.ListResults.SetItems(self.links)
 #Enable buttons in the dialog.
