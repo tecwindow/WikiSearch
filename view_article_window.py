@@ -71,20 +71,7 @@ class ViewArticleWindow(wx.Frame):
 		menubar.Append(ViewMenu, _("View"))
 		self.SetMenuBar(menubar)
 
-		self.hotKeys = wx.AcceleratorTable([
-			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
-			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("H"), self.SaveAsHtmlItem.GetId()),
-(0+wx.ACCEL_ALT, ord("C"), self.CopyArticleLinkItem.GetId()),
-			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("T"), self.SaveArticleItem.GetId()),
-(wx.ACCEL_CTRL, ord("H"), self.GoToHeading.GetId()),
-			(wx.ACCEL_CTRL, ord("R"), self.ReferencesItem.GetId()),
-			(wx.ACCEL_CTRL, ord("L"), self.LinksItem.GetId()),
-			(wx.ACCEL_CTRL, ord("T"), self.ChangeThemeItem.GetId()),
-			(wx.ACCEL_CTRL, ord("W"), self.CloseArticleItem.GetId()),
-			(wx.ACCEL_CTRL,wx.WXK_F4, self.CloseProgramItem.GetId()),
-			(0, wx.WXK_ESCAPE, self.rand_id),
-		])
-		Panel.SetAcceleratorTable(self.hotKeys)
+
 
 		# Create RichEdit to View Article Content
 		self.ArticleTitle = wx.StaticText(Panel, -1, _("Please wait."), pos=(10,10), size=(380,30))
@@ -104,6 +91,22 @@ class ViewArticleWindow(wx.Frame):
 		self.CloseArticle = wx.Button(Panel, -1, _("Close article\t(ctrl+w)"), pos=(400,500), size=(120,30))
 
 
+		self.hotKeys = wx.AcceleratorTable([
+			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
+			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("H"), self.SaveAsHtmlItem.GetId()),
+(0+wx.ACCEL_ALT, ord("C"), self.CopyArticleLinkItem.GetId()),
+			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("T"), self.SaveArticleItem.GetId()),
+(wx.ACCEL_CTRL, ord("H"), self.GoToHeading.GetId()),
+			(wx.ACCEL_CTRL, ord("R"), self.ReferencesItem.GetId()),
+			(wx.ACCEL_CTRL, ord("L"), self.LinksItem.GetId()),
+			(wx.ACCEL_CTRL, ord("S"), self.SaveArticle.GetId()),
+			(wx.ACCEL_CTRL, ord("T"), self.ChangeThemeItem.GetId()),
+			(wx.ACCEL_CTRL, ord("W"), self.CloseArticleItem.GetId()),
+			(wx.ACCEL_CTRL,wx.WXK_F4, self.CloseProgramItem.GetId()),
+			(0, wx.WXK_ESCAPE, self.rand_id),
+		])
+		Panel.SetAcceleratorTable(self.hotKeys)
+
 		# Show Article window
 		self.Show()
 
@@ -111,7 +114,7 @@ class ViewArticleWindow(wx.Frame):
 
 		# events for buttons
 		self.CopyArticle.Bind(wx.EVT_BUTTON, self.OnCopyArticle)
-		#self.SaveArticle.Bind(wx.EVT_BUTTON, self.OnSaveArticleMenu)
+		self.SaveArticle.Bind(wx.EVT_BUTTON, self.OnSaveArticleMenu)
 		self.CopyArticleLink.Bind(wx.EVT_BUTTON, self.OnCopyArticleLink)
 		self.CloseArticle.Bind(wx.EVT_BUTTON, self.OnCloseArticle)
 		self.Bind(wx.EVT_CLOSE, self.OnCloseArticle)
@@ -267,13 +270,15 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 			pass
 
 
-	#def OnSaveArticleMenu(self, event):
-		#SaveMenu = wx.Menu()
-		#self.SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+s"))
+	def OnSaveArticleMenu(self, event):
+		SaveMenu = wx.Menu()
+		self.SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+s"))
 		#self.SaveArticleItem.Enable(enable=False)
-		#self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tshift+ctrl+s"))
+		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tshift+ctrl+s"))
 		#self.SaveAsHtmlItem.Enable(enable=False)
-
+		self.Bind(wx.EVT_MENU, self.OnSaveArticle, self.SaveArticleItem) 
+		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, self.SaveAsHtmlItem)
+		self.PopupMenu(SaveMenu)
 
 
 #creating OnFont function to change font
