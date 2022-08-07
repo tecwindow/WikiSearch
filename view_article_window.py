@@ -162,30 +162,32 @@ do you want to show similar results for this  article?
 			self.handle.NumberArticle -=1
 			return None
 
-		#Getting information of article, and show The title and content of it.
+		#Getting title and content of article and show it.
 		self.title = page.title
 		self.Content = page.content
-		self.ViewArticle.Value = self.Content
-		self.o.speak(_("Article loaded."), interrupt=True)
+		try:
+			self.ViewArticle.Value = self.Content
+		except RuntimeError:
+			return None
 		self.SetTitle(_("View {}").format(self.title))
 		self.ArticleTitle.SetLabel(self.title)
-		self.url = page.url
-
-#Enable menu items
+		self.o.speak(_("Article loaded."), interrupt=True)
 		self.GoToHeading.Enable(enable=True)
 		self.CopyArticleItem.Enable(enable=True)
-		self.CopyArticleLinkItem.Enable(enable=True)
-		self.SaveArticleItem.Enable(enable=True)
 		self.CopyArticle.Enable(enable=True)
 		self.SaveArticle.Enable(enable=True)
+		self.SaveArticleItem.Enable(enable=True)
+		#Getting link of article
+		self.url = page.url
+		self.CopyArticleLinkItem.Enable(enable=True)
 		self.CopyArticleLink.Enable(enable=True)
-
-	def OpenThread2(self):
-		page = wikipedia.page(self.GetValues)
+		#Getting the Links associated with the article.
 		self.links = page.links
 		self.LinksItem.Enable(enable=True)
+		#Getting references of article
 		self.references = page.references
 		self.ReferencesItem.Enable(enable=True)
+	#Getting article as html.
 		self.html = page.html()
 		self.SaveAsHtmlItem.Enable(enable=True)
 
@@ -225,7 +227,8 @@ do you want to show similar results for this  article?
 	# Close Article Window
 	def OnCloseArticle(self, event):
 		self.handle.NumberArticle -= 1
-		self.Destroy()
+#		self.Destroy()
+		wx.CallAfter(self.Destroy)
 
 
 		# Close Program 
@@ -272,12 +275,10 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 	def OnSaveArticleMenu(self, event):
 		SaveMenu = wx.Menu()
-		self.SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+s"))
-		#self.SaveArticleItem.Enable(enable=False)
-		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tshift+ctrl+s"))
-		#self.SaveAsHtmlItem.Enable(enable=False)
-		self.Bind(wx.EVT_MENU, self.OnSaveArticle, self.SaveArticleItem) 
-		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, self.SaveAsHtmlItem)
+		SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+s"))
+		SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tshift+ctrl+s"))
+		self.Bind(wx.EVT_MENU, self.OnSaveArticle, SaveArticleItem)
+		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, SaveAsHtmlItem)
 		self.PopupMenu(SaveMenu)
 
 

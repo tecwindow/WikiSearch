@@ -6,6 +6,7 @@ import threading
 import pyperclip
 import webbrowser
 import accessible_output2.outputs.auto
+import time
 from view_article_window import ViewArticleWindow
 from wep_viewer import WepViewArticle
 from settings import Settings
@@ -134,8 +135,7 @@ class ViewSearch(wx.Dialog):
 			window1 = WepViewArticle(None, GetValues, self)
 
 		self.NumberArticle += 1
-		thread1 = threading.Thread(target=window1.OpenThread, daemon=True)
-		thread1.start()
-		thread2 = threading.Thread(target=window1.OpenThread2, daemon=True)
-		thread2.start()
+		threading.Thread(target=window1.OpenThread, daemon=True).start()
+
+
 
