@@ -2,3 +2,5 @@ wxpython
 nlpia2_wikipedia
 pyperclip
 accessible_output2
+mouse
+bs4
