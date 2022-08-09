@@ -130,7 +130,7 @@ class window(wx.Frame):
 
 		#events for menu items
 		self.Bind(wx.EVT_MENU, self.OnAboutProgram, AboutProgramItem)
-		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog().ShowModal(), self.PreferencesItem)
+		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self).ShowModal(), self.PreferencesItem)
 		self.Bind(wx.EVT_MENU, self.OnCheckForItem, self.CheckForItem)
 		self.Bind(wx.EVT_MENU, self.OnHelp, self.HelpFile)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open("mailto:ww258148@gmail.com"), QaisEm)
