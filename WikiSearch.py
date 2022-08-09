@@ -296,6 +296,6 @@ class check(threading.Thread):
 main_window = window()
 
 if CurrentSettings["auto update"] == "True":
-	thread2 = threading.Thread(target=main_window.OnCheckForItem(None, AutoCheck="yes"), daemon=True)
+	threading.Thread(target=main_window.OnCheckForItem(None, AutoCheck="yes"), daemon=True).start()
 
 app.MainLoop()    

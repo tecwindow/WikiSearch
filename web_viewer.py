@@ -54,9 +54,9 @@ class WebViewArticle(wx.Frame):
 		self.CopyArticleLinkItem = actions.Append(-1, _("Copy article link\t+alt+c"))
 		self.CopyArticleLinkItem.Enable(False)
 		GoToMenu = wx.Menu()
-		self.ReferencesItem = GoToMenu.Append(-1, _("&References of article\tCtrl+r"))
+		self.ReferencesItem = GoToMenu.Append(-1, _("&References in article\tCtrl+r"))
 		self.ReferencesItem.Enable(False)
-		self.LinksItem = GoToMenu.Append(-1, _("&Linked articles\tCtrl+L"))
+		self.LinksItem = GoToMenu.Append(-1, _("&Linked articles\tCtrl+l"))
 		self.LinksItem.Enable(False)
 		actions.AppendSubMenu(GoToMenu, _("Go to"))
 		SaveMenu = wx.Menu()
@@ -258,18 +258,6 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 			pass
 
 
-	def OnSaveArticleMenu(self, event):
-		SaveMenu = wx.Menu()
-		SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+s"))
-		if self.Content == "":
-			SaveArticleItem.Enable(False)
-		SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tshift+ctrl+s"))
-		if self.html == "":
-			SaveAsHtmlItem.Enable(False)
-		self.Bind(wx.EVT_MENU, self.OnSaveArticle, SaveArticleItem)
-		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, SaveAsHtmlItem)
-		self.PopupMenu(SaveMenu)
-
 
 
 	def OnSaveAsHtml(self, event):
@@ -293,7 +281,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		# Show dialog of article links
 		ArticleLinksDialog  = ViewSearch(self, None)
 		ArticleLinksDialog.SetTitle(_("Linked articles"))
-		ArticleLinksDialog.ListTitle.SetLabel(_("Linked articles:"))
+		ArticleLinksDialog.ListTitle.SetLabel(_("Linked articles"))
 #adding the links to list in the dialog.
 		ArticleLinksDialog.ListResults.SetItems(self.links)
 		ArticleLinksDialog.ListResults.Selection = 0

@@ -49,7 +49,7 @@ class ReferencesListDialog(wx.Dialog):
 		for i in range(len(self.references)):
 			res = re.search(pattern, self.references[i])
 			link = res.group(0)
-			self.ReferencesList.Append(_("reference{}: {}").format(i+1, link))
+			self.ReferencesList.Append(_("Reference {}: {}").format(i+1, link))
 
 		self.ReferencesList.Selection = 0
 
