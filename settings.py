@@ -73,8 +73,8 @@ _ = SetLanguage(Settings().ReadSettings())
 
 # Create Settings Dialog
 class SettingsDialog(wx.Dialog):
-	def __init__(self):
-		super().__init__(None, title=_("Program Settings"), size=(400, 500))
+	def __init__(self, parent):
+		wx.Dialog.__init__(self, parent, title=_("Program Settings"), size=(400, 500))
 		#make window in center.
 		self.Center()
 		#make window Minimum size.

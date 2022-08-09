@@ -13,7 +13,7 @@ _ = SetLanguage(Settings().ReadSettings())
 #creating references List Dialog
 class ReferencesListDialog(wx.Dialog):
 	def __init__(self, parent, *references ):
-		super().__init__(parent, title=_("Article references"), size=(300, 320))
+		wx.Dialog.__init__(self, parent, title=_("Article references"), size=(300, 320))
 		self.Center()
 		self.references = references
 
@@ -51,6 +51,8 @@ class ReferencesListDialog(wx.Dialog):
 			link = res.group(0)
 			self.ReferencesList.Append(_("reference{}: {}").format(i+1, link))
 
+		self.ReferencesList.Selection = 0
+
 	def OnGo(self, event):
 		SelectedItem = self.references[self.ReferencesList.Selection]
 		webbrowser.open_new(SelectedItem)
@@ -59,7 +61,7 @@ class ReferencesListDialog(wx.Dialog):
 
 class HeadingsListDialog(wx.Dialog):
 	def __init__(self, parent, content):
-		super().__init__(parent, title=_("Headings in this article"), size=(300, 320))
+		wx.Dialog.__init__(self, parent, title=_("Headings in this article"), size=(300, 320))
 		self.Center()
 		self.content = content
 

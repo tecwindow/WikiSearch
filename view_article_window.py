@@ -97,6 +97,7 @@ class ViewArticleWindow(wx.Frame):
 		self.CopyArticleLink = wx.Button(Panel, -1, _("Copy article link"), pos=(270,610), size=(120,30))
 		self.CopyArticleLink.Enable(False)
 		self.GoTo = wx.Button(Panel, -1, _("GoTo"), pos=(400,610), size=(70,30))
+		self.GoTo.Enable(False)
 		self.CloseArticle = wx.Button(Panel, -1, _("Close article"), pos=(480,610), size=(120,30))
 
 		# events for buttons
@@ -207,6 +208,7 @@ do you want to show similar results for this  article?
 	#Getting references of article
 		self.references = page.references
 		self.ReferencesItem.Enable(True)
+		self.GoTo.Enable(True)
 		self.html = page.html()
 		self.SaveAsHtmlItem.Enable(True)
 
@@ -374,6 +376,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		ArticleLinksDialog.ListTitle.SetLabel(_("Linked articles"))
 		#adding the links to list in the dialog.
 		ArticleLinksDialog.ListResults.SetItems(self.links)
+		ArticleLinksDialog.ListResults.Selection = 0
 		#Enable buttons in the dialog.
 		ArticleLinksDialog.ViewArticle.Enable(True)
 		ArticleLinksDialog.OpenInWebBrowser.Enable(True)

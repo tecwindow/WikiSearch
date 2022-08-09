@@ -21,9 +21,8 @@ if os.path.exists(temp):
 #creating update dialog 
 class UpdateDialog(wx.Dialog):
 	def __init__(self, parent, RecentVersion, whatIsNew):
-		super().__init__(None, title = _("Update found"), size=(500, 500))
+		wx.Dialog.__init__(self, parent, title = _("Update found"), size=(500, 500))
 		self.Center()
-		self.Maximize(False)
 
 		#creating panel
 		Panel = wx.Panel(self)
