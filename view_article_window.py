@@ -96,13 +96,14 @@ class ViewArticleWindow(wx.Frame):
 		self.SaveArticle.SetDefault()
 		self.CopyArticleLink = wx.Button(Panel, -1, _("Copy article link"), pos=(270,610), size=(120,30))
 		self.CopyArticleLink.Enable(False)
-		self.CloseArticle = wx.Button(Panel, -1, _("Close article"), pos=(400,610), size=(120,30))
-
+		self.GoTo = wx.Button(Panel, -1, _("GoTo"), pos=(400,610), size=(70,30))
+		self.CloseArticle = wx.Button(Panel, -1, _("Close article"), pos=(480,610), size=(120,30))
 
 		# events for buttons
 		self.CopyArticle.Bind(wx.EVT_BUTTON, self.OnCopyArticle)
 		self.SaveArticle.Bind(wx.EVT_BUTTON, self.OnSaveArticleMenu)
 		self.CopyArticleLink.Bind(wx.EVT_BUTTON, self.OnCopyArticleLink)
+		self.GoTo.Bind(wx.EVT_BUTTON, self.OnGoToMenu)
 		self.CloseArticle.Bind(wx.EVT_BUTTON, self.OnCloseArticle)
 		self.Bind(wx.EVT_CLOSE, self.OnCloseArticle)
 
@@ -300,6 +301,18 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		else:
 			pass
 
+	def OnGoToMenu(self, event):
+		GoToMenu = wx.Menu()
+		GoToHeadingItem = GoToMenu.Append(-1, _("Go to a &heading\tctrl+h"))
+		ArticleReferencesItem = GoToMenu.Append(-1, _("&References in  article\tctrl+r"))
+		ArticlesLinkedItem = GoToMenu.Append(-1, _("&Linked articles\tctrl+l"))
+		ArticleTablesItem = GoToMenu.Append(-1, _("&Tables in article\tctrl+t"))
+		self.Bind(wx.EVT_MENU, self.OnGoToheading, GoToHeadingItem)
+		self.Bind(wx.EVT_MENU, self.OnReferencesItem, ArticleReferencesItem)
+		self.Bind(wx.EVT_MENU, self.OnLinks, ArticlesLinkedItem)
+		self.Bind(wx.EVT_MENU, self.OnTablesItem, ArticleTablesItem)
+		self.PopupMenu(GoToMenu)
+
 
 	def OnSaveArticleMenu(self, event):
 		SaveMenu = wx.Menu()
@@ -314,7 +327,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		self.PopupMenu(SaveMenu)
 
 
-#creating OnFont function to change font
+	#creating OnFont function to change font
 	def OnFont(self, event):
 
 		#Set current font and colour in font dialog.
@@ -358,9 +371,9 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		ArticleLinksDialog  = ViewSearch(self, None)
 		ArticleLinksDialog.SetTitle(_("Article links"))
 		ArticleLinksDialog.ListTitle.SetLabel(_("Article links:"))
-#adding the links to list in the dialog.
+		#adding the links to list in the dialog.
 		ArticleLinksDialog.ListResults.SetItems(self.links)
-#Enable buttons in the dialog.
+		#Enable buttons in the dialog.
 		ArticleLinksDialog.ViewArticle.Enable(True)
 		ArticleLinksDialog.OpenInWebBrowser.Enable(True)
 		ArticleLinksDialog.CopyArticleLink.Enable(True)
