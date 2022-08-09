@@ -21,7 +21,7 @@ _ = SetLanguage(Settings().ReadSettings())
 #View Article window
 class ViewArticleWindow(wx.Frame):
 	def __init__(self, parent, GetValues, handle):
-		wx.Frame.__init__(self, parent, title=_("View article"), size=(560, 600))
+		wx.Frame.__init__(self, parent, title=_("View article"), size=(900, 720))
 		self.Center()
 		self.EnableMaximizeButton(False)
 		self.GetValues = GetValues
@@ -83,20 +83,20 @@ class ViewArticleWindow(wx.Frame):
 
 		# Create RichEdit to View Article Content
 		self.ArticleTitle = wx.StaticText(Panel, -1, _("Please wait."), pos=(10,10), size=(380,30))
-		self.ViewArticle = wx.TextCtrl(Panel, -1, pos=(30,40), size=(480,420), style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY)
+		self.ViewArticle = wx.TextCtrl(Panel, -1, pos=(30,40), size=(840,530), style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY)
 		#Getting current font and colour for text
 		self.font = self.ViewArticle.GetFont()
 		self.colour  = self.ViewArticle.GetForegroundColour()
 
 		# Create Buttons
-		self.CopyArticle = wx.Button(Panel, -1, _("Copy article"), pos=(10,500), size=(120,30))
+		self.CopyArticle = wx.Button(Panel, -1, _("Copy article"), pos=(10,610), size=(120,30))
 		self.CopyArticle.Enable(False)
-		self.SaveArticle = wx.Button(Panel, -1, _("Save article"), pos=(140,500), size=(120,30))
+		self.SaveArticle = wx.Button(Panel, -1, _("Save article"), pos=(140,610), size=(120,30))
 		self.SaveArticle.Enable(False)
 		self.SaveArticle.SetDefault()
-		self.CopyArticleLink = wx.Button(Panel, -1, _("Copy article link"), pos=(270,500), size=(120,30))
+		self.CopyArticleLink = wx.Button(Panel, -1, _("Copy article link"), pos=(270,610), size=(120,30))
 		self.CopyArticleLink.Enable(False)
-		self.CloseArticle = wx.Button(Panel, -1, _("Close article"), pos=(400,500), size=(120,30))
+		self.CloseArticle = wx.Button(Panel, -1, _("Close article"), pos=(400,610), size=(120,30))
 
 
 		# events for buttons
