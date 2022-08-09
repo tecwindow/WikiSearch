@@ -123,6 +123,12 @@ class SettingsDialog(wx.Dialog):
 		self.SaveSettings.SetDefault()
 		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(120,255), size=(80,30))
 
+		self.hotKeys = wx.AcceleratorTable([
+			(wx.ACCEL_ALT, ord("S"), self.SaveSettings.GetId()),
+			(wx.ACCEL_CTRL, ord("W"), self.GoBack.GetId()),
+		])
+		Panel.SetAcceleratorTable(self.hotKeys)
+
 		#event for Save Settings button
 		self.SaveSettings.Bind(wx.EVT_BUTTON, self.OnSaveSettings)
 

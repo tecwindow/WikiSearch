@@ -37,6 +37,13 @@ class UpdateDialog(wx.Dialog):
 		self.Update.SetDefault()
 		self.Close = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(90,200), size=(60,30))
 
+		self.hotKeys = wx.AcceleratorTable([
+			(wx.ACCEL_ALT, ord("U"), self.Update.GetId()),
+			(wx.ACCEL_CTRL, ord("W"), self.Close.GetId()),
+		])
+		Panel.SetAcceleratorTable(self.hotKeys)
+
+
 		#show the dialog
 		self.Show()
 

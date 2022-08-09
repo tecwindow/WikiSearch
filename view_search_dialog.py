@@ -44,6 +44,7 @@ class ViewSearch(wx.Dialog):
 			(wx.ACCEL_ALT, ord("V"), self.ViewArticle.GetId()),
 			(wx.ACCEL_ALT, ord("O"), self.OpenInWebBrowser.GetId()),
 			(wx.ACCEL_ALT, ord("C"), self.CopyArticleLink.GetId()),
+			(wx.ACCEL_CTRL, ord("W"), self.GoBack.GetId()),
 			(wx.ACCEL_ALT, ord("B"), self.GoBack.GetId()),
 		])
 		Panel.SetAcceleratorTable(self.hotKeys)

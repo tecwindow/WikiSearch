@@ -25,12 +25,13 @@ class ReferencesListDialog(wx.Dialog):
 		self.ReferencesList = wx.ListBox(Panel, -1, pos=(10,30), size=(290,170))
 
 		# Create Buttons
-		self.Go = wx.Button(Panel, -1, _("Go"), pos=(10,235), size=(120,30))
+		self.Go = wx.Button(Panel, -1, _("&Open in browser"), pos=(10,235), size=(120,30))
 		self.Go.SetDefault()
 		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(140,235), size=(120,30))
 
 		self.hotKeys = wx.AcceleratorTable((
-(wx.ACCEL_CTRL, ord("H"), self.Go.GetId()),
+(wx.ACCEL_CTRL, ord("W"), self.GoBack.GetId()),
+(wx.ACCEL_ALT, ord("O"), self.Go.GetId()),
 ))
 		Panel.SetAcceleratorTable(self.hotKeys)
 
@@ -83,6 +84,7 @@ class HeadingsListDialog(wx.Dialog):
 		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(140,235), size=(120,30))
 
 		self.hotKeys = wx.AcceleratorTable((
+(wx.ACCEL_CTRL, ord("W"), self.GoBack.GetId()),
 (wx.ACCEL_CTRL, ord("H"), self.Go.GetId()),
 ))
 		Panel.SetAcceleratorTable(self.hotKeys)
