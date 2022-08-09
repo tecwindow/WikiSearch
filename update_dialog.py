@@ -21,7 +21,7 @@ if os.path.exists(temp):
 #creating update dialog 
 class UpdateDialog(wx.Dialog):
 	def __init__(self, parent, RecentVersion, whatIsNew):
-		super().__init__(None, title = _("There is an update"), size=(300, 300))
+		super().__init__(None, title = _("Update found"), size=(500, 500))
 		self.Center()
 		self.Maximize(False)
 
@@ -29,13 +29,13 @@ class UpdateDialog(wx.Dialog):
 		Panel = wx.Panel(self)
 
 		#creating field to show what's new.
-		wx.StaticText(Panel, -1, _("What's new in version {}?").format(RecentVersion), pos=(20,20), size=(170, 30))
-		self.WhatsNew = wx.TextCtrl(Panel, -1, value=whatIsNew, pos=(10,60), size=(250,90), style=wx.HSCROLL+wx.TE_MULTILINE+wx.TE_READONLY)
+		wx.StaticText(Panel, -1, _("version {} is available.").format(RecentVersion), pos=(20,20), size=(170, 30))
+		self.WhatsNew = wx.TextCtrl(Panel, -1, value=whatIsNew, pos=(10,60), size=(450,320), style=wx.HSCROLL+wx.TE_MULTILINE+wx.TE_READONLY)
 
 		# Creating Buttons
-		self.Update = wx.Button(Panel, -1, _("&Update"), pos=(20,200), size=(60,30))
+		self.Update = wx.Button(Panel, -1, _("&Update"), pos=(20,400), size=(60,30))
 		self.Update.SetDefault()
-		self.Close = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(90,200), size=(60,30))
+		self.Close = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(90,400), size=(60,30))
 
 		self.hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_ALT, ord("U"), self.Update.GetId()),
