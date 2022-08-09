@@ -292,8 +292,8 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 		# Show dialog of article links
 		ArticleLinksDialog  = ViewSearch(self, None)
-		ArticleLinksDialog.SetTitle(_("Article links"))
-		ArticleLinksDialog.ListTitle.SetLabel(_("Article links:"))
+		ArticleLinksDialog.SetTitle(_("Linked articles"))
+		ArticleLinksDialog.ListTitle.SetLabel(_("Linked articles:"))
 #adding the links to list in the dialog.
 		ArticleLinksDialog.ListResults.SetItems(self.links)
 		ArticleLinksDialog.ListResults.Selection = 0
