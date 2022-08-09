@@ -265,7 +265,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 
 		language = {
 		"English": "en",
-		"arabic": "ar",
+		"Arabic": "ar",
 		"Español": "es",
 		"Français": "fr"
 		}
