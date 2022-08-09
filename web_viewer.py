@@ -2,7 +2,6 @@
 # import project libraries.
 import wx
 import wx.html2
-import wx.adv
 import nlpia2_wikipedia as wikipedia
 import pyperclip
 import webbrowser
@@ -57,7 +56,7 @@ class WebViewArticle(wx.Frame):
 		GoToMenu = wx.Menu()
 		self.ReferencesItem = GoToMenu.Append(-1, _("&References of article\tCtrl+r"))
 		self.ReferencesItem.Enable(False)
-		self.LinksItem = GoToMenu.Append(-1, _("&Linked articles\tCtrl+l"))
+		self.LinksItem = GoToMenu.Append(-1, _("&Linked articles\tCtrl+L"))
 		self.LinksItem.Enable(False)
 		actions.AppendSubMenu(GoToMenu, _("&Go To"))
 		SaveMenu = wx.Menu()
@@ -78,30 +77,15 @@ class WebViewArticle(wx.Frame):
 		self.ViewArticle = wx.html2.WebView.New(Panel, -1, pos=(30,40), size=(480,420))
 		self.ViewArticle.SetPage(self.html, "")
 		self.ViewArticle.EnableContextMenu(False)
+#loading article
 		self.LoadArticle = my_threads(target=self.OpenThread, daemon=True)
 		self.LoadArticle.start()
 		self.LoadArticle2 = my_threads(target=self.OpenThread2, daemon=True)
 		self.LoadArticle2.start()
 
-		# Create Buttons
-		Panel2 = wx.Panel(self, -1)
-		self.CopyArticle = wx.Button(Panel2, -1, _("Copy article\t(ctrl+shift+c)"), pos=(10,500), size=(120,30))
-		self.CopyArticle.Enable(False)
-		self.SaveArticle = wx.Button(Panel2, -1, _("Save article"), pos=(140,500), size=(120,30))
-		self.SaveArticle.Enable(False)
-		self.CopyArticleLink = wx.Button(Panel2, -1, _("Copy article link\t(alt+c)"), pos=(270,500), size=(120,30))
-		self.CopyArticleLink.Enable(False)
-		self.CloseArticle = wx.Button(Panel2, -1, ("Close article"), pos=(400,500), size=(120,30))
 
-
-		# events for buttons
-		self.CopyArticle.Bind(wx.EVT_BUTTON, self.OnCopyArticle)
-		self.SaveArticle.Bind(wx.EVT_BUTTON, self.OnSaveArticleMenu)
-		self.CopyArticleLink.Bind(wx.EVT_BUTTON, self.OnCopyArticleLink)
-		self.CloseArticle.Bind(wx.EVT_BUTTON, self.OnCloseArticle)
+		# events 
 		self.Bind(wx.EVT_CLOSE, self.OnCloseArticle)
-
-		# events for Menus
 		self.Bind(wx.EVT_MENU, self.OnCopyArticle, self.CopyArticleItem) 
 		self.Bind(wx.EVT_MENU, self.OnCopyArticleLink, self.CopyArticleLinkItem) 
 		self.Bind(wx.EVT_MENU, self.OnSaveArticle, self.SaveArticleItem) 
@@ -120,7 +104,6 @@ class WebViewArticle(wx.Frame):
 			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("T"), self.SaveArticleItem.GetId()),
 			(wx.ACCEL_CTRL, ord("R"), self.ReferencesItem.GetId()),
 			(wx.ACCEL_CTRL, ord("L"), self.LinksItem.GetId()),
-			(wx.ACCEL_CTRL, ord("S"), self.SaveArticle.GetId()),
 			(wx.ACCEL_CTRL, ord("W"), self.CloseArticleItem.GetId()),
 			(wx.ACCEL_CTRL,wx.WXK_F4, self.CloseProgramItem.GetId()),
 			(0, wx.WXK_ESCAPE, self.rand_id)
@@ -179,16 +162,16 @@ do you want to show similar results for this  article?
 			f.write(self.html)
 		self.ViewArticle.LoadURL(self.path)
 		self.SetTitle(f"View {self.title}")
+		self.ArticleTitle.SetLabel(self.title)
 		self.url = page.url
 		self.Content = page.content
 
 #Enable menu items
-		self.CopyArticleLinkItem.Enable(enable=True)
 		self.SaveArticleItem.Enable(enable=True)
+		self.CopyArticleLinkItem.Enable(enable=True)
 		self.SaveAsHtmlItem.Enable(enable=True)
-		self.CopyArticle.Enable(enable=True)
+		self.CopyArticleItem.Enable(enable=True)
 		self.SaveArticle.Enable(enable=True)
-		self.CopyArticleLink.Enable(enable=True)
 
 	def OpenThread2(self):
 		page = wikipedia.page(self.GetValues)
@@ -313,6 +296,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		ArticleLinksDialog.ListTitle.SetLabel(_("Article links:"))
 #adding the links to list in the dialog.
 		ArticleLinksDialog.ListResults.SetItems(self.links)
+		ArticleLinksDialog.ListResults.Selection = 0
 #Enable buttons in the dialog.
 		ArticleLinksDialog.ViewArticle.Enable(True)
 		ArticleLinksDialog.OpenInWebBrowser.Enable(True)
