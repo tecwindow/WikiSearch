@@ -171,7 +171,6 @@ do you want to show similar results for this  article?
 		self.CopyArticleLinkItem.Enable(enable=True)
 		self.SaveAsHtmlItem.Enable(enable=True)
 		self.CopyArticleItem.Enable(enable=True)
-		self.SaveArticle.Enable(enable=True)
 
 	def OpenThread2(self):
 		page = wikipedia.page(self.GetValues)

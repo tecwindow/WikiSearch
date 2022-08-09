@@ -200,7 +200,7 @@ do you want to show similar results for this  article?
 	#Getting the Links associated with the article.
 		self.links = page.links
 		self.LinksItem.Enable(True)
-
+		self.GoTo.Enable(True)
 
 	def OpenThread2(self):
 		page = wikipedia.page(self.GetValues)
@@ -208,7 +208,6 @@ do you want to show similar results for this  article?
 	#Getting references of article
 		self.references = page.references
 		self.ReferencesItem.Enable(True)
-		self.GoTo.Enable(True)
 		self.html = page.html()
 		self.SaveAsHtmlItem.Enable(True)
 
@@ -239,8 +238,8 @@ do you want to show similar results for this  article?
 			return
 
 	def OnChangeTheme(self, event):
+
 		data = wx.ColourData()
-#		data.SetChooseFull(True)
 		data.SetChooseAlpha(True)
 		data.SetColour(self.colour)
 
@@ -305,11 +304,25 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 			pass
 
 	def OnGoToMenu(self, event):
+
 		GoToMenu = wx.Menu()
+
 		GoToHeadingItem = GoToMenu.Append(-1, _("Go to a &heading\tCtrl+h"))
+		if self.Content == "":
+			GoToHeadingItem.Enable(False)
+
 		ArticlesLinkedItem = GoToMenu.Append(-1, _("&Linked articles\tCtrl+l"))
+		if self.links == []:
+			ArticlesLinkedItem.Enable(False)
+
 		ArticleReferencesItem = GoToMenu.Append(-1, _("&References in article\tCtrl+r"))
+		if self.references == []:
+			ArticleReferencesItem.Enable(False)
+
 		ArticleTablesItem = GoToMenu.Append(-1, _("&Tables in article\tCtrl+t"))
+		if self.url == "":
+			ArticleTablesItem.Enable(False)
+
 		self.Bind(wx.EVT_MENU, self.OnGoToheading, GoToHeadingItem)
 		self.Bind(wx.EVT_MENU, self.OnReferencesItem, ArticleReferencesItem)
 		self.Bind(wx.EVT_MENU, self.OnLinks, ArticlesLinkedItem)
@@ -318,13 +331,17 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 
 	def OnSaveArticleMenu(self, event):
+
 		SaveMenu = wx.Menu()
+
 		SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+shift+T"))
 		if self.Content == "":
 			SaveArticleItem.Enable(False)
+
 		SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tctrl+shift+H"))
 		if self.html == "":
 			SaveAsHtmlItem.Enable(False)
+
 		self.Bind(wx.EVT_MENU, self.OnSaveArticle, SaveArticleItem)
 		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, SaveAsHtmlItem)
 		self.PopupMenu(SaveMenu)
@@ -351,6 +368,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		#Set new font and colour.
 			self.ViewArticle.SetFont(self.font)
 			self.ViewArticle.SetForegroundColour(self.colour)
+
 
 	def OnSaveAsHtml(self, event):
 		SaveFile = wx.FileDialog(self, _("Save {}:").format(self.title), "self.FilePath", F"{self.title}", style=wx.FD_SAVE+wx.FD_OVERWRITE_PROMPT)
