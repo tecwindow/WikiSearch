@@ -57,10 +57,10 @@ class ViewArticleWindow(wx.Frame):
 		GoToMenu = wx.Menu()
 		self.GoToHeading = GoToMenu.Append(-1, _("Go to a &heading \tCtrl+h"))
 		self.GoToHeading.Enable(False)
-		self.ReferencesItem = GoToMenu.Append(-1, _("&References in  article\tCtrl+r"))
-		self.ReferencesItem.Enable(False)
 		self.LinksItem = GoToMenu.Append(-1, _("&Linked articles\tCtrl+l"))
 		self.LinksItem.Enable(False)
+		self.ReferencesItem = GoToMenu.Append(-1, _("&References in  article\tCtrl+r"))
+		self.ReferencesItem.Enable(False)
 		self.TablesItem = GoToMenu.Append(-1, _("&Tables in article\tCtrl+T"))
 		self.TablesItem.Enable(False)
 		actions.AppendSubMenu(GoToMenu, _("&Go To"))
@@ -131,6 +131,7 @@ class ViewArticleWindow(wx.Frame):
 (wx.ACCEL_CTRL, ord("R"), self.ReferencesItem.GetId()),
 (wx.ACCEL_CTRL, ord("L"), self.LinksItem.GetId()),
 (wx.ACCEL_CTRL, ord("S"), self.SaveArticle.GetId()),
+(wx.ACCEL_CTRL, ord("G"), self.GoTo.GetId()),
 (wx.ACCEL_CTRL, ord("T"), self.TablesItem.GetId()),
 (wx.ACCEL_CTRL, ord("D"), self.FontItem.GetId()),
 (wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("D"), self.ChangeThemeItem.GetId()),
@@ -304,8 +305,8 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 	def OnGoToMenu(self, event):
 		GoToMenu = wx.Menu()
 		GoToHeadingItem = GoToMenu.Append(-1, _("Go to a &heading\tctrl+h"))
-		ArticleReferencesItem = GoToMenu.Append(-1, _("&References in  article\tctrl+r"))
 		ArticlesLinkedItem = GoToMenu.Append(-1, _("&Linked articles\tctrl+l"))
+		ArticleReferencesItem = GoToMenu.Append(-1, _("&References in  article\tctrl+r"))
 		ArticleTablesItem = GoToMenu.Append(-1, _("&Tables in article\tctrl+t"))
 		self.Bind(wx.EVT_MENU, self.OnGoToheading, GoToHeadingItem)
 		self.Bind(wx.EVT_MENU, self.OnReferencesItem, ArticleReferencesItem)
@@ -369,8 +370,8 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 		# Show dialog of article links
 		ArticleLinksDialog  = ViewSearch(self, None)
-		ArticleLinksDialog.SetTitle(_("Article links"))
-		ArticleLinksDialog.ListTitle.SetLabel(_("Article links:"))
+		ArticleLinksDialog.SetTitle(_("Linked articles"))
+		ArticleLinksDialog.ListTitle.SetLabel(_("Linked articles"))
 		#adding the links to list in the dialog.
 		ArticleLinksDialog.ListResults.SetItems(self.links)
 		#Enable buttons in the dialog.

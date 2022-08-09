@@ -13,7 +13,7 @@ _ = SetLanguage(Settings().ReadSettings())
 #creating references List Dialog
 class ReferencesListDialog(wx.Dialog):
 	def __init__(self, parent, *references ):
-		super().__init__(parent, title=_("References of this article"), size=(300, 320))
+		super().__init__(parent, title=_("Article references"), size=(300, 320))
 		self.Center()
 		self.references = references
 
@@ -21,7 +21,7 @@ class ReferencesListDialog(wx.Dialog):
 		Panel = wx.Panel(self)
 
 		# Create ListBox
-		self.ReferencesListTitle = wx.StaticText(Panel, -1, _("References of this article"), pos=(10,10), size=(380,30))
+		self.ReferencesListTitle = wx.StaticText(Panel, -1, _("Article references"), pos=(10,10), size=(380,30))
 		self.ReferencesList = wx.ListBox(Panel, -1, pos=(10,30), size=(290,170))
 
 		# Create Buttons
@@ -98,7 +98,7 @@ class HeadingsListDialog(wx.Dialog):
 
 class ViewTablesDialog(wx.Dialog):
 	def __init__(self, parent, url, ArticleTitle):
-		wx.Dialog.__init__(self, parent, title=_("Tables from {}:").format(ArticleTitle), size=(550, 550))
+		wx.Dialog.__init__(self, parent, title=_("Tables in {}:").format(ArticleTitle), size=(550, 550))
 		self.Center()
 		self.url = url
 		self.LoadTables = my_threads(target=self.OnViewTable, daemon=True)
@@ -108,7 +108,7 @@ class ViewTablesDialog(wx.Dialog):
 		Panel = wx.Panel(self)
 
 	#Creating text ctrl to view article tables
-		wx.StaticText(Panel, -1, _("Tables from {}:").format(ArticleTitle), pos=(10,10), size=(380, 30))
+		wx.StaticText(Panel, -1, _("Tables in {}:").format(ArticleTitle), pos=(10,10), size=(380, 30))
 		self.ViewArticleTables = wx.TextCtrl(Panel, -1, pos=(10, 50), size=(500, 400), style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY)
 
 	#Creating cancel button
@@ -127,6 +127,6 @@ class ViewTablesDialog(wx.Dialog):
 		tables = GetTables(self.url)
 
 		for table in range(len(tables)):
-			self.ViewArticleTables.write(_(" table{}:\n {}").format(table+1,tables[table]))
+			self.ViewArticleTables.write(_("Table {}:\n {}").format(table+1,tables[table]))
 
 		self.ViewArticleTables.SetInsertionPoint(0)
