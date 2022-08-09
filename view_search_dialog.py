@@ -8,7 +8,7 @@ import webbrowser
 import accessible_output2.outputs.auto
 import time
 from view_article_window import ViewArticleWindow
-from wep_viewer import WepViewArticle
+from web_viewer import WebViewArticle
 from settings import Settings
 from functions import *
 
@@ -18,7 +18,7 @@ _ = SetLanguage(Settings().ReadSettings())
 #create View  Search Dialog
 class ViewSearch(wx.Dialog):
 	def __init__(self, parent, TextSearch):
-		super().__init__(parent, title=_("Search results"), size=(300, 400))
+		wx.Dialog.__init__(self, parent, title=_("Search results"), size=(300, 400))
 		self.Center()
 		self.TextSearch = TextSearch
 		self.NumberArticle = 0
@@ -31,14 +31,14 @@ class ViewSearch(wx.Dialog):
 		self.ListResults = wx.ListBox(Panel, -1, pos=(10,30), size=(290,170))
 
 		# Create Buttons
-		self.ViewArticle = wx.Button(Panel, -1, _("View Article\t(Alt+V)"), pos=(10,235), size=(120,30))
+		self.ViewArticle = wx.Button(Panel, -1, _("&View Article"), pos=(10,235), size=(120,30))
 		self.ViewArticle.SetDefault()
 		self.ViewArticle.Enable(enable=False)
-		self.OpenInWebBrowser = wx.Button(Panel, -1, _("Open in browser\t(Alt+O)"), pos=(140,235), size=(120,30))
+		self.OpenInWebBrowser = wx.Button(Panel, -1, _("&Open in browser"), pos=(140,235), size=(120,30))
 		self.OpenInWebBrowser.Enable(enable=False)
-		self.CopyArticleLink = wx.Button(Panel, -1, _("Copy article link\t(Alt+C)"), pos=(10,280), size=(120,30))
+		self.CopyArticleLink = wx.Button(Panel, -1, _("&Copy article link"), pos=(10,280), size=(120,30))
 		self.CopyArticleLink.Enable(enable=False)
-		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("GoBack\t(Alt+B)"), pos=(140,280), size=(120,30))
+		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("Go&Back"), pos=(140,280), size=(120,30))
 
 		self.hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_ALT, ord("V"), self.ViewArticle.GetId()),
@@ -132,10 +132,10 @@ class ViewSearch(wx.Dialog):
 		if state == "0":
 			window1 = ViewArticleWindow(None, GetValues, self)
 		else:
-			window1 = WepViewArticle(None, GetValues, self)
+			window1 = WebViewArticle(None, GetValues, self)
 
 		self.NumberArticle += 1
-		threading.Thread(target=window1.OpenThread, daemon=True).start()
+
 
 
 

@@ -2,6 +2,7 @@
 # import project libraries.
 import wx
 import re
+from  my_classes import my_threads
 import webbrowser
 from settings import Settings
 from functions import *
@@ -24,9 +25,15 @@ class ReferencesListDialog(wx.Dialog):
 		self.ReferencesList = wx.ListBox(Panel, -1, pos=(10,30), size=(290,170))
 
 		# Create Buttons
-		self.Go = wx.Button(Panel, -1, _("Go\t(Alt+h)"), pos=(10,235), size=(120,30))
+		self.Go = wx.Button(Panel, -1, _("Go"), pos=(10,235), size=(120,30))
 		self.Go.SetDefault()
 		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(140,235), size=(120,30))
+
+		self.hotKeys = wx.AcceleratorTable((
+(wx.ACCEL_CTRL, ord("H"), self.Go.GetId()),
+))
+		Panel.SetAcceleratorTable(self.hotKeys)
+
 
 #Event of go button 
 		self.Go.Bind(wx.EVT_BUTTON, self.OnGo)
@@ -71,9 +78,14 @@ class HeadingsListDialog(wx.Dialog):
 		self.HeadingsList.Selection = 0
 
 		# Create Buttons
-		self.Go = wx.Button(Panel, -1, _("Go\t(Alt+h)"), pos=(10,235), size=(120,30))
+		self.Go = wx.Button(Panel, -1, _("Go"), pos=(10,235), size=(120,30))
 		self.Go.SetDefault()
 		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(140,235), size=(120,30))
+
+		self.hotKeys = wx.AcceleratorTable((
+(wx.ACCEL_CTRL, ord("H"), self.Go.GetId()),
+))
+		Panel.SetAcceleratorTable(self.hotKeys)
 
 #Event of go button 
 		self.Go.Bind(wx.EVT_BUTTON, self.OnGo)
@@ -82,3 +94,37 @@ class HeadingsListDialog(wx.Dialog):
 		position = self.content.find(self.result[self.HeadingsList.Selection])
 		self.EndModal(position)
 
+class ViewTablesDialog(wx.Dialog):
+	def __init__(self, parent, url, ArticleTitle):
+		wx.Dialog.__init__(self, parent, title=_("Tables from {}:").format(ArticleTitle), size=(550, 550))
+		self.Center()
+		self.url = url
+		self.LoadTables = my_threads(target=self.OnViewTable, daemon=True)
+		self.LoadTables.start()
+
+	#Creating Panel
+		Panel = wx.Panel(self)
+
+	#Creating text ctrl to view article tables
+		wx.StaticText(Panel, -1, _("Tables from {}:").format(ArticleTitle), pos=(10,10), size=(380, 30))
+		self.ViewArticleTables = wx.TextCtrl(Panel, -1, pos=(10, 50), size=(500, 400), style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY)
+
+	#Creating cancel button
+		self.close = wx.Button(Panel, wx.ID_CANCEL, _("&Close"), pos=(200,450), size=(120,30))
+
+		self.hotKeys = wx.AcceleratorTable((
+(wx.ACCEL_CTRL, ord("W"), self.close.GetId()),
+))
+		Panel.SetAcceleratorTable(self.hotKeys)
+
+		#Show dialog
+		self.Show()
+
+	def OnViewTable(self):
+
+		tables = GetTables(self.url)
+
+		for table in range(len(tables)):
+			self.ViewArticleTables.write(_(" table{}:\n {}").format(table+1,tables[table]))
+
+		self.ViewArticleTables.SetInsertionPoint(0)

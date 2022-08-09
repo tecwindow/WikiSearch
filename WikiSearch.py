@@ -6,7 +6,6 @@ import nlpia2_wikipedia as wikipedia
 import threading 
 import webbrowser
 import os
-from urllib.request import urlopen
 from view_search_dialog import ViewSearch
 from update_dialog import UpdateDialog
 from settings import *
@@ -43,12 +42,10 @@ ProgramDescription = _("With this program, you can search or browse any Wikipedi
 CurrentSettings = Settings().ReadSettings()
 
 
-
-
 # Create main window with wx.
 class window(wx.Frame):
 	def __init__(self):
-		super().__init__(None, title = ProgramName, size=(430, 335))
+		wx.Frame.__init__(self, None, title = ProgramName, size=(430, 335))
 		#make window in center.
 		self.Center()
 		#make window Minimum size.
@@ -73,8 +70,8 @@ class window(wx.Frame):
 		self.StartSearch = wx.Button(Panel, -1, _("Start search"), pos=(10,235), size=(100,30))
 		self.StartSearch.SetDefault()
 		self.StartSearch.Enabled = False
-		self.RandomArticles = wx.Button(Panel, -1, _("View random articles\t(ctrl+R)"), pos=(130,235), size=(120,30))
-		self.Close = wx.Button(Panel, -1, _("Close the program\t(ctrl+w)"), pos=(270,235), size=(120,30))
+		self.RandomArticles = wx.Button(Panel, -1, _("View random articles"), pos=(130,235), size=(120,30))
+		self.Close = wx.Button(Panel, -1, _("Close the program"), pos=(270,235), size=(120,30))
 
 		#creating menu bar
 		menubar = wx.MenuBar()

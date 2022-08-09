@@ -1,8 +1,11 @@
 ﻿# importing the modules
 import gettext
 import re
-from urllib.request import urlopen
+import requests
 import json
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+
 
 
 
@@ -59,4 +62,22 @@ def GetOnlineInfo():
 	}
 
 	return info
+
+def GetTables(url):
+
+	reqs = requests.get(url)
+
+	# using the BeautifulSoup module
+	soup = BeautifulSoup(reqs.content, "html.parser")
+
+	tables = soup.find_all("table")
+	TablesText = []
+ 
+	for i in range(len(tables)):
+		content = tables[i].text
+		content = content.replace("\n\n", "\n")
+		content = content.replace("\n\n", "\n")
+		TablesText.append(content)
+
+	return TablesText
 
