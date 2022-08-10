@@ -37,7 +37,7 @@ for w in data:
 	code.append(w["code"])
 
 # information of program
-CurrntVersion = "1.2.0"
+CurrntVersion = "1.2.1"
 ProgramName = "WikiSearch"
 ProgramDescription = _("With this program, you can search or browse any Wikipedia article. site: https://github.com/tecwindow/WikiSearch")
 CurrentSettings = Settings().ReadSettings()
