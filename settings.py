@@ -158,7 +158,7 @@ Do you want to restart the program now?"""), _("Confirm"), style=wx.YES_NO+wx.YE
 			if ConfirmRestartProgram.ShowModal() == wx.ID_YES:
 				os.execv(sys.executable, ['python'] + sys.argv)
 			else:
-						return None
+				self.Destroy()
 
 		self.Destroy()
 
