@@ -10,6 +10,7 @@ from view_search_dialog import ViewSearch
 from update_dialog import UpdateDialog
 from settings import *
 from functions import *
+from packaging import version
 
 #Set language for main window 
 _ = SetLanguage(Settings().ReadSettings())
@@ -36,7 +37,7 @@ for w in data:
 	code.append(w["code"])
 
 # information of program
-CurrntVersion = 1.2
+CurrntVersion = "1.2.0"
 ProgramName = "WikiSearch"
 ProgramDescription = _("With this program, you can search or browse any Wikipedia article. site: https://github.com/tecwindow/WikiSearch")
 CurrentSettings = Settings().ReadSettings()
@@ -243,11 +244,11 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 				ConnectionError.ShowModal()
 			return None
 
-		RecentVersion = float(info["version"])
+		RecentVersion = info["version"]
 		whatIsNew = info["What's new"]
 
 		#Show the update dialog if there is new version.
-		if RecentVersion > CurrntVersion:
+		if version.parse(RecentVersion) > version.parse(CurrntVersion):
 			UpdateDialog(self, RecentVersion, whatIsNew)
 		#if there is no  new version show MessageBox tell that.
 		else:
