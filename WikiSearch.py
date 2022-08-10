@@ -20,7 +20,7 @@ app= wx.App()
 # Include List of languages in JSON format.
 # Check existence of file before running program.
 try:
-	with open('LanguageCodes.json') as json_file:
+	with open('LanguageCodes.json', encoding="utf-8") as json_file:
 		data = json.load(json_file)
 except FileNotFoundError:
 	wx.MessageBox(_("Some required files are missing."), _("Error"), style=wx.ICON_ERROR)
