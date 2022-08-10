@@ -2,7 +2,7 @@
 
 pyinstaller_versionfile.create_versionfile(
     output_file="versionfile.txt",
-    version="1.2.1",
+    version="1.3.0",
     company_name="TecWindow",
     file_description="With this program, you can search or browse any Wikipedia article. site: https://t.me/tecwindow",
     internal_name="WikiSearch",

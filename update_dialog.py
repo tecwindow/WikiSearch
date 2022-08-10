@@ -16,7 +16,7 @@ _ = SetLanguage(Settings().ReadSettings())
 #Delete setup file if is found in temp.
 temp = os.path.join(os.getenv("temp"), "WikiSearch")
 if os.path.exists(temp):
-	shutil.rmtree(temp, ignore_errors=False)
+	shutil.rmtree(temp, ignore_errors=True)
 
 #creating update dialog 
 class UpdateDialog(wx.Dialog):
