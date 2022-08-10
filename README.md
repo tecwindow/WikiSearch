@@ -68,7 +68,10 @@ Python 3.xx
 * pyperclip
 * wxpython
 * request
+* shutil
+* mouse
 * json
+* bs4
 * os
 * re
 
