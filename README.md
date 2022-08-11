@@ -3,7 +3,7 @@ This simple program enables you to search Wikipedia, the free encyclopedia, with
 
 ## what's new:
 
-Version 1.3:
+### Version 1.3:
 
   This version comes with some bug fixes.
 
