@@ -3,6 +3,14 @@ This simple program enables you to search Wikipedia, the free encyclopedia, with
 
 ## what's new:
 
+Version 1.3:
+
+  This version comes with some bug fixes.
+
+- Now the French translation will appear correctly.
+- Fixed the issue related to the Unicode.
+- Fixed the bug where the program did not launch if it was installed for the first time and not updated from a previous version.
+
 ### Version 1.2:
 
 This version comes with numerous new features and bug fixes.
