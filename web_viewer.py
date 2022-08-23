@@ -127,7 +127,7 @@ class WebViewArticle(wx.Frame):
 		mouse.move(100, 100, absolute=False, duration=0.5)
 
 		try:
-			page = wikipedia.page(self.GetValues)
+			page = wikipedia.page(self.GetValues, auto_suggest=False)
 			self.o.speak(_("Loading article:"), interrupt=True)
 
 		#In case the article is no longer available.
@@ -173,7 +173,7 @@ do you want to show similar results for this  article?
 		self.CopyArticleItem.Enable(enable=True)
 
 	def OpenThread2(self):
-		page = wikipedia.page(self.GetValues)
+		page = wikipedia.page(self.GetValues, auto_suggest=False)
 		self.links = page.links
 		self.LinksItem.Enable(enable=True)
 		self.references = page.references

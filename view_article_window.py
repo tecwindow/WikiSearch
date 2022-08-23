@@ -149,7 +149,7 @@ class ViewArticleWindow(wx.Frame):
 	def OpenThread(self):
 
 		try:
-			page = wikipedia.page(self.GetValues)
+			page = wikipedia.page(self.GetValues, auto_suggest=False)
 			self.o.speak(_("Loading article:"), interrupt=True)
 
 		#In case the article is no longer available.
@@ -203,11 +203,11 @@ do you want to show similar results for this  article?
 		self.GoTo.Enable(True)
 
 	def OpenThread2(self):
-		page = wikipedia.page(self.GetValues)
-	#Getting article as html.
+		page = wikipedia.page(self.GetValues, auto_suggest=False)
 	#Getting references of article
 		self.references = page.references
 		self.ReferencesItem.Enable(True)
+	#Getting article as html.
 		self.html = page.html()
 		self.SaveAsHtmlItem.Enable(True)
 
