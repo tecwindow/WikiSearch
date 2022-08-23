@@ -1,4 +1,4 @@
-#define MyAppName "WikiSearch"
+Ôªø#define MyAppName "WikiSearch"
 #define MyAppVersion "1.3.0"
 #define MyAppPublisher "Tecwindow"
 #define MyAppURL "https://t.me/tecwindow"
@@ -10,7 +10,7 @@ AppVersion={#MyAppVersion}
 VersionInfoDescription=WikiSearch setup
 VersionInfoVersion={#MyAppVersion}
 VersionInfoCompany=tecwindow
-VersionInfoCopyright=copyright, ©2022; tecwindow
+VersionInfoCopyright=copyright, ¬©2022; tecwindow
 VersionInfoProductName=WikiSearch
 VersionInfoProductVersion={#MyAppVersion}
 VersionInfoOriginalFileName=WikiSearch_Setup.exe
@@ -23,7 +23,7 @@ DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 PrivilegesRequired=admin
-OutputDir=D:\python\ÊÌﬂÌ»ÌœÌ«\dist\ahm
+OutputDir=WikiSearch
 OutputBaseFilename=WikiSearchSetup
 Compression=lzma
 CloseApplications=force
@@ -35,15 +35,20 @@ WizardStyle=modern
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "arabic"; MessagesFile: "compiler:Languages\Arabic.isl"
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
-Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "spanish"; MessagesFile: "compiler:Languages\spanish.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
-Source: "D:\python\ÊÌﬂÌ»ÌœÌ«\dist\WikiSearch\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\python\ÊÌﬂÌ»ÌœÌ«\dist\WikiSearch\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "WikiSearch\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WikiSearch\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+[CustomMessages]
+arabic.AppLNGfile = Arabic
+english.AppLNGfile = English
+french.AppLNGfile = Fran√ßais
+spanish.AppLNGfile = Espa√±ol
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -52,3 +57,6 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall
 
+[INI]
+Filename: "{userappdata}\WikiSearch\Settingss.ini"; Section: "default"; Key: "language"; String: "{cm:AppLNGfile}"
+Filename: "{app}\User Data\Settingss.ini"; Section: "default"; Key: "language"; String: "{cm:AppLNGfile}"
