@@ -6,6 +6,9 @@ import nlpia2_wikipedia as wikipedia
 import threading 
 import webbrowser
 import os
+import sys
+#change working dir to main exe dir
+os.chdir(os.path.dirname(sys.argv[0]))
 from view_search_dialog import ViewSearch
 from update_dialog import UpdateDialog
 from settings import *
