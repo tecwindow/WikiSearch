@@ -155,8 +155,11 @@ class window(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/TecWindow"), TecWindow)
 		self.Bind(wx.EVT_MENU, self.OnClose, self.CloseProgramItem)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
-		self.SearchText.Bind(wx.EVT_TEXT, lambda event: check().start())
+		self.SearchText.Bind(wx.EVT_TEXT, self.OnText)
 
+	# Creating Ontext function to disable start search buttion if search edit is empty.
+	def OnText(self, event):
+		self.StartSearch.Enable(enable = not self.SearchText.IsEmpty())
 
 	#creating OnClose function to  Close Program.
 	def OnClose(self, event):
@@ -283,18 +286,6 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 			os.startfile(os.getcwd() + "/" + "help/en/HelpMe.html")
 
 #end of class
-
-
-# creating thread to disable start search buttion if search edit is empty.
-class check(threading.Thread):
-	def __init__(self):
-		super(check, self).__init__()
-
-	def run(self):
-		if main_window.SearchText.IsEmpty():
-			main_window.StartSearch.Enabled = False
-		else:
-			main_window.StartSearch.Enabled = True
 
 
 main_window = window()
