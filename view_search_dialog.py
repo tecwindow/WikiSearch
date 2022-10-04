@@ -66,6 +66,8 @@ class ViewSearch(wx.Dialog):
 			self.ListTitle.SetLabel(_("Random articles"))
 			self.SetTitle(_("View random articles"))
 			RandomArticlesNumber = Settings().ReadSettings()["random articles number"]
+			if int(Settings().ReadSettings()["random articles number"]) >100:
+				RandomArticlesNumber = 100
 			RandomArticle = wikipedia.random(pages=RandomArticlesNumber)
 			self.ListResults.SetItems(RandomArticle)
 			self.ListResults.Selection = 0
@@ -76,6 +78,8 @@ class ViewSearch(wx.Dialog):
 
 		# in case display search results.
 		ResultsNumber = Settings().ReadSettings()["results number"]
+		if int(Settings().ReadSettings()["results number"]) > 100:
+			ResultsNumber = 100
 
 		try:
 			self.ViewResults = wikipedia.search(self.TextSearch, results=ResultsNumber)
