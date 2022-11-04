@@ -32,12 +32,12 @@ except FileNotFoundError:
 
 # Create empty list
 name = []
-code = []
+code = {}
 
 # Include json file content and add it to list.
 for w in data:
 	name.append(w["name"])
-	code.append(w["code"])
+	code[w["name"]] = w["code"]
 
 # information of program
 CurrntVersion = "1.3.0"
@@ -202,7 +202,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 
 		#Set language for search
 		try:
-			wikipedia.set_lang(code[self.LanguageSearch.GetSelection()])
+			wikipedia.set_lang(code[self.LanguageSearch.GetValue()])
 		except:
 			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
 			ConnectionError.SetOKLabel(_("&Ok"))
