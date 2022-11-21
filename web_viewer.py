@@ -14,6 +14,7 @@ from dialogs import *
 from settings import Settings
 from functions import *
 from my_classes import *
+from globals import *
 
 #Set language for View Article window
 _ = SetLanguage(Settings().ReadSettings())
@@ -43,6 +44,10 @@ class WebViewArticle(wx.Frame):
 		self.path = os.path.join(self.temp, self.FileName)
 		if not os.path.exists(self.temp):
 			os.mkdir(self.temp)
+
+		global NumberArticle
+		NumberArticle += 1
+
 
 #Creating panel
 		Panel = wx.Panel(self, -1)
@@ -126,6 +131,7 @@ class WebViewArticle(wx.Frame):
 		mouse.click('left')
 		mouse.move(100, 100, absolute=False, duration=0.5)
 
+		global NumberArticle
 		try:
 			page = wikipedia.page(self.GetValues, auto_suggest=False)
 			self.o.speak(_("Loading article:"), interrupt=True)
@@ -140,7 +146,7 @@ do you want to show similar results for this  article?
 				self.handle.ListResults.SetItems(e.options)
 			else:
 				self.Destroy()
-			self.handle.NumberArticle -=1
+			NumberArticle -=1
 			return None
 
 		#In case There is no internet connection.
@@ -151,7 +157,7 @@ do you want to show similar results for this  article?
 			ConnectionError.SetOKLabel(_("&Ok"))
 			ConnectionError.ShowModal()
 			self.Destroy()
-			self.handle.NumberArticle -=1
+			NumberArticle -=1
 			return None
 
 		#Getting information of article, and show The title and content of it.
@@ -209,7 +215,8 @@ do you want to show similar results for this  article?
 
 	# Close Article Window
 	def OnCloseArticle(self, event):
-		self.handle.NumberArticle -= 1
+		global NumberArticle
+		NumberArticle -= 1
 		self.LoadArticle.stop()
 		self.LoadArticle2.stop()
 		shutil.rmtree(self.temp, ignore_errors=False)
@@ -222,21 +229,24 @@ do you want to show similar results for this  article?
 
 		state = self.CurrentSettings["close message"]
 
-		if self.handle.NumberArticle == 1:
+		global Data, NumberArticle
+		if NumberArticle == 1:
 			ArticleCounte = _("There is 1 open article.")
-		elif self.handle.NumberArticle > 1:
-			ArticleCounte = _("There are {} open articles.").format(self.handle.NumberArticle)
-		if (self.handle.NumberArticle >= 1) and (state == "True"):
+		elif NumberArticle > 1:
+			ArticleCounte = _("There are {} open articles.").format(NumberArticle)
+		if (NumberArticle >= 1) and (state == "True"):
 			ConfirmClosProgram = wx.MessageDialog(self, _("""{}
 Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
 			ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
 			if ConfirmClosProgram.ShowModal() == wx.ID_YES:
 				wx.Exit()
+				Data.CloseConnection()
 				shutil.rmtree(self.temp, ignore_errors=False)
 			else:
 				return
 		else:
 			wx.Exit()
+			Data.CloseConnection()
 			shutil.rmtree(self.temp, ignore_errors=False)
 
 
@@ -248,8 +258,9 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 		state = self.CurrentSettings["activ escape"]
 
+		global NumberArticle
 		if state == "True":
-			self.handle.NumberArticle -= 1
+			NumberArticle -= 1
 			self.LoadArticle.stop()
 			self.LoadArticle2.stop()
 			self.Destroy()

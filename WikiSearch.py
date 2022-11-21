@@ -13,6 +13,8 @@ from view_search_dialog import ViewSearch
 from update_dialog import UpdateDialog
 from settings import *
 from functions import *
+from dialogs import HistoryDialog
+from globals import *
 from packaging import version
 
 #Set language for main window 
@@ -106,6 +108,7 @@ class window(wx.Frame):
 		ContactMenu.AppendSubMenu(MesterPerfectMenu, _("Ahmed Bakr"))
 		TecWindow=ContactMenu.Append(-1, "TecWindow on Telegram")
 		MainMenu.AppendSubMenu(ContactMenu, _("&Contact us"))
+		self.HistoryItems = MainMenu.Append(-1, _("&History\tAlt+H"))
 		self.PreferencesItem = MainMenu.Append(-1, _("Program &settings\tAlt+S"))
 		self.CheckForItem = MainMenu.Append(-1, _("Check for &update\tctrl+u"))
 		self.CloseProgramItem = MainMenu.Append(-1, _("Close program\tctrl+w"))
@@ -154,6 +157,7 @@ class window(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://www.facebook.com/my.nvda.1"), MesterPerfectFa)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/TecWindow"), TecWindow)
 		self.Bind(wx.EVT_MENU, self.OnClose, self.CloseProgramItem)
+		self.Bind(wx.EVT_MENU, self.OnHistory, self.HistoryItems)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.SearchText.Bind(wx.EVT_TEXT, self.OnText)
 
@@ -163,23 +167,27 @@ class window(wx.Frame):
 
 	#creating OnClose function to  Close Program.
 	def OnClose(self, event):
+		global Data, NumberArticle
 		try:
-			if self.dialog1.NumberArticle == 1:
+			if NumberArticle == 1:
 							ArticleCounte = _("There is 1 open article.")
 			elif self.dialog1.NumberArticle > 1:
-				ArticleCounte = _("There are {} open articles.").format(self.dialog1.NumberArticle)
-			if self.dialog1.NumberArticle >= 1:
+				ArticleCounte = _("There are {} open articles.").format(NumberArticle)
+			if NumberArticle >= 1:
 				ConfirmClosProgram = wx.MessageDialog(self,_("""{}
 Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
 				ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
 				if ConfirmClosProgram.ShowModal() == wx.ID_YES:
 									wx.Exit()
+									Data.CloseConnection()
 				else:
 					return
 			else:
 							wx.Exit()
+							Data.CloseConnection()
 		except AttributeError:
 			wx.Exit()
+			Data.CloseConnection()
 
 	#creating OnAboutProgram function to show information about this program.
 	def OnAboutProgram(self, event):
@@ -201,8 +209,9 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		Settings().WriteSettings(**CurrentSettings)
 
 		#Set language for search
+		SearchLanguage = code[self.LanguageSearch.GetValue()]
 		try:
-			wikipedia.set_lang(code[self.LanguageSearch.GetValue()])
+			wikipedia.set_lang(SearchLanguage)
 		except:
 			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
 			ConnectionError.SetOKLabel(_("&Ok"))
@@ -212,7 +221,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		#geting text of search
 		TextSearch = self.SearchText.Value
 		#Show dialog of search results
-		self.dialog1 = ViewSearch(self, TextSearch)
+		self.dialog1 = ViewSearch(self, TextSearch, SearchLanguage)
 		#start thread function to add search results for list box in dialog.
 		thread1 = threading.Thread(target=self.dialog1.OpenThread, daemon=True)
 		thread1.start()
@@ -224,15 +233,16 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		Settings().WriteSettings(**CurrentSettings)
 
 		#Set language for random article
+		SearchLanguage = code[self.LanguageSearch.GetValue()]
 		try:
-			wikipedia.set_lang(code[self.LanguageSearch.GetSelection()])
+			wikipedia.set_lang(SearchLanguage)
 		except:
 			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
 			ConnectionError.SetOKLabel(_("&Ok"))
 			ConnectionError.ShowModal()
 			return None
 		#Show dialog of random article
-		self.dialog1 = ViewSearch(self, None)
+		self.dialog1 = ViewSearch(self, None, SearchLanguage)
 		thread1 = threading.Thread(target=self.dialog1.OpenThread, daemon=True)
 		thread1.start()
 
@@ -285,6 +295,9 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		else:
 			os.startfile(os.getcwd() + "/" + "help/en/HelpMe.html")
 
+	#Creating function to show history dialog
+	def OnHistory(self, event):
+			HistoryDialog(self)
 #end of class
 
 
