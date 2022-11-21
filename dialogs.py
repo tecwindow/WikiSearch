@@ -1,11 +1,14 @@
 #-*- coding: utf-8 -*-
 # import project libraries.
 import wx
+import nlpia2_wikipedia as wikipedia
 import re
 from  my_classes import my_threads
 import webbrowser
 from settings import Settings
 from functions import *
+from globals import *
+
 
 #Set language  for Headings List Dialog
 _ = SetLanguage(Settings().ReadSettings())
@@ -132,3 +135,94 @@ class ViewTablesDialog(wx.Dialog):
 			self.ViewArticleTables.write(_("Table {}:\n {}").format(table+1,tables[table]))
 
 		self.ViewArticleTables.SetInsertionPoint(0)
+
+class HistoryDialog(wx.Dialog):
+	def __init__(self, parent):
+		wx.Dialog.__init__(self, parent, title=_("history"), size=(450, 450))
+		self.CenterOnParent()
+		global Data
+		self.history = Data.GetData("HistoryTable")
+
+
+		#creating Panel
+		panel = wx.Panel(self, -1)
+	#creating sizer
+		box = wx.BoxSizer(wx.VERTICAL)
+		box2 = wx.BoxSizer(wx.HORIZONTAL)
+		#Creating search edit.
+		self.SearchLabel = wx.StaticText(panel, -1, _("Search"), pos=(12, 15), size=(50, 20))
+		self.search = wx.TextCtrl(panel, -1, pos=(56, 12), size=(150, 30))
+		#creating listbox to show history.
+		self.HistoryLabel = wx.StaticText(panel, -1, _("History"), pos=(12, 51), size=(50, 20))
+		self.HistoryList = wx.ListCtrl(panel, -1, style = wx.LC_REPORT)
+		self.HistoryList.InsertColumn(0, "Title", width=100)
+		self.HistoryList.InsertColumn(1, "Date", wx.LIST_FORMAT_RIGHT, width= 100)
+		self.HistoryList.InsertColumn(2, "Time", wx.LIST_FORMAT_RIGHT, 100)
+		self.HistoryList.InsertColumn(3, "Article language", wx.LIST_FORMAT_RIGHT, 100)
+
+		self.LanguageCode = {}
+		for item in reversed(self.history):
+			self.HistoryList.Append(item[0:-1])
+			self.LanguageCode[item[3]] = item[4]
+
+		#Set selection for first item.
+		self.HistoryList.Focus(0)
+
+		#creating buttons
+		self.go = wx.Button(panel, wx.ID_OK, _("&Go"), size=(50, 20))
+		self.Cancel = wx.Button(panel, wx.ID_CANCEL, _("&Cancel"), size=(50, 20))
+
+		#Adding the controls to sizer
+		box.Add(self.SearchLabel)
+		box.Add(self.search) 
+		box.Add(self.HistoryLabel)
+		box.Add(self.HistoryList, 2, wx.EXPAND)
+		box2.Add(self.go)
+		box2.Add(self.Cancel)
+		box.Add(box2, 1, wx.EXPAND|wx.TOP, 20)
+		#Set sizer
+		panel.SetSizer(box) 
+		panel.Fit()
+
+
+		#events
+		self.Bind(wx.EVT_BUTTON, self.OnGo, self.go)
+		self.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnGo, self.HistoryList)
+		self.Bind(wx.EVT_TEXT, self.OnSearch, self.search)
+
+		# Show the Dialog
+		self.Show()
+
+	def OnGo(self, event):
+		from view_article_window import ViewArticleWindow
+		from web_viewer import WebViewArticle
+		#Getting title of article
+		ArticleLanguage = GetValue = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 3)
+		ArticleLanguage = self.LanguageCode[ArticleLanguage]
+		GetValue = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 0)
+
+		#Set language for  a article.
+		try:
+			wikipedia.set_lang(ArticleLanguage)
+		except:
+			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
+			ConnectionError.SetOKLabel(_("&Ok"))
+			ConnectionError.ShowModal()
+			return None
+
+		state = Settings().ReadSettings()["wepviewer"]
+		if state == "0":
+			window1 = ViewArticleWindow(None, GetValue, self)
+		else:
+			window1 = WebViewArticle(None, GetValue, self)
+
+	def OnSearch(self, event):
+		self.HistoryList.DeleteAllItems()
+		if not self.search.Value:
+			for item in reversed(self.history):
+				self.HistoryList.Append(item[0:-1])
+		else:
+			global Data
+			result = Data.SearchData("HistoryTable", "Title", self.search.Value)
+			for item in reversed(result):
+				self.HistoryList.Append(item[0:-1])

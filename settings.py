@@ -8,14 +8,11 @@ from functions import *
 class Settings:
 	def __init__(self):
 
-		AppData = os.getenv("AppData")
-		AppData = AppData + "/" + "WikiSearch"
-
+		AppData = os.path.join(os.getenv("AppData"), "WikiSearch")
 		if not os.path.exists(AppData):
 			os.mkdir(AppData)
 
-		filename = "Settingss.ini"
-		self.path = AppData + "/" + filename
+		self.path = os.path.join(AppData, "Settingss.ini")
 
 		self.config = configparser.ConfigParser()
 

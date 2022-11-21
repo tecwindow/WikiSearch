@@ -7,21 +7,23 @@ import pyperclip
 import webbrowser
 import accessible_output2.outputs.auto
 import time
+import datetime
 from view_article_window import ViewArticleWindow
 from web_viewer import WebViewArticle
 from settings import Settings
 from functions import *
+from globals import *
 
 #Set language for View  Search Dialog
 _ = SetLanguage(Settings().ReadSettings())
 
 #create View  Search Dialog
 class ViewSearch(wx.Dialog):
-	def __init__(self, parent, TextSearch):
+	def __init__(self, parent, TextSearch, ArticleLanguageCode):
 		wx.Dialog.__init__(self, parent, title=_("Search results"), size=(300, 400))
 		self.Center()
 		self.TextSearch = TextSearch
-		self.NumberArticle = 0
+		self.ArticleLanguageCode = ArticleLanguageCode
 		self.o = accessible_output2.outputs.auto.Auto()
 		# Create panel
 		Panel = wx.Panel(self)
@@ -133,13 +135,22 @@ class ViewSearch(wx.Dialog):
 	def OnViewArticleWindow(self, event):
 
 		GetValues = self.ListResults.GetString(self.ListResults.GetSelection())
-		state = Settings().ReadSettings()["wepviewer"]
+		CurrentSettings = Settings().ReadSettings()
+		state = CurrentSettings["wepviewer"]
+		ArticleLanguageName = CurrentSettings["search language"]
+
 		if state == "0":
 			window1 = ViewArticleWindow(None, GetValues, self)
 		else:
 			window1 = WebViewArticle(None, GetValues, self)
 
-		self.NumberArticle += 1
+		#adding the article to history.
+		#Getting the date and time of visit article.
+		date = datetime.date.today()
+		time = datetime.datetime.now()
+		time = time.strftime("%H:%M:%S")
+		global Data
+		Data.InsertData("HistoryTable", (GetValues, str(date), str(time), ArticleLanguageName, self.ArticleLanguageCode))
 
 
 
