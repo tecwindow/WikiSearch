@@ -11,3 +11,6 @@ else:
 
 global NumberArticle
 NumberArticle = 0
+
+global ArticleLanguageCode
+ArticleLanguageCode = "None"

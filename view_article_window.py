@@ -9,6 +9,7 @@ import accessible_output2.outputs.auto
 import os
 import re
 import threading 
+import requests
 from dialogs import *
 from settings import Settings
 from functions import *
@@ -152,7 +153,7 @@ class ViewArticleWindow(wx.Frame):
 
 	def OpenThread(self):
 
-		global NumberArticle
+		global NumberArticle, ArticleLanguageCode
 		try:
 			page = wikipedia.page(self.GetValues, auto_suggest=False)
 			self.o.speak(_("Loading article:"), interrupt=True)
@@ -410,6 +411,8 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		ArticleLinksDialog.ViewArticle.Enable(True)
 		ArticleLinksDialog.OpenInWebBrowser.Enable(True)
 		ArticleLinksDialog.CopyArticleLink.Enable(True)
+
+
 
 	def OnTablesItem(self, event):
 		ViewTablesDialog(self, self.url, self.title)

@@ -209,9 +209,10 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		Settings().WriteSettings(**CurrentSettings)
 
 		#Set language for search
-		SearchLanguage = code[self.LanguageSearch.GetValue()]
+		global ArticleLanguageCode
+		ArticleLanguageCode = code[self.LanguageSearch.GetValue()]
 		try:
-			wikipedia.set_lang(SearchLanguage)
+			wikipedia.set_lang(ArticleLanguageCode)
 		except:
 			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
 			ConnectionError.SetOKLabel(_("&Ok"))
@@ -221,7 +222,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		#geting text of search
 		TextSearch = self.SearchText.Value
 		#Show dialog of search results
-		self.dialog1 = ViewSearch(self, TextSearch, SearchLanguage)
+		self.dialog1 = ViewSearch(self, TextSearch)
 		#start thread function to add search results for list box in dialog.
 		thread1 = threading.Thread(target=self.dialog1.OpenThread, daemon=True)
 		thread1.start()
@@ -233,16 +234,17 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		Settings().WriteSettings(**CurrentSettings)
 
 		#Set language for random article
-		SearchLanguage = code[self.LanguageSearch.GetValue()]
+		global ArticleLanguageCode
+		ArticleLanguageCode = code[self.LanguageSearch.GetValue()]
 		try:
-			wikipedia.set_lang(SearchLanguage)
+			wikipedia.set_lang(ArticleLanguageCode)
 		except:
 			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
 			ConnectionError.SetOKLabel(_("&Ok"))
 			ConnectionError.ShowModal()
 			return None
 		#Show dialog of random article
-		self.dialog1 = ViewSearch(self, None, SearchLanguage)
+		self.dialog1 = ViewSearch(self, None)
 		thread1 = threading.Thread(target=self.dialog1.OpenThread, daemon=True)
 		thread1.start()
 

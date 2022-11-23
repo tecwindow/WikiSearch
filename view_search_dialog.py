@@ -19,11 +19,10 @@ _ = SetLanguage(Settings().ReadSettings())
 
 #create View  Search Dialog
 class ViewSearch(wx.Dialog):
-	def __init__(self, parent, TextSearch, ArticleLanguageCode):
+	def __init__(self, parent, TextSearch):
 		wx.Dialog.__init__(self, parent, title=_("Search results"), size=(300, 400))
 		self.Center()
 		self.TextSearch = TextSearch
-		self.ArticleLanguageCode = ArticleLanguageCode
 		self.o = accessible_output2.outputs.auto.Auto()
 		# Create panel
 		Panel = wx.Panel(self)
@@ -149,8 +148,8 @@ class ViewSearch(wx.Dialog):
 		date = datetime.date.today()
 		time = datetime.datetime.now()
 		time = time.strftime("%H:%M:%S")
-		global Data
-		Data.InsertData("HistoryTable", (GetValues, str(date), str(time), ArticleLanguageName, self.ArticleLanguageCode))
+		global Data, ArticleLanguageCode
+		Data.InsertData("HistoryTable", (GetValues, str(date), str(time), ArticleLanguageName, ArticleLanguageCode))
 
 
 

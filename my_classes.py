@@ -77,6 +77,14 @@ class DB:
 
 		return data.fetchall()
 
+	# Creating function to delete the selected item in any table.
+	def DeleteItem(self, TableName, ColumnName, Value):
+		# Query for delete item
+		data = self.cursor.execute(f"  DELETE FROM {TableName} WHERE {ColumnName} = '{Value}';")
+
+		# Commit your changes in the database	
+		self.conn.commit()
+
 # Closing the connection
 	def CloseConnection(self):
 		self.conn.close()

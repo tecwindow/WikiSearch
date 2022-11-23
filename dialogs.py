@@ -2,7 +2,8 @@
 # import project libraries.
 import wx
 import nlpia2_wikipedia as wikipedia
-import re
+import accessible_output2.outputs.auto
+import pyperclip
 from  my_classes import my_threads
 import webbrowser
 from settings import Settings
@@ -140,6 +141,7 @@ class HistoryDialog(wx.Dialog):
 	def __init__(self, parent):
 		wx.Dialog.__init__(self, parent, title=_("history"), size=(450, 450))
 		self.CenterOnParent()
+		self.o = accessible_output2.outputs.auto.Auto()
 		global Data
 		self.history = Data.GetData("HistoryTable")
 
@@ -189,6 +191,7 @@ class HistoryDialog(wx.Dialog):
 		self.Bind(wx.EVT_BUTTON, self.OnGo, self.go)
 		self.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnGo, self.HistoryList)
 		self.Bind(wx.EVT_TEXT, self.OnSearch, self.search)
+		self.Bind(wx.EVT_CONTEXT_MENU, self.ContextMenu, self.HistoryList)
 
 		# Show the Dialog
 		self.Show()
@@ -226,3 +229,39 @@ class HistoryDialog(wx.Dialog):
 			result = Data.SearchData("HistoryTable", "Title", self.search.Value)
 			for item in reversed(result):
 				self.HistoryList.Append(item[0:-1])
+
+
+	# creating context menue
+	def ContextMenu(self, event):
+		menu = wx.Menu()
+		OpenItem = menu.Append(-1, "Open")
+		CopyLinkItem = menu.Append(-1, "Copy the article link")
+		DeleteItem = menu.Append(-1, "Delete")
+		self.Bind(wx.EVT_MENU, self.OnDeleteItem, DeleteItem)
+		self.Bind(wx.EVT_MENU, self.OnGo, OpenItem)
+		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnCopyLinkItem, daemon=True).start(), CopyLinkItem)
+		self.PopupMenu(menu)
+
+	# creating function to delete any item in the history
+	def OnDeleteItem(self, event):
+		SelectedItem = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 0)
+		Data.DeleteItem("HistoryTable", "Title", SelectedItem)
+		self.HistoryList.DeleteItem(self.HistoryList.GetFocusedItem())
+
+	#Creating OnCopyLinkItem function  to copy the Article Link to Clipboard
+	def OnCopyLinkItem(self):
+		ArticleLanguage = GetValue = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 3)
+		ArticleLanguage = self.LanguageCode[ArticleLanguage]
+		SelectedItem = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 0)
+
+		try:
+			wikipedia.set_lang(ArticleLanguage)
+			url = wikipedia.page(SelectedItem).url
+			pyperclip.copy(url)
+			self.o.speak(_("Article link copied."), interrupt=True)
+		except:
+			CantCopy = wx.MessageDialog(self, _("This link cannot be copied."), _("Error"), style=wx.ICON_ERROR)
+			CantCopy.SetOKLabel(_("&Ok"))
+			CantCopy.ShowModal()
+			return
+		
