@@ -198,6 +198,7 @@ class HistoryDialog(wx.Dialog):
 		self.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnGo, self.HistoryList)
 		self.Bind(wx.EVT_TEXT, self.OnSearch, self.search)
 		self.Bind(wx.EVT_CONTEXT_MENU, self.ContextMenu, self.HistoryList)
+		self.HistoryList.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
 
 		# Show the Dialog
 		self.Show()
@@ -250,12 +251,14 @@ class HistoryDialog(wx.Dialog):
 
 
 
-
 	# creating function to delete any item in the history
 	def OnDeleteItem(self, event):
 		SelectedItem = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 0)
 		Data.DeleteItem("HistoryTable", "Title", SelectedItem)
 		self.HistoryList.DeleteItem(self.HistoryList.GetFocusedItem())
+		if not self.o.is_system_output():
+			self.o.speak(_("The Item has deleted."), interrupt=True)
+
 
 	#Creating OnCopyLinkItem function  to copy the Article Link to Clipboard
 	def OnCopyLinkItem(self):
@@ -274,4 +277,10 @@ class HistoryDialog(wx.Dialog):
 			CantCopy.SetOKLabel(_("&Ok"))
 			CantCopy.ShowModal()
 			return
-		
+
+	# making access key
+	def OnKeyDown(self, event):
+		event.Skip()
+		Key = event.GetKeyCode()
+		if Key == wx.WXK_DELETE:
+			self.OnDeleteItem(None)
