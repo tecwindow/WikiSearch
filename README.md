@@ -1,6 +1,10 @@
 ﻿# WikiSearch
 This simple program enables you to search Wikipedia, the free encyclopedia, without having to open your browser.
 
+## download:
+
+You can download the latest version [using this link.](https://github.com/tecwindow/WikiSearch/releases/download/v1.3.0/WikiSearchV1.3.0.exe)
+
 ## what's new:
 
 ### Version 1.3:
