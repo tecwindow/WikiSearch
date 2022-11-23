@@ -109,7 +109,8 @@ class ViewSearch(wx.Dialog):
 		try:
 			url = wikipedia.page(GetValues).url
 			webbrowser.open_new(url)
-			self.o.speak(_("Opening:"), interrupt=False)
+			if not self.o.is_system_output():
+				self.o.speak(_("Opening:"), interrupt=False)
 		except:
 			CantOpen = wx.MessageDialog(self, _("This link cannot be opened in the browser."), _("Error"), style=wx.ICON_ERROR+wx.OK)
 			CantOpen.SetOKLabel(_("&Ok"))
@@ -123,7 +124,8 @@ class ViewSearch(wx.Dialog):
 		try:
 			url = wikipedia.page(GetValues).url
 			pyperclip.copy(url)
-			self.o.speak(_("Article link copied."), interrupt=False)
+			if not self.o.is_system_output():
+				self.o.speak(_("Article link copied."), interrupt=False)
 		except:
 			CantCopy = wx.MessageDialog(self, _("This link cannot be copied."), _("Error"), style=wx.ICON_ERROR)
 			CantCopy.SetOKLabel(_("&Ok"))

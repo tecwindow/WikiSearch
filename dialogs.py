@@ -85,7 +85,7 @@ class HeadingsListDialog(wx.Dialog):
 		self.HeadingsList.Selection = 0
 
 		# Create Buttons
-		self.Go = wx.Button(Panel, -1, _("Go"), pos=(10,235), size=(120,30))
+		self.Go = wx.Button(Panel, -1, _("&Go"), pos=(10,235), size=(120,30))
 		self.Go.SetDefault()
 		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(140,235), size=(120,30))
 
@@ -171,7 +171,7 @@ class HistoryDialog(wx.Dialog):
 		self.HistoryList.Focus(0)
 
 		#creating buttons
-		self.go = wx.Button(panel, wx.ID_OK, _("&Go"), size=(50, 20))
+		self.Go = wx.Button(panel, wx.ID_OK, _("&Go"), size=(50, 20))
 		self.Cancel = wx.Button(panel, wx.ID_CANCEL, _("&Cancel"), size=(50, 20))
 
 		#Adding the controls to sizer
@@ -179,16 +179,22 @@ class HistoryDialog(wx.Dialog):
 		box.Add(self.search) 
 		box.Add(self.HistoryLabel)
 		box.Add(self.HistoryList, 2, wx.EXPAND)
-		box2.Add(self.go)
+		box2.Add(self.Go)
 		box2.Add(self.Cancel)
 		box.Add(box2, 1, wx.EXPAND|wx.TOP, 20)
 		#Set sizer
 		panel.SetSizer(box) 
 		panel.Fit()
 
+		self.hotKeys = wx.AcceleratorTable((
+(wx.ACCEL_CTRL, ord("W"), self.Cancel.GetId()),
+(wx.ACCEL_ALT, ord("V"), self.Go.GetId()),
+))
+		panel.SetAcceleratorTable(self.hotKeys)
+
 
 		#events
-		self.Bind(wx.EVT_BUTTON, self.OnGo, self.go)
+		self.Bind(wx.EVT_BUTTON, self.OnGo, self.Go)
 		self.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnGo, self.HistoryList)
 		self.Bind(wx.EVT_TEXT, self.OnSearch, self.search)
 		self.Bind(wx.EVT_CONTEXT_MENU, self.ContextMenu, self.HistoryList)
@@ -242,6 +248,9 @@ class HistoryDialog(wx.Dialog):
 		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnCopyLinkItem, daemon=True).start(), CopyLinkItem)
 		self.PopupMenu(menu)
 
+
+
+
 	# creating function to delete any item in the history
 	def OnDeleteItem(self, event):
 		SelectedItem = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 0)
@@ -258,7 +267,8 @@ class HistoryDialog(wx.Dialog):
 			wikipedia.set_lang(ArticleLanguage)
 			url = wikipedia.page(SelectedItem).url
 			pyperclip.copy(url)
-			self.o.speak(_("Article link copied."), interrupt=True)
+			if not self.o.is_system_output():
+				self.o.speak(_("Article link copied."), interrupt=True)
 		except:
 			CantCopy = wx.MessageDialog(self, _("This link cannot be copied."), _("Error"), style=wx.ICON_ERROR)
 			CantCopy.SetOKLabel(_("&Ok"))

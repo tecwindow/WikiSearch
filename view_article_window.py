@@ -156,7 +156,8 @@ class ViewArticleWindow(wx.Frame):
 		global NumberArticle, ArticleLanguageCode
 		try:
 			page = wikipedia.page(self.GetValues, auto_suggest=False)
-			self.o.speak(_("Loading article:"), interrupt=True)
+			if not self.o.is_system_output():
+				self.o.speak(_("Loading article:"), interrupt=True)
 
 		#In case the article is no longer available.
 		except wikipedia.exceptions.DisambiguationError as e:
@@ -192,7 +193,8 @@ do you want to show similar results for this  article?
 			return None
 		self.SetTitle(_("View {}").format(self.title))
 		self.ArticleTitle.SetLabel(self.title)
-		self.o.speak(_("Article loaded."), interrupt=True)
+		if not self.o.is_system_output():
+			self.o.speak(_("Article loaded."), interrupt=True)
 		self.GoToHeading.Enable(True)
 		self.CopyArticleItem.Enable(True)
 		self.CopyArticle.Enable(True)
@@ -222,13 +224,15 @@ do you want to show similar results for this  article?
 	# Copy Article Content
 	def OnCopyArticle(self, event):
 		pyperclip.copy(self.Content)
-		self.o.speak(_("Article copied."), interrupt=False)
+		if not self.o.is_system_output():
+			self.o.speak(_("Article copied."), interrupt=False)
 
 
 	# Copy Article Link
 	def OnCopyArticleLink(self, event):
 		pyperclip.copy(self.url)
-		self.o.speak(_("Article link copied."), interrupt=False)
+		if not self.o.is_system_output():
+			self.o.speak(_("Article link copied."), interrupt=False)
 
 		# Save Article On a New File.
 	def OnSaveArticle(self, event):
