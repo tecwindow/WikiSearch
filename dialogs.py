@@ -142,6 +142,8 @@ class HistoryDialog(wx.Dialog):
 		wx.Dialog.__init__(self, parent, title=_("history"), size=(450, 450))
 		self.CenterOnParent()
 		self.o = accessible_output2.outputs.auto.Auto()
+		self.OpenInBrowser_id = wx.NewIdRef(count=1)
+		self.CopyLink_id = wx.NewIdRef(count=1)
 		global Data
 		self.history = Data.GetData("HistoryTable")
 
@@ -187,8 +189,10 @@ class HistoryDialog(wx.Dialog):
 		panel.Fit()
 
 		self.hotKeys = wx.AcceleratorTable((
-(wx.ACCEL_CTRL, ord("W"), self.Cancel.GetId()),
-(wx.ACCEL_ALT, ord("V"), self.Go.GetId()),
+		(wx.ACCEL_CTRL, ord("W"), self.Cancel.GetId()),
+		(wx.ACCEL_ALT, ord("V"), self.Go.GetId()),
+		(wx.ACCEL_CTRL, ord("O"), self.OpenInBrowser_id),
+		(wx.ACCEL_ALT, ord("C"), self.CopyLink_id)
 ))
 		panel.SetAcceleratorTable(self.hotKeys)
 
@@ -198,6 +202,8 @@ class HistoryDialog(wx.Dialog):
 		self.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnGo, self.HistoryList)
 		self.Bind(wx.EVT_TEXT, self.OnSearch, self.search)
 		self.Bind(wx.EVT_CONTEXT_MENU, self.ContextMenu, self.HistoryList)
+		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnOpenInBrowser, daemon=True).start(), self.OpenInBrowser_id)
+		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnCopyLinkItem(), daemon=True).start(), self.CopyLink_id)
 		self.HistoryList.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
 
 		# Show the Dialog
@@ -241,12 +247,14 @@ class HistoryDialog(wx.Dialog):
 	# creating context menue
 	def ContextMenu(self, event):
 		menu = wx.Menu()
-		OpenItem = menu.Append(-1, "Open")
-		CopyLinkItem = menu.Append(-1, "Copy the article link")
-		DeleteItem = menu.Append(-1, "Delete")
-		self.Bind(wx.EVT_MENU, self.OnDeleteItem, DeleteItem)
+		OpenItem = menu.Append(-1, _("Open"))
+		OpenInBrowserItem = menu.Append(-1, _("Open in browser"))
+		CopyLinkItem = menu.Append(-1, _("Copy the article link"))
+		DeleteItem = menu.Append(-1, _("Delete"))
 		self.Bind(wx.EVT_MENU, self.OnGo, OpenItem)
+		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnOpenInBrowser, daemon=True).start(), OpenInBrowserItem)
 		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnCopyLinkItem, daemon=True).start(), CopyLinkItem)
+		self.Bind(wx.EVT_MENU, self.OnDeleteItem, DeleteItem)
 		self.PopupMenu(menu)
 
 
@@ -277,6 +285,27 @@ class HistoryDialog(wx.Dialog):
 			CantCopy.SetOKLabel(_("&Ok"))
 			CantCopy.ShowModal()
 			return
+
+
+	def OnOpenInBrowser(self):
+		ArticleLanguage = GetValue = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 3)
+		ArticleLanguage = self.LanguageCode[ArticleLanguage]
+		SelectedItem = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 0)
+
+		try:
+			wikipedia.set_lang(ArticleLanguage)
+			url = wikipedia.page(SelectedItem).url
+			webbrowser.open_new(url)
+			if not self.o.is_system_output():
+				self.o.speak(_("Opening."), interrupt=True)
+		except:
+			CantOpen = wx.MessageDialog(self, _("This link cannot be opened in the browser."), _("Error"), style=wx.ICON_ERROR+wx.OK)
+			CantOpen.SetOKLabel(_("&Ok"))
+			CantOpen.ShowModal()
+			return
+
+
+
 
 	# making access key
 	def OnKeyDown(self, event):
