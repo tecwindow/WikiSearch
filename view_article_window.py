@@ -55,10 +55,12 @@ class ViewArticleWindow(wx.Frame):
 		# Create Menus.
 		menubar = wx.MenuBar()
 		actions = wx.Menu()
-		self.CopyArticleItem = actions.Append(-1, _("Copy article\tctrl+shift+c"))
+		self.CopyArticleItem = actions.Append(-1, _("Copy article\tCtrl+shift+c"))
 		self.CopyArticleItem.Enable(False)
-		self.CopyArticleLinkItem = actions.Append(-1, _("Copy article link\t+alt+c"))
+		self.CopyArticleLinkItem = actions.Append(-1, _("Copy article link\tAlt+c"))
 		self.CopyArticleLinkItem.Enable(False)
+		self.AddToFavouritesItem = actions.Append(-1, _("Add to favourites\tAlt+D"))
+		self.AddToFavouritesItem.Enable(False)
 		GoToMenu = wx.Menu()
 		self.GoToHeading = GoToMenu.Append(-1, _("Go to a &heading\tCtrl+h"))
 		self.GoToHeading.Enable(False)
@@ -127,6 +129,7 @@ class ViewArticleWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, self.SaveAsHtmlItem)
 		self.Bind(wx.EVT_MENU, self.OnLinks, self.LinksItem)
 		self.Bind(wx.EVT_MENU, self.OnTablesItem, self.TablesItem)
+		self.Bind(wx.EVT_MENU, self.OnFavourites, self.AddToFavouritesItem)
 
 		self.hotKeys = wx.AcceleratorTable((
 (wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
@@ -204,6 +207,7 @@ do you want to show similar results for this  article?
 		self.url = page.url
 		self.CopyArticleLinkItem.Enable(True)
 		self.CopyArticleLink.Enable(True)
+		self.AddToFavouritesItem.Enable(True)
 		self.TablesItem.Enable(True)
 	#Getting the Links associated with the article.
 		self.links = page.links
@@ -420,3 +424,11 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 	def OnTablesItem(self, event):
 		ViewTablesDialog(self, self.url, self.title)
+
+	# creating a function to add the article to favourites table in Database.
+	def OnFavourites(self, event):
+		name = wx.GetTextFromUser(_("Choose the name of the article in your favourites."), _("Add to Favourites"), default_value=self.title, parent=self)
+		if name:
+			global Data, ArticleLanguageCode
+			Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings ["search language"], ArticleLanguageCode, self.url))
+

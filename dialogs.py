@@ -137,6 +137,7 @@ class ViewTablesDialog(wx.Dialog):
 
 		self.ViewArticleTables.SetInsertionPoint(0)
 
+# Creating history dialog
 class HistoryDialog(wx.Dialog):
 	def __init__(self, parent):
 		wx.Dialog.__init__(self, parent, title=_("history"), size=(450, 450))
@@ -264,6 +265,7 @@ class HistoryDialog(wx.Dialog):
 		SelectedItem = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 0)
 		Data.DeleteItem("HistoryTable", "Title", SelectedItem)
 		self.HistoryList.DeleteItem(self.HistoryList.GetFocusedItem())
+		self.history = Data.GetData("HistoryTable")
 		if not self.o.is_system_output():
 			self.o.speak(_("The Item has deleted."), interrupt=True)
 
@@ -305,6 +307,178 @@ class HistoryDialog(wx.Dialog):
 			return
 
 
+	# making access key
+	def OnKeyDown(self, event):
+		event.Skip()
+		Key = event.GetKeyCode()
+		if Key == wx.WXK_DELETE:
+			self.OnDeleteItem(None)
+
+# Creating favourites dialog
+class FavouritesDialog(wx.Dialog):
+	def __init__(self, parent):
+		wx.Dialog.__init__(self, parent, title=_("Favourites"), size=(450, 450))
+		self.CenterOnParent()
+		self.o = accessible_output2.outputs.auto.Auto()
+		self.OpenInBrowser_id = wx.NewIdRef(count=1)
+		self.CopyLink_id = wx.NewIdRef(count=1)
+		global Data
+		self.Favourites = Data.GetData("FavouritesTable")
+
+		#creating Panel
+		panel = wx.Panel(self, -1)
+	#creating sizer
+		box = wx.BoxSizer(wx.VERTICAL)
+		box2 = wx.BoxSizer(wx.HORIZONTAL)
+		#Creating search edit.
+		self.SearchLabel = wx.StaticText(panel, -1, _("Search"), pos=(12, 15), size=(50, 20))
+		self.search = wx.TextCtrl(panel, -1, pos=(56, 12), size=(150, 30))
+		#creating listbox to show history.
+		self.FavouritesLabel = wx.StaticText(panel, -1, _("Favourite Articles"), pos=(12, 51), size=(50, 20))
+		self.FavouritesList = wx.ListCtrl(panel, -1, style = wx.LC_REPORT)
+		self.FavouritesList.InsertColumn(0, _("Name"), width=100)
+		self.FavouritesList.InsertColumn(1, "Article language", wx.LIST_FORMAT_RIGHT, 100)
+
+		self.LanguageCode = {}
+		self.ArticleTitle = {}
+		for item in reversed(self.Favourites):
+			self.FavouritesList.Append(item[1:3])
+			self.LanguageCode[item[3]] = item[4]
+			self.ArticleTitle[item[1]] = item[0]
+
+		#Set selection for first item.
+		self.FavouritesList.Focus(0)
+
+		#creating buttons
+		self.Go = wx.Button(panel, wx.ID_OK, _("&Go"), size=(50, 20))
+		self.Cancel = wx.Button(panel, wx.ID_CANCEL, _("&Cancel"), size=(50, 20))
+
+		#Adding the controls to sizer
+		box.Add(self.SearchLabel)
+		box.Add(self.search) 
+		box.Add(self.FavouritesLabel)
+		box.Add(self.FavouritesList, 2, wx.EXPAND)
+		box2.Add(self.Go)
+		box2.Add(self.Cancel)
+		box.Add(box2, 1, wx.EXPAND|wx.TOP, 20)
+		#Set sizer
+		panel.SetSizer(box) 
+		panel.Fit()
+
+		self.hotKeys = wx.AcceleratorTable((
+		(wx.ACCEL_CTRL, ord("W"), self.Cancel.GetId()),
+		(wx.ACCEL_ALT, ord("V"), self.Go.GetId()),
+		(wx.ACCEL_CTRL, ord("O"), self.OpenInBrowser_id),
+		(wx.ACCEL_ALT, ord("C"), self.CopyLink_id)
+))
+		panel.SetAcceleratorTable(self.hotKeys)
+
+
+		#events
+		self.Bind(wx.EVT_BUTTON, self.OnGo, self.Go)
+		self.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnGo, self.FavouritesList)
+		self.Bind(wx.EVT_TEXT, self.OnSearch, self.search)
+		self.Bind(wx.EVT_CONTEXT_MENU, self.ContextMenu, self.FavouritesList)
+		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnOpenInBrowser, daemon=True).start(), self.OpenInBrowser_id)
+		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnCopyLinkItem(), daemon=True).start(), self.CopyLink_id)
+		self.FavouritesList.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
+
+		# Show the Dialog
+		self.Show()
+
+	def OnGo(self, event):
+		from view_article_window import ViewArticleWindow
+		from web_viewer import WebViewArticle
+		#Getting title of article
+		ArticleLanguage = GetValue = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 3)
+		ArticleLanguage = self.LanguageCode[ArticleLanguage]
+		GetValue = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 0)
+		GetValue = self.ArticleTitle[		GetValue]
+
+		#Set language for  a article.
+		try:
+			wikipedia.set_lang(ArticleLanguage)
+		except:
+			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
+			ConnectionError.SetOKLabel(_("&Ok"))
+			ConnectionError.ShowModal()
+			return None
+
+		state = Settings().ReadSettings()["wepviewer"]
+		if state == "0":
+			window1 = ViewArticleWindow(None, GetValue, self)
+		else:
+			window1 = WebViewArticle(None, GetValue, self)
+
+	def OnSearch(self, event):
+		self.FavouritesList.DeleteAllItems()
+		if not self.search.Value:
+			for item in reversed(self.Favourites):
+				self.FavouritesList.Append(item[1:3])
+		else:
+			global Data
+			result = Data.SearchData("FavouritesTable", "Name", self.search.Value)
+			for item in reversed(result):
+				self.FavouritesList.Append(item[1:3])
+
+	# creating context menue
+	def ContextMenu(self, event):
+		menu = wx.Menu()
+		OpenItem = menu.Append(-1, _("Open"))
+		OpenInBrowserItem = menu.Append(-1, _("Open in browser"))
+		CopyLinkItem = menu.Append(-1, _("Copy the article link"))
+		DeleteItem = menu.Append(-1, _("Delete"))
+		self.Bind(wx.EVT_MENU, self.OnGo, OpenItem)
+		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnOpenInBrowser, daemon=True).start(), OpenInBrowserItem)
+		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnCopyLinkItem, daemon=True).start(), CopyLinkItem)
+		self.Bind(wx.EVT_MENU, self.OnDeleteItem, DeleteItem)
+		self.PopupMenu(menu)
+
+	# creating function to delete any item in the history
+	def OnDeleteItem(self, event):
+		SelectedItem = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 0)
+		Data.DeleteItem("FavouritesTable", "Name", SelectedItem)
+		self.FavouritesList.DeleteItem(self.FavouritesList.GetFocusedItem())
+		self.Favourites = Data.GetData("FavouritesTable")
+		if not self.o.is_system_output():
+			self.o.speak(_("The Item has deleted."), interrupt=True)
+
+
+	#Creating OnCopyLinkItem function  to copy the Article Link to Clipboard
+	def OnCopyLinkItem(self):
+		ArticleLanguage = GetValue = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 3)
+		ArticleLanguage = self.LanguageCode[ArticleLanguage]
+		SelectedItem = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 0)
+
+		try:
+			wikipedia.set_lang(ArticleLanguage)
+			url = wikipedia.page(SelectedItem).url
+			pyperclip.copy(url)
+			if not self.o.is_system_output():
+				self.o.speak(_("Article link copied."), interrupt=True)
+		except:
+			CantCopy = wx.MessageDialog(self, _("This link cannot be copied."), _("Error"), style=wx.ICON_ERROR)
+			CantCopy.SetOKLabel(_("&Ok"))
+			CantCopy.ShowModal()
+			return
+
+
+	def OnOpenInBrowser(self):
+		ArticleLanguage = GetValue = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 3)
+		ArticleLanguage = self.LanguageCode[ArticleLanguage]
+		SelectedItem = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 0)
+
+		try:
+			wikipedia.set_lang(ArticleLanguage)
+			url = wikipedia.page(SelectedItem).url
+			webbrowser.open_new(url)
+			if not self.o.is_system_output():
+				self.o.speak(_("Opening."), interrupt=True)
+		except:
+			CantOpen = wx.MessageDialog(self, _("This link cannot be opened in the browser."), _("Error"), style=wx.ICON_ERROR+wx.OK)
+			CantOpen.SetOKLabel(_("&Ok"))
+			CantOpen.ShowModal()
+			return
 
 
 	# making access key
