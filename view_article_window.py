@@ -429,6 +429,6 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 	def OnFavourites(self, event):
 		name = wx.GetTextFromUser(_("Choose the name of the article in your favourites."), _("Add to Favourites"), default_value=self.title, parent=self)
 		if name:
-			global Data, ArticleLanguageCode
-			Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings ["search language"], ArticleLanguageCode, self.url))
+			global Data
+			Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings ["search language"], self.url))
 

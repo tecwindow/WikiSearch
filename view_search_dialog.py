@@ -150,8 +150,8 @@ class ViewSearch(wx.Dialog):
 		date = datetime.date.today()
 		time = datetime.datetime.now()
 		time = time.strftime("%H:%M:%S")
-		global Data, ArticleLanguageCode
-		Data.InsertData("HistoryTable", (GetValues, str(date), str(time), ArticleLanguageName, ArticleLanguageCode))
+		global Data
+		Data.InsertData("HistoryTable", (GetValues, str(date), str(time), ArticleLanguageName))
 
 
 

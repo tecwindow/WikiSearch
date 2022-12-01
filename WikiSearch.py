@@ -14,8 +14,8 @@ from update_dialog import UpdateDialog
 from settings import *
 from functions import *
 from dialogs import HistoryDialog, FavouritesDialog
-from globals import *
 from packaging import version
+from globals import *
 
 #Set language for main window 
 _ = SetLanguage(Settings().ReadSettings())
@@ -23,23 +23,6 @@ _ = SetLanguage(Settings().ReadSettings())
 # Create app with wx.
 app= wx.App()
 
-# Include List of languages in JSON format.
-# Check existence of file before running program.
-try:
-	with open('LanguageCodes.json', encoding="utf-8") as json_file:
-		data = json.load(json_file)
-except FileNotFoundError:
-	wx.MessageBox(_("Some required files are missing."), _("Error"), style=wx.ICON_ERROR)
-	exit()
-
-# Create empty list
-name = []
-code = {}
-
-# Include json file content and add it to list.
-for w in data:
-	name.append(w["name"])
-	code[w["name"]] = w["code"]
 
 # information of program
 CurrntVersion = "1.3.0"
@@ -211,10 +194,8 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		Settings().WriteSettings(**CurrentSettings)
 
 		#Set language for search
-		global ArticleLanguageCode
-		ArticleLanguageCode = code[self.LanguageSearch.GetValue()]
 		try:
-			wikipedia.set_lang(ArticleLanguageCode)
+			wikipedia.set_lang(code[self.LanguageSearch.GetValue()])
 		except:
 			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
 			ConnectionError.SetOKLabel(_("&Ok"))
@@ -236,10 +217,8 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		Settings().WriteSettings(**CurrentSettings)
 
 		#Set language for random article
-		global ArticleLanguageCode
-		ArticleLanguageCode = code[self.LanguageSearch.GetValue()]
 		try:
-			wikipedia.set_lang(ArticleLanguageCode)
+			wikipedia.set_lang(code[self.LanguageSearch.GetValue()])
 		except:
 			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
 			ConnectionError.SetOKLabel(_("&Ok"))

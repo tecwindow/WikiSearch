@@ -81,3 +81,23 @@ def GetTables(url):
 
 	return TablesText
 
+# Include List of languages in JSON format.
+def LanguageJSON():
+# Check existence of file before running program.
+	try:
+		with open('LanguageCodes.json', encoding="utf-8") as json_file:
+			data = json.load(json_file)
+	except FileNotFoundError:
+		wx.MessageBox(_("Some required files are missing."), _("Error"), style=wx.ICON_ERROR)
+		exit()
+
+	# Create a empty  list and dictionary.
+	name = []
+	code = {}
+
+	# Include json file content and add it to list.
+	for w in data:
+		name.append(w["name"])
+		code[w["name"]] = w["code"]
+
+	return name, code
