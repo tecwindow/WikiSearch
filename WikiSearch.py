@@ -1,10 +1,11 @@
-﻿#-*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 # import project libraries.
 import wx
 import json
 import nlpia2_wikipedia as wikipedia
 import threading 
 import webbrowser
+import datetime
 import os
 import sys
 #change working dir to main exe dir
@@ -16,6 +17,7 @@ from functions import *
 from dialogs import HistoryDialog, FavouritesDialog
 from packaging import version
 from globals import *
+from view_search_dialog import *
 
 #Set language for main window 
 _ = SetLanguage(Settings().ReadSettings())
@@ -204,6 +206,25 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 
 		#geting text of search
 		TextSearch = self.SearchText.Value
+		# if The Search text is a Wikipedia link make the article open directly.
+		if (TextSearch.startswith("https://") and "wikipedia.org" in TextSearch):
+			title, LanguageName, LanguageCode = GetTitleFromURL(self.SearchText.Value)
+			wikipedia.set_lang(LanguageCode)
+			if CurrentSettings["wepviewer"] == "0":
+				window1 = ViewArticleWindow(None, title, self)
+			else:
+				window1 = WebViewArticle(None, title, self)
+
+			#adding the article to history.
+			#Getting the date and time of visit article.
+			date = datetime.date.today()
+			time = datetime.datetime.now()
+			time = time.strftime("%H:%M:%S")
+			global Data
+			Data.InsertData("HistoryTable", (title, str(date), str(time), LanguageName))
+
+			return
+
 		#Show dialog of search results
 		self.dialog1 = ViewSearch(self, TextSearch)
 		#start thread function to add search results for list box in dialog.

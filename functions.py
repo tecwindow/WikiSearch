@@ -3,11 +3,9 @@ import gettext
 import re
 import requests
 import json
+import urllib.parse
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
-
-
-
 
 # Create a function to add translations to the program
 # This function is used to identify the program with translations added to it by contributors
@@ -101,3 +99,19 @@ def LanguageJSON():
 		code[w["name"]] = w["code"]
 
 	return name, code
+
+	# Get title and language of any article from its link.
+def GetTitleFromURL(url):
+
+	url = urllib.parse.unquote(url)
+	url = url.split('/')
+
+	LanguageCode = url[2].split(".")[0]
+	title = url[-1]
+
+	code = LanguageJSON()[1]
+	keys = list(code.keys())
+	Values = list(code.values())
+	LanguageName = keys[Values.index(LanguageCode)]
+
+	return title, LanguageName, LanguageCode
