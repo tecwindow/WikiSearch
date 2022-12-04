@@ -4,11 +4,11 @@ import wx
 import nlpia2_wikipedia as wikipedia
 import accessible_output2.outputs.auto
 import pyperclip
-from  my_classes import my_threads
 import webbrowser
+import globals as g
+from  my_classes import my_threads
 from settings import Settings
 from functions import *
-from globals import *
 
 
 #Set language  for Headings List Dialog
@@ -145,8 +145,7 @@ class HistoryDialog(wx.Dialog):
 		self.o = accessible_output2.outputs.auto.Auto()
 		self.OpenInBrowser_id = wx.NewIdRef(count=1)
 		self.CopyLink_id = wx.NewIdRef(count=1)
-		global Data
-		self.history = Data.GetData("HistoryTable")
+		self.history = g.Data.GetData("HistoryTable")
 
 
 		#creating Panel
@@ -215,7 +214,7 @@ class HistoryDialog(wx.Dialog):
 		from web_viewer import WebViewArticle
 		#Getting title of article
 		ArticleLanguage = GetValue = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 3)
-		ArticleLanguage = code[ArticleLanguage]
+		ArticleLanguage = g.code[ArticleLanguage]
 		GetValue = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 0)
 
 		#Set language for  a article.
@@ -239,8 +238,7 @@ class HistoryDialog(wx.Dialog):
 			for item in reversed(self.history):
 				self.HistoryList.Append(item[0:-1])
 		else:
-			global Data
-			result = Data.SearchData("HistoryTable", "Title", self.search.Value)
+			result = g.Data.SearchData("HistoryTable", "Title", self.search.Value)
 			for item in reversed(result):
 				self.HistoryList.Append(item[0:-1])
 
@@ -266,9 +264,9 @@ class HistoryDialog(wx.Dialog):
 	# creating function to delete any item in the history
 	def OnDeleteItem(self, event):
 		SelectedItem = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 0)
-		Data.DeleteItem("HistoryTable", "Title", SelectedItem)
+		g.Data.DeleteItem("HistoryTable", "Title", SelectedItem)
 		self.HistoryList.DeleteItem(self.HistoryList.GetFocusedItem())
-		self.history = Data.GetData("HistoryTable")
+		self.history = g.Data.GetData("HistoryTable")
 		if not len(self.history):
 			self.Go.Enable(False)
 		if not self.o.is_system_output():
@@ -277,7 +275,7 @@ class HistoryDialog(wx.Dialog):
 	#Creating OnCopyLinkItem function  to copy the Article Link to Clipboard
 	def OnCopyLinkItem(self):
 		ArticleLanguage = GetValue = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 3)
-		ArticleLanguage = code[ArticleLanguage]
+		ArticleLanguage = g.code[ArticleLanguage]
 		SelectedItem = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 0)
 
 		try:
@@ -295,7 +293,7 @@ class HistoryDialog(wx.Dialog):
 
 	def OnOpenInBrowser(self):
 		ArticleLanguage = GetValue = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 3)
-		ArticleLanguage = code[ArticleLanguage]
+		ArticleLanguage = g.code[ArticleLanguage]
 		SelectedItem = self.HistoryList.GetItemText(self.HistoryList.GetFocusedItem(), 0)
 
 		try:
@@ -326,8 +324,7 @@ class FavouritesDialog(wx.Dialog):
 		self.o = accessible_output2.outputs.auto.Auto()
 		self.OpenInBrowser_id = wx.NewIdRef(count=1)
 		self.CopyLink_id = wx.NewIdRef(count=1)
-		global Data
-		self.Favourites = Data.GetData("FavouritesTable")
+		self.Favourites = g.Data.GetData("FavouritesTable")
 		#creating Panel
 		panel = wx.Panel(self, -1)
 	#creating sizer
@@ -394,7 +391,7 @@ class FavouritesDialog(wx.Dialog):
 		from web_viewer import WebViewArticle
 		#Getting title of article
 		ArticleLanguage = GetValue = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 1)
-		ArticleLanguage = code[ArticleLanguage]
+		ArticleLanguage = g.code[ArticleLanguage]
 		GetValue = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 0)
 		GetValue = self.ArticleTitle[		GetValue]
 
@@ -419,8 +416,7 @@ class FavouritesDialog(wx.Dialog):
 			for item in reversed(self.Favourites):
 				self.FavouritesList.Append(item[1:3])
 		else:
-			global Data
-			result = Data.SearchData("FavouritesTable", "Name", self.search.Value)
+			result = g.Data.SearchData("FavouritesTable", "Name", self.search.Value)
 			for item in reversed(result):
 				self.FavouritesList.Append(item[1:3])
 
@@ -445,9 +441,9 @@ class FavouritesDialog(wx.Dialog):
 	# creating function to delete any item in the history
 	def OnDeleteItem(self, event):
 		SelectedItem = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 0)
-		Data.DeleteItem("FavouritesTable", "Name", SelectedItem)
+		g.Data.DeleteItem("FavouritesTable", "Name", SelectedItem)
 		self.FavouritesList.DeleteItem(self.FavouritesList.GetFocusedItem())
-		self.Favourites = Data.GetData("FavouritesTable")
+		self.Favourites = g.Data.GetData("FavouritesTable")
 		if not len(self.Favourites):
 			self.Go.Enable(False)
 		if not self.o.is_system_output():

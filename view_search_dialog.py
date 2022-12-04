@@ -6,13 +6,13 @@ import threading
 import pyperclip
 import webbrowser
 import accessible_output2.outputs.auto
-import time
 import datetime
+import globals as g
 from view_article_window import ViewArticleWindow
 from web_viewer import WebViewArticle
 from settings import Settings
 from functions import *
-from globals import *
+
 
 #Set language for View  Search Dialog
 _ = SetLanguage(Settings().ReadSettings())
@@ -150,8 +150,7 @@ class ViewSearch(wx.Dialog):
 		date = datetime.date.today()
 		time = datetime.datetime.now()
 		time = time.strftime("%H:%M:%S")
-		global Data
-		Data.InsertData("HistoryTable", (GetValues, str(date), str(time), ArticleLanguageName))
+		g.Data.InsertData("HistoryTable", (GetValues, str(date), str(time), ArticleLanguageName))
 
 
 

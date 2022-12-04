@@ -10,13 +10,13 @@ import os
 import sys
 #change working dir to main exe dir
 os.chdir(os.path.dirname(sys.argv[0]))
+import globals as g
 from view_search_dialog import ViewSearch
 from update_dialog import UpdateDialog
 from settings import *
 from functions import *
 from dialogs import HistoryDialog, FavouritesDialog
 from packaging import version
-from globals import *
 from view_search_dialog import *
 
 #Set language for main window 
@@ -50,7 +50,7 @@ class window(wx.Frame):
 		# Creating ComboBox for languages
 		wx.StaticText(Panel, -1, _("Choose the search language:"), pos=(15,70), size=(380, 30))
 		self.LanguageSearch = wx.ComboBox(Panel, -1, pos=(15, 100), size=(120, 40), style=wx.CB_READONLY+wx.CB_SORT)
-		self.LanguageSearch.SetItems(name)
+		self.LanguageSearch.SetItems(g.name)
 		self.LanguageSearch.Value = CurrentSettings["search language"]
 
 		# Creating  search edit
@@ -154,27 +154,26 @@ class window(wx.Frame):
 
 	#creating OnClose function to  Close Program.
 	def OnClose(self, event):
-		global Data, NumberArticle
 		try:
-			if NumberArticle == 1:
+			if g.NumberArticle == 1:
 							ArticleCounte = _("There is 1 open article.")
-			elif self.dialog1.NumberArticle > 1:
-				ArticleCounte = _("There are {} open articles.").format(NumberArticle)
-			if NumberArticle >= 1:
+			elif g.NumberArticle > 1:
+				ArticleCounte = _("There are {} open articles.").format(g.NumberArticle)
+			if g.NumberArticle >= 1:
 				ConfirmClosProgram = wx.MessageDialog(self,_("""{}
 Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
 				ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
 				if ConfirmClosProgram.ShowModal() == wx.ID_YES:
 									wx.Exit()
-									Data.CloseConnection()
+									g.Data.CloseConnection()
 				else:
 					return
 			else:
 							wx.Exit()
-							Data.CloseConnection()
+							g.Data.CloseConnection()
 		except AttributeError:
 			wx.Exit()
-			Data.CloseConnection()
+			g.Data.CloseConnection()
 
 	#creating OnAboutProgram function to show information about this program.
 	def OnAboutProgram(self, event):
@@ -197,7 +196,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 
 		#Set language for search
 		try:
-			wikipedia.set_lang(code[self.LanguageSearch.GetValue()])
+			wikipedia.set_lang(g.code[self.LanguageSearch.GetValue()])
 		except:
 			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
 			ConnectionError.SetOKLabel(_("&Ok"))
@@ -220,8 +219,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 			date = datetime.date.today()
 			time = datetime.datetime.now()
 			time = time.strftime("%H:%M:%S")
-			global Data
-			Data.InsertData("HistoryTable", (title, str(date), str(time), LanguageName))
+			g.Data.InsertData("HistoryTable", (title, str(date), str(time), LanguageName))
 
 			return
 
@@ -239,7 +237,7 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 
 		#Set language for random article
 		try:
-			wikipedia.set_lang(code[self.LanguageSearch.GetValue()])
+			wikipedia.set_lang(g.code[self.LanguageSearch.GetValue()])
 		except:
 			ConnectionError = wx.MessageDialog(self, _("There is no internet connection."), _("Connection error"), style=wx.ICON_ERROR+wx.OK)
 			ConnectionError.SetOKLabel(_("&Ok"))

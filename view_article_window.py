@@ -10,11 +10,12 @@ import os
 import re
 import threading 
 import requests
+import globals as g
 from dialogs import *
 from settings import Settings
 from functions import *
 from my_classes import my_threads
-from globals import *
+
 
 #Set language for View Article window
 _ = SetLanguage(Settings().ReadSettings())
@@ -47,8 +48,7 @@ class ViewArticleWindow(wx.Frame):
 
 		self.colour = self.GetBackgroundColour()
 
-		global NumberArticle
-		NumberArticle += 1
+		g.NumberArticle += 1
 
 #Creating panel
 		Panel = wx.Panel(self, -1)
@@ -156,7 +156,6 @@ class ViewArticleWindow(wx.Frame):
 
 	def OpenThread(self):
 
-		global NumberArticle, ArticleLanguageCode
 		try:
 			page = wikipedia.page(self.GetValues, auto_suggest=False)
 			if not self.o.is_system_output():
@@ -173,7 +172,7 @@ do you want to show similar results for this  article?
 				self.handle.ListResults.SetItems(e.options)
 			else:
 				self.Destroy()
-			NumberArticle -=1
+			g.NumberArticle -=1
 			return None
 
 		#In case There is no internet connection.
@@ -184,7 +183,7 @@ do you want to show similar results for this  article?
 			ConnectionError.SetOKLabel(_("&Ok"))
 			ConnectionError.ShowModal()
 			self.Destroy()
-			NumberArticle -=1
+			g.NumberArticle -=1
 			return None
 
 		#Getting title and content of article and show it.
@@ -268,8 +267,7 @@ do you want to show similar results for this  article?
 
 	# Close Article Window
 	def OnCloseArticle(self, event):
-		global NumberArticle
-		NumberArticle -= 1
+		g.NumberArticle -= 1
 		self.LoadArticle.stop()
 		self.LoadArticle2.stop()
 		self.Destroy()
@@ -281,23 +279,22 @@ do you want to show similar results for this  article?
 
 		state = self.CurrentSettings["close message"]
 
-		global Data, NumberArticle
-		if NumberArticle == 1:
+		if g.NumberArticle == 1:
 			ArticleCounte = _("There is 1 open article.")
-		elif NumberArticle > 1:
-			ArticleCounte = _("There are {} open articles.").format(NumberArticle)
-		if (NumberArticle >= 1) and (state == "True"):
+		elif g.NumberArticle > 1:
+			ArticleCounte = _("There are {} open articles.").format(g.NumberArticle)
+		if (g.NumberArticle >= 1) and (state == "True"):
 			ConfirmClosProgram = wx.MessageDialog(self, _("""{}
 Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
 			ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
 			if ConfirmClosProgram.ShowModal() == wx.ID_YES:
 								wx.Exit()
-								Data.CloseConnection()
+								g.Data.CloseConnection()
 			else:
 				return
 		else:
 			wx.Exit()
-			Data.CloseConnection()
+			g.Data.CloseConnection()
 
 	def OnGoToheading(self, event):
 		position = HeadingsListDialog(self, self.Content).ShowModal()
@@ -314,9 +311,8 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 		state = self.CurrentSettings["activ escape"]
 
-		global NumberArticle
 		if state == "True":
-			NumberArticle -= 1
+			g.NumberArticle -= 1
 			self.LoadArticle.stop()
 			self.LoadArticle2.stop()
 			self.Destroy()
@@ -421,7 +417,6 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		ArticleLinksDialog.CopyArticleLink.Enable(True)
 
 
-
 	def OnTablesItem(self, event):
 		ViewTablesDialog(self, self.url, self.title)
 
@@ -429,6 +424,5 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 	def OnFavourites(self, event):
 		name = wx.GetTextFromUser(_("Choose the name of the article in your favourites."), _("Add to Favourites"), default_value=self.title, parent=self)
 		if name:
-			global Data
-			Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings ["search language"], self.url))
+			g.Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings ["search language"], self.url))
 
