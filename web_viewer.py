@@ -9,12 +9,12 @@ import accessible_output2.outputs.auto
 import os
 import re
 import mouse
-import shutil
+import globals as g
 from dialogs import *
 from settings import Settings
 from functions import *
 from my_classes import *
-from globals import *
+
 
 #Set language for View Article window
 _ = SetLanguage(Settings().ReadSettings())
@@ -33,20 +33,13 @@ class WebViewArticle(wx.Frame):
 		self.links = []
 		self.references = []
 		self.html = _("<h1>Please wait</h1>")
+		self.Loaded = False
 		self.handle = handle
 		self.o = accessible_output2.outputs.auto.Auto()
 		self.rand_id = wx.NewIdRef(count=1)
 		self.CurrentSettings = Settings().ReadSettings()
 		self.colour = self.GetBackgroundColour()
-
-		self.temp = os.path.join(os.getenv("temp"), "WikiSearch")
-		self.FileName = self.title + ".html"
-		self.path = os.path.join(self.temp, self.FileName)
-		if not os.path.exists(self.temp):
-			os.mkdir(self.temp)
-
-		global NumberArticle
-		NumberArticle += 1
+		g.NumberArticle += 1
 
 
 #Creating panel
@@ -58,6 +51,8 @@ class WebViewArticle(wx.Frame):
 		self.CopyArticleItem.Enable(False)
 		self.CopyArticleLinkItem = actions.Append(-1, _("Copy article link\t+alt+c"))
 		self.CopyArticleLinkItem.Enable(False)
+		self.AddToFavouritesItem = actions.Append(-1, _("Add to favourites\tAlt+D"))
+		self.AddToFavouritesItem.Enable(False)
 		GoToMenu = wx.Menu()
 		self.ReferencesItem = GoToMenu.Append(-1, _("&References in article\tCtrl+r"))
 		self.ReferencesItem.Enable(False)
@@ -76,8 +71,7 @@ class WebViewArticle(wx.Frame):
 		self.SetMenuBar(menubar)
 
 
-
-		# creating web viewer
+		 #creating web viewer
 		self.ArticleTitle = wx.StaticText(Panel, -1, "please wait:", pos=(10,10), size=(380,30))
 		self.ViewArticle = wx.html2.WebView.New(Panel, -1, pos=(30,40), size=(480,420))
 		self.ViewArticle.SetPage(self.html, "")
@@ -88,11 +82,28 @@ class WebViewArticle(wx.Frame):
 		self.LoadArticle2 = my_threads(target=self.OpenThread2, daemon=True)
 		self.LoadArticle2.start()
 
+		# Create Buttons
+		self.CopyArticle = wx.Button(Panel, -1, _("Copy article"), pos=(10,610), size=(120,30))
+		self.CopyArticle.Enable(False)
+		self.SaveArticle = wx.Button(Panel, -1, _("Save article"), pos=(140,610), size=(120,30))
+		self.SaveArticle.Enable(False)
+		self.SaveArticle.SetDefault()
+		self.CopyArticleLink = wx.Button(Panel, -1, _("Copy article link"), pos=(270,610), size=(120,30))
+		self.CopyArticleLink.Enable(False)
+		self.GoTo = wx.Button(Panel, -1, _("Go to"), pos=(400,610), size=(70,30))
+		self.GoTo.Enable(False)
+		self.CloseArticle = wx.Button(Panel, -1, _("Close article"), pos=(480,610), size=(120,30))
 
 		# events 
 		self.Bind(wx.EVT_CLOSE, self.OnCloseArticle)
+		self.Bind(wx.EVT_BUTTON, self.OnCloseArticle, self.CloseArticle)
 		self.Bind(wx.EVT_MENU, self.OnCopyArticle, self.CopyArticleItem) 
+		self.Bind(wx.EVT_BUTTON, self.OnCopyArticle, self.CopyArticle)
 		self.Bind(wx.EVT_MENU, self.OnCopyArticleLink, self.CopyArticleLinkItem) 
+		self.Bind(wx.EVT_BUTTON, self.OnCopyArticleLink, self.CopyArticleLink)
+		self.Bind(wx.EVT_BUTTON, self.OnGoToMenu, self.GoTo)
+		self.Bind(wx.EVT_BUTTON, self.OnSaveArticleMenu, self.SaveArticle)
+		self.Bind(wx.EVT_MENU, self.OnFavourites, self.AddToFavouritesItem)
 		self.Bind(wx.EVT_MENU, self.OnSaveArticle, self.SaveArticleItem) 
 		self.Bind(wx.EVT_MENU, self.OnCloseArticle, self.CloseArticleItem) 
 		self.Bind(wx.EVT_MENU, self.OnCloseProgram, self.CloseProgramItem) 
@@ -100,7 +111,10 @@ class WebViewArticle(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnReferencesItem, self.ReferencesItem)
 		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, self.SaveAsHtmlItem)
 		self.Bind(wx.EVT_MENU, self.OnLinks, self.LinksItem)
-		self.Bind(wx.html2.EVT_WEBVIEW_LOADED, lambda event: self.o.speak(_("Article loaded."), interrupt=True))
+		self.timer = wx.Timer(self)
+		self.Bind(wx.EVT_TIMER, self.OnLoaded, self.timer)
+		self.timer.Start(100)
+
 
 		self.hotKeys = wx.AcceleratorTable((
 			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
@@ -128,10 +142,9 @@ class WebViewArticle(wx.Frame):
 		position = self.ViewArticle.ClientToScreen(position) 
 		robot.MouseMove(position) 
 		robot.MouseClick(True)
-		mouse.click('left')
 		mouse.move(100, 100, absolute=False, duration=0.5)
+		mouse.click('left')
 
-		global NumberArticle
 		try:
 			page = wikipedia.page(self.GetValues, auto_suggest=False)
 			if not self.o.is_system_output():
@@ -147,7 +160,7 @@ do you want to show similar results for this  article?
 				self.handle.ListResults.SetItems(e.options)
 			else:
 				self.Destroy()
-			NumberArticle -=1
+			g.NumberArticle -=1
 			return None
 
 		#In case There is no internet connection.
@@ -158,26 +171,31 @@ do you want to show similar results for this  article?
 			ConnectionError.SetOKLabel(_("&Ok"))
 			ConnectionError.ShowModal()
 			self.Destroy()
-			NumberArticle -=1
+			g.NumberArticle -=1
 			return None
 
 		#Getting information of article, and show The title and content of it.
 		self.title = page.title
 		self.html = page.html()
-		self.html = DisableLink(self.html)
-		with open(self.path, "w", encoding="utf-16") as f:
-			f.write(self.html)
-		self.ViewArticle.LoadURL(self.path)
+
 		self.SetTitle(f"View {self.title}")
 		self.ArticleTitle.SetLabel(self.title)
 		self.url = page.url
 		self.Content = page.content
 
 #Enable menu items
+		self.AddToFavouritesItem.Enable(True)
 		self.SaveArticleItem.Enable(enable=True)
 		self.CopyArticleLinkItem.Enable(enable=True)
 		self.SaveAsHtmlItem.Enable(enable=True)
 		self.CopyArticleItem.Enable(enable=True)
+
+		# Enable Button
+		self.SaveArticle.Enable(True)
+		self.CopyArticle.Enable(True)
+		self.CopyArticleLink.Enable(True)
+		self.GoTo.Enable(True)
+
 
 	def OpenThread2(self):
 		page = wikipedia.page(self.GetValues, auto_suggest=False)
@@ -207,7 +225,7 @@ do you want to show similar results for this  article?
 		SaveFileResult = SaveFile.ShowModal()
 		if SaveFileResult == wx.ID_OK:
 			FilePath = SaveFile.Path
-			#FileName = SaveFile.Filename
+
 			file = open(FilePath, "w", encoding="utf-8")
 			file.write(self.Content)
 			file.close()
@@ -218,13 +236,11 @@ do you want to show similar results for this  article?
 
 	# Close Article Window
 	def OnCloseArticle(self, event):
-		global NumberArticle
-		NumberArticle -= 1
+		g.NumberArticle -= 1
 		self.LoadArticle.stop()
 		self.LoadArticle2.stop()
-		shutil.rmtree(self.temp, ignore_errors=False)
+		self.timer.Stop()
 		self.Destroy()
-
 
 
 		# Close Program 
@@ -232,25 +248,22 @@ do you want to show similar results for this  article?
 
 		state = self.CurrentSettings["close message"]
 
-		global Data, NumberArticle
-		if NumberArticle == 1:
+		if g.NumberArticle == 1:
 			ArticleCounte = _("There is 1 open article.")
-		elif NumberArticle > 1:
-			ArticleCounte = _("There are {} open articles.").format(NumberArticle)
-		if (NumberArticle >= 1) and (state == "True"):
+		elif g.NumberArticle > 1:
+			ArticleCounte = _("There are {} open articles.").format(g.NumberArticle)
+		if (g.NumberArticle >= 1) and (state == "True"):
 			ConfirmClosProgram = wx.MessageDialog(self, _("""{}
 Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
 			ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
 			if ConfirmClosProgram.ShowModal() == wx.ID_YES:
 				wx.Exit()
-				Data.CloseConnection()
-				shutil.rmtree(self.temp, ignore_errors=False)
+				g.Data.CloseConnection()
 			else:
 				return
 		else:
 			wx.Exit()
-			Data.CloseConnection()
-			shutil.rmtree(self.temp, ignore_errors=False)
+			g.Data.CloseConnection()
 
 
 	def OnReferencesItem(self, event):
@@ -261,16 +274,14 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 		state = self.CurrentSettings["activ escape"]
 
-		global NumberArticle
 		if state == "True":
-			NumberArticle -= 1
+			g.NumberArticle -= 1
 			self.LoadArticle.stop()
 			self.LoadArticle2.stop()
+			self.timer.Stop()
 			self.Destroy()
 		else:
 			pass
-
-
 
 
 	def OnSaveAsHtml(self, event):
@@ -279,7 +290,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		SaveFileResult = SaveFile.ShowModal()
 		if SaveFileResult == wx.ID_OK:
 			FilePath = SaveFile.Path
-			#FileName = SaveFile.Filename
+
 			file = open(FilePath, "w", encoding="utf-8")
 			self.html = DisableLink(self.html)
 			file.write(self.html)
@@ -302,4 +313,54 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		ArticleLinksDialog.ViewArticle.Enable(True)
 		ArticleLinksDialog.OpenInWebBrowser.Enable(True)
 		ArticleLinksDialog.CopyArticleLink.Enable(True)
+
+	# creating a function to add the article to favourites table in Database.
+	def OnFavourites(self, event):
+		name = wx.GetTextFromUser(_("Choose the name of the article in your favourites."), _("Add to Favourites"), default_value=self.title, parent=self)
+		if name:
+			g.Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings ["search language"], self.url))
+
+	# Set the article when it loaded.
+	def OnLoaded(self, event):
+		if self.html != _("<h1>Please wait</h1>") and not self.Loaded:
+			self.html = DisableLink(self.html)
+			self.ViewArticle.SetPage(self.html, self.title)
+			if not self.o.is_system_output():
+				self.o.speak(_("Article loaded."), interrupt=True)
+			self.Loaded = True
+			self.timer.Stop()
+
+	def OnGoToMenu(self, event):
+
+		GoToMenu = wx.Menu()
+
+		ArticlesLinkedItem = GoToMenu.Append(-1, _("&Linked articles\tCtrl+l"))
+		if self.links == []:
+			ArticlesLinkedItem.Enable(False)
+
+		ArticleReferencesItem = GoToMenu.Append(-1, _("&References in article\tCtrl+r"))
+		if self.references == []:
+			ArticleReferencesItem.Enable(False)
+
+		self.Bind(wx.EVT_MENU, self.OnReferencesItem, ArticleReferencesItem)
+		self.Bind(wx.EVT_MENU, self.OnLinks, ArticlesLinkedItem)
+
+		self.PopupMenu(GoToMenu)
+
+
+	def OnSaveArticleMenu(self, event):
+
+		SaveMenu = wx.Menu()
+
+		SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+shift+T"))
+		if self.Content == "":
+			SaveArticleItem.Enable(False)
+
+		SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tctrl+shift+H"))
+		if self.html == "":
+			SaveAsHtmlItem.Enable(False)
+
+		self.Bind(wx.EVT_MENU, self.OnSaveArticle, SaveArticleItem)
+		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, SaveAsHtmlItem)
+		self.PopupMenu(SaveMenu)
 
