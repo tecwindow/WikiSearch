@@ -61,6 +61,8 @@ class ViewArticleWindow(wx.Frame):
 		self.CopyArticleLinkItem.Enable(False)
 		self.AddToFavouritesItem = actions.Append(-1, _("Add to favourites\tAlt+D"))
 		self.AddToFavouritesItem.Enable(False)
+		self.AddToSavedItem = actions.Append(-1, _("Add to saved articles\tAlt+S"))
+		self.AddToSavedItem.Enable(False)
 		GoToMenu = wx.Menu()
 		self.GoToHeading = GoToMenu.Append(-1, _("Go to a &heading\tCtrl+h"))
 		self.GoToHeading.Enable(False)
@@ -130,6 +132,7 @@ class ViewArticleWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnLinks, self.LinksItem)
 		self.Bind(wx.EVT_MENU, self.OnTablesItem, self.TablesItem)
 		self.Bind(wx.EVT_MENU, self.OnFavourites, self.AddToFavouritesItem)
+		self.Bind(wx.EVT_MENU, self.OnSavedArticles, self.AddToSavedItem)
 
 		self.hotKeys = wx.AcceleratorTable((
 (wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
@@ -222,7 +225,7 @@ do you want to show similar results for this  article?
 	#Getting article as html.
 		self.html = page.html()
 		self.SaveAsHtmlItem.Enable(True)
-
+		self.AddToSavedItem.Enable(True)
 
 	# Copy Article Content
 	def OnCopyArticle(self, event):
@@ -424,5 +427,28 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 	def OnFavourites(self, event):
 		name = wx.GetTextFromUser(_("Choose the name of the article in your favourites."), _("Add to Favourites"), default_value=self.title, parent=self)
 		if name:
-			g.Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings ["search language"], self.url))
+			g.Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings["search language"], self.url))
+
+	# creating a function to add the article to saved articles table in Database.
+	def OnSavedArticles(self, event):
+		name = g.Data.SearchData("SavedArticles", "Name", self.title)
+		if not name:
+			name = wx.GetTextFromUser(_("Choose the name of the article in your saved articles."), _("Add to saved articles"), default_value=self.title, parent=self)
+		else:
+			name = name[1]
+
+		links = ""
+		for l in self.links:
+			links += l + "\n"
+
+		references = ""
+		for r in self.references:
+			references += r + "\n"
+
+
+		sql = '''INSERT INTO SavedArticlesTable VALUES (?, ?, ?, ?, ?, ?, ?, ?)'''
+		row = (self.title, name, self.CurrentSettings["search language"], self.Content, self.html, self.url, links, references)
+		g.Data.cursor.execute(sql, row)
+		g.Data.conn.commit()
+
 

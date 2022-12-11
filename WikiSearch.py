@@ -15,7 +15,7 @@ from view_search_dialog import ViewSearch
 from update_dialog import UpdateDialog
 from settings import *
 from functions import *
-from dialogs import HistoryDialog, FavouritesDialog
+from dialogs import HistoryDialog, FavouritesDialog, SavedArticlesDialog
 from packaging import version
 from view_search_dialog import *
 
@@ -93,6 +93,7 @@ class window(wx.Frame):
 		ContactMenu.AppendSubMenu(MesterPerfectMenu, _("Ahmed Bakr"))
 		TecWindow=ContactMenu.Append(-1, "TecWindow on Telegram")
 		MainMenu.AppendSubMenu(ContactMenu, _("&Contact us"))
+		self.SavedArticlesItem = MainMenu.Append(-1, _("&Saved articles\tAlt+S"))
 		self.FavouritesItem = MainMenu.Append(-1, _("&Favourite articles\tAlt+F"))
 		self.HistoryItems = MainMenu.Append(-1, _("&History\tAlt+H"))
 		self.PreferencesItem = MainMenu.Append(-1, _("Program &settings\tAlt+S"))
@@ -145,6 +146,7 @@ class window(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnClose, self.CloseProgramItem)
 		self.Bind(wx.EVT_MENU, lambda event: HistoryDialog(self), self.HistoryItems)
 		self.Bind(wx.EVT_MENU, lambda event: FavouritesDialog(self), self.FavouritesItem)
+		self.Bind(wx.EVT_MENU, lambda event: SavedArticlesDialog(self), self.SavedArticlesItem)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.SearchText.Bind(wx.EVT_TEXT, self.OnText)
 

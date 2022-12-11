@@ -134,16 +134,8 @@ class WebViewArticle(wx.Frame):
 
 
 	def OpenThread(self):
-
 #mouse click on  wep viewer in order to make it accessible
-		robot = wx.UIActionSimulator() 
-		self.ViewArticle.SetFocus()
-		position = self.ViewArticle.GetPosition() 
-		position = self.ViewArticle.ClientToScreen(position) 
-		robot.MouseMove(position) 
-		robot.MouseClick(True)
-		mouse.move(100, 100, absolute=False, duration=0.5)
-		mouse.click('left')
+		self.MakeAccessible()
 
 		try:
 			page = wikipedia.page(self.GetValues, auto_suggest=False)
@@ -364,3 +356,13 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, SaveAsHtmlItem)
 		self.PopupMenu(SaveMenu)
 
+#mouse click on  wep viewer in order to make it accessible
+	def MakeAccessible(self):
+		robot = wx.UIActionSimulator() 
+		self.ViewArticle.SetFocus()
+		position = self.ViewArticle.GetPosition() 
+		position = self.ViewArticle.ClientToScreen(position) 
+		robot.MouseMove(position) 
+		robot.MouseClick(True)
+		mouse.move(100, 100, absolute=False, duration=0.5)
+		mouse.click('left')
