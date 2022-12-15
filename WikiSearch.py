@@ -42,7 +42,7 @@ class window(wx.Frame):
 		#make window Minimum size.
 		self.Maximize(False)
 		self.EnableMaximizeButton(False)
-
+		self.AutoDetect()
 
 		# Creating panel
 		Panel = wx.Panel(self)
@@ -150,6 +150,8 @@ class window(wx.Frame):
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.SearchText.Bind(wx.EVT_TEXT, self.OnText)
 
+
+
 	# Creating Ontext function to disable start search buttion if search edit is empty.
 	def OnText(self, event):
 		self.StartSearch.Enable(enable = not self.SearchText.IsEmpty())
@@ -187,6 +189,34 @@ Qais Alrifai.
 Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("About the program"), style=wx.ICON_INFORMATION+wx.OK)
 		AboutDialog.SetOKLabel(_("&Ok"))
 		AboutDialog.ShowModal()
+
+
+	#Create a function to detect links from the clipboard
+	def AutoDetect(self):
+		Link = pyperclip.paste()
+		if (Link.startswith("https://") and "wikipedia.org" in Link):
+			title, LanguageName, LanguageCode = GetTitleFromURL(Link)
+			AutoDetectDialog = wx.MessageDialog(self, _("A link to an article with the title {} has been detected in your clipboard.").format(title), _("AutoDetect"), style=wx.CANCEL+wx.YES_NO+wx.YES_DEFAULT+wx.ICON_QUESTION+wx.ICON_WARNING)
+			AutoDetectDialog.SetYesNoCancelLabels(_("&View Article"), _("&Open in browser"), _("**Cancel"))
+			if AutoDetectDialog.ShowModal() == wx.ID_NO:
+				webbrowser.open_new(Link)
+				self.Destroy()
+				return
+			if AutoDetectDialog.ShowModal() == wx.ID_YES:
+				wikipedia.set_lang(LanguageCode)
+				if CurrentSettings["wepviewer"] == "0":
+					window1 = ViewArticleWindow(None, title, self)
+				else:
+					window1 = WebViewArticle(None, title, self)
+				#adding the article to history.
+				#Getting the date and time of visit article.
+				date = datetime.date.today()
+				time = datetime.datetime.now()
+				time = time.strftime("%H:%M:%S")
+				g.Data.InsertData("HistoryTable", (title, str(date), str(time), LanguageName))
+				self.Destroy()
+				return
+			return
 
 
 
