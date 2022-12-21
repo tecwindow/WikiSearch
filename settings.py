@@ -99,8 +99,8 @@ class SettingsDialog(wx.Dialog):
 		self.NumberResults.Value = self.CurrentSettings["results number"]
 
 		# Creating SpinCtrl for random article Number
-		wx.StaticText(Panel, -1, _("Select the number of random articles:"), pos=(10,260), size=(380, 30))
-		self.random_articles_number = wx.SpinCtrl(Panel, -1, "20", min=1, max=100, style=wx.SP_ARROW_KEYS, pos=(30, 290), size=(50, 20))
+		wx.StaticText(Panel, -1, _("Select the number of random articles:"), pos=(10,290), size=(380, 30))
+		self.random_articles_number = wx.SpinCtrl(Panel, -1, "20", min=1, max=100, style=wx.SP_ARROW_KEYS, pos=(30, 320), size=(50, 20))
 		self.random_articles_number.Value = self.CurrentSettings["random articles number"]
 
 		# Creating Check Boxes
@@ -108,7 +108,7 @@ class SettingsDialog(wx.Dialog):
 		if self.CurrentSettings["close message"] == "True":
 			self.VerificationMsg.Value = True
 
-		self.AutoDetect = wx.CheckBox(Panel, -1, label=_("Auto detect links from the clipboard"), pos=(10, 180), size=(380, 30))
+		self.AutoDetect = wx.CheckBox(Panel, -1, label=_("Auto detect links from the clipboard"), pos=(10, 255), size=(380, 30))
 		if self.CurrentSettings["auto detect"] == "True":
 			self.AutoDetect.Value = True
 
