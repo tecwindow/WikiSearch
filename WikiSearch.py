@@ -116,7 +116,12 @@ class window(wx.Frame):
 
 		# Show Main window
 		self.Show()
-		self.AutoDetect()
+
+
+		if CurrentSettings["auto detect"] == "True":
+			self.AutoDetect()
+
+
 		# events for buttons
 		self.StartSearch.Bind(wx.EVT_BUTTON, self.OnViewSearch)
 		self.Close.Bind(wx.EVT_BUTTON, self.OnClose)
@@ -202,6 +207,8 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 			AutoDetectDialogResult = AutoDetectDialog.ShowModal()
 			if AutoDetectDialogResult == wx.ID_NO:
 				webbrowser.open_new(Link)
+				#self.Destroy()
+				#return
 			elif AutoDetectDialogResult == wx.ID_YES:
 				wikipedia.set_lang(LanguageCode)
 				if CurrentSettings["wepviewer"] == "0":
@@ -214,6 +221,8 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 				time = datetime.datetime.now()
 				time = time.strftime("%H:%M:%S")
 				g.Data.InsertData("HistoryTable", (title, str(date), str(time), LanguageName))
+				#self.Destroy()
+				#return
 			return
 
 

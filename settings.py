@@ -23,6 +23,7 @@ class Settings:
 		"random articles number": "20",
 		"auto update": "True",
 		"close message": "True",
+		"auto detect": "True",
 		"search language": "English",
 		"wepviewer": "0"
 				}
@@ -107,6 +108,10 @@ class SettingsDialog(wx.Dialog):
 		if self.CurrentSettings["close message"] == "True":
 			self.VerificationMsg.Value = True
 
+		self.AutoDetect = wx.CheckBox(Panel, -1, label=_("Auto detect links from the clipboard"), pos=(10, 180), size=(380, 30))
+		if self.CurrentSettings["auto detect"] == "True":
+			self.AutoDetect.Value = True
+
 		self.AutoUpdate = wx.CheckBox(Panel, -1, label=_("Check for updates automatically"), pos=(10, 205), size=(380, 30))
 		if self.CurrentSettings["auto update"] == "True":
 			self.AutoUpdate.Value = True
@@ -141,6 +146,7 @@ class SettingsDialog(wx.Dialog):
 		"random articles number": str(self.random_articles_number.Value),
 		"close message": str(self.VerificationMsg.Value),
 		"auto update": str(self.AutoUpdate.Value),
+		"auto detect": str(self.AutoDetect.Value),
 		"activ escape": str(self.CloseArticleWithScape.Value),
 		"search language": self.CurrentSettings["search language"],
 		"wepviewer": str(self.viewer.Selection)
