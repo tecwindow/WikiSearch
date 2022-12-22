@@ -169,9 +169,15 @@ class window(wx.Frame):
 			elif g.NumberArticle > 1:
 				ArticleCounte = _("There are {} open articles.").format(g.NumberArticle)
 			if g.NumberArticle >= 1:
-				ConfirmClosProgram = wx.MessageDialog(self,_("""{}
+				ConfirmClosProgram = wx.RichMessageDialog(self,_("""{}
 Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+				ConfirmClosProgram.ShowCheckBox(_("Don't show that again"))
 				ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
+				ConfirmClosProgramResult = ConfirmClosProgram.ShowModal()
+				if ConfirmClosProgramResult.IsCheckBoxChecked():
+					CurrentSettings = Settings().ReadSettings()
+					CurrentSettings["close message"] = "False"
+					Settings().WriteSettings(**CurrentSettings)
 				if ConfirmClosProgram.ShowModal() == wx.ID_YES:
 									wx.Exit()
 									g.Data.CloseConnection()
