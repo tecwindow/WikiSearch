@@ -22,10 +22,6 @@ from view_search_dialog import *
 #Set language for main window 
 _ = SetLanguage(Settings().ReadSettings())
 
-# Create app with wx.
-app= wx.App()
-
-
 # information of program
 CurrntVersion = "1.3.0"
 ProgramName = "WikiSearch"
@@ -118,9 +114,6 @@ class window(wx.Frame):
 		self.Show()
 
 
-		if CurrentSettings["auto detect"] == "True":
-			self.AutoDetect()
-
 
 		# events for buttons
 		self.StartSearch.Bind(wx.EVT_BUTTON, self.OnViewSearch)
@@ -163,30 +156,26 @@ class window(wx.Frame):
 
 	#creating OnClose function to  Close Program.
 	def OnClose(self, event):
-		try:
-			if g.NumberArticle == 1:
-							ArticleCounte = _("There is 1 open article.")
-			elif g.NumberArticle > 1:
-				ArticleCounte = _("There are {} open articles.").format(g.NumberArticle)
-			if g.NumberArticle >= 1:
-				ConfirmClosProgram = wx.RichMessageDialog(self,_("""{}
+		CurrentSettings = Settings().ReadSettings()
+		if g.NumberArticle == 1:
+						ArticleCounte = _("There is 1 open article.")
+		elif g.NumberArticle > 1:
+			ArticleCounte = _("There are {} open articles.").format(g.NumberArticle)
+		if (g.NumberArticle >= 1) and (CurrentSettings["close message"] == "True"):
+			ConfirmClosProgram = wx.RichMessageDialog(self,_("""{}
 Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
-				ConfirmClosProgram.ShowCheckBox(_("Don't show that again"))
-				ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
-				ConfirmClosProgramResult = ConfirmClosProgram.ShowModal()
-				if ConfirmClosProgramResult.IsCheckBoxChecked():
-					CurrentSettings = Settings().ReadSettings()
-					CurrentSettings["close message"] = "False"
-					Settings().WriteSettings(**CurrentSettings)
-				if ConfirmClosProgram.ShowModal() == wx.ID_YES:
-									wx.Exit()
-									g.Data.CloseConnection()
-				else:
-					return
+			ConfirmClosProgram.ShowCheckBox(_("Don't show that again"))
+			ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
+			ConfirmClosProgramResult = ConfirmClosProgram.ShowModal()
+			if ConfirmClosProgram.IsCheckBoxChecked():
+				CurrentSettings["close message"] = "False"
+				Settings().WriteSettings(**CurrentSettings)
+			if ConfirmClosProgramResult == wx.ID_YES:
+				wx.Exit()
+				g.Data.CloseConnection()
 			else:
-							wx.Exit()
-							g.Data.CloseConnection()
-		except AttributeError:
+				return
+		else:
 			wx.Exit()
 			g.Data.CloseConnection()
 
@@ -346,9 +335,16 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 #end of class
 
 
-main_window = window()
-
-if CurrentSettings["auto update"] == "True":
-	threading.Thread(target=main_window.OnCheckForItem(None, AutoCheck="yes"), daemon=True).start()
-
-app.MainLoop()    
+if __name__ == "__main__":
+	# Create app with wx.
+	app= wx.App()
+	# Call up the main window.
+	main_window = window()
+	# Check if the is there link in the clipboard in case the feature is enabled.
+	if CurrentSettings["auto detect"] == "True":
+		main_window.AutoDetect()
+	# Check if the is there update in case the feature is enabled.
+	if CurrentSettings["auto update"] == "True":
+		threading.Thread(target=main_window.OnCheckForItem(None, AutoCheck="yes"), daemon=True).start()
+	# make loop for the main window
+	app.MainLoop()
