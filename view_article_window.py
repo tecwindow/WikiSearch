@@ -425,17 +425,40 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 	# creating a function to add the article to favourites table in Database.
 	def OnFavourites(self, event):
-		name = wx.GetTextFromUser(_("Choose the name of the article in your favourites."), _("Add to Favourites"), default_value=self.title, parent=self)
-		if name:
-			g.Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings["search language"], self.url))
+		# delete the article if is exists to prevent recurrence.
+		if g.Data.SearchData("FavouritesTable", "Title", self.title):
+			g.Data.DeleteItem("FavouritesTable", "Title", self.title)
+
+		# Getting the article name from SavedArticlesTable if it is exists.
+		name = g.Data.SearchData("SavedArticlesTable", "Title", self.title)
+		# Show dialog to choose the name if it is not exists.
+		if not name:
+			AddToFavouriteDialog = wx.TextEntryDialog(self, _("Choose the name of the article in your favourites."), _("Add to Favourites"), self.title)
+			AddToFavouriteDialog.GetChildren()[-3].SetLabel("&Add")
+			AddToFavouriteDialog.GetChildren()[-2].SetLabel("&Cancel")
+			if AddToFavouriteDialog.ShowModal() == wx.ID_OK:
+					name = AddToFavouriteDialog.GetValue()
+					if name == "":
+						self.OnFavourites(None)
+						return
+		else:
+			name = name[0][1]
+
+		# inserting the data.
+		g.Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings["search language"], self.url))
 
 	# creating a function to add the article to saved articles table in Database.
 	def OnSavedArticles(self, event):
-		name = g.Data.SearchData("SavedArticles", "Name", self.title)
+# delete the article if is exists to prevent recurrence.
+		if g.Data.SearchData("   SavedArticlesTable", "Title", self.title):
+			g.Data.DeleteItem("SavedArticlesTable", "Title", self.title)
+
+		# Getting the article name from SavedArticlesTable if it is exists.
+		name = g.Data.SearchData("FavouritesTable", "Title", self.title)
 		if not name:
 			name = wx.GetTextFromUser(_("Choose the name of the article in your saved articles."), _("Add to saved articles"), default_value=self.title, parent=self)
 		else:
-			name = name[1]
+			name = name[0][1]
 
 		links = ""
 		for l in self.links:
@@ -450,5 +473,39 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		row = (self.title, name, self.CurrentSettings["search language"], self.Content, self.html, self.url, links, references)
 		g.Data.cursor.execute(sql, row)
 		g.Data.conn.commit()
+
+	# load ofline article.
+	def LoadOflineArticle(self, Article):
+		# stop the threads
+		self.LoadArticle.stop()
+		self.LoadArticle2.stop()
+
+	# set the article
+		self.SetTitle(Article[0][0])
+		self.ArticleTitle.SetLabel(Article[0][0])
+		self.title = Article[0][0]
+		self.Content = Article[0][3]
+		self.ViewArticle.Value = self.Content
+		self.html = Article[0][4]
+		self.url = Article[0][5]
+		self.links = Article[0][6].split("\n")
+		self.references = Article[0][7].split("\n")
+
+#Enable menu items
+		self.AddToFavouritesItem.Enable(True)
+		self.SaveArticleItem.Enable(enable=True)
+		self.CopyArticleLinkItem.Enable(enable=True)
+		self.SaveAsHtmlItem.Enable(enable=True)
+		self.CopyArticleItem.Enable(enable=True)
+		self.LinksItem.Enable(enable=True)
+		self.ReferencesItem.Enable(enable=True)
+		self.GoToHeading.Enable(True)
+		self.TablesItem.Enable(True)
+
+		# Enable Button
+		self.SaveArticle.Enable(True)
+		self.CopyArticle.Enable(True)
+		self.CopyArticleLink.Enable(True)
+		self.GoTo.Enable(True)
 
 

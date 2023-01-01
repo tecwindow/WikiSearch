@@ -559,41 +559,13 @@ class SavedArticlesDialog(wx.Dialog):
 		state = Settings().ReadSettings()["wepviewer"]
 		if state == "0":
 			window1 = ViewArticleWindow(None, "", self)
-			window1.ViewArticle.Value = CurrentArticle[0][3]
-			window1.GoToHeading.Enable(True)
-			window1.TablesItem.Enable(True)
 		else:
 			window1 = WebViewArticle(None, "", self)
-			window1.ViewArticle.SetPage(CurrentArticle[0][4], CurrentArticle[0][0])
-			window1.MakeAccessible()
-
-		window1.LoadArticle.stop()
-		window1.LoadArticle2.stop()
-		window1.SetTitle(CurrentArticle[0][0])
-		window1.ArticleTitle.SetLabel(CurrentArticle[0][0])
-		window1.title = CurrentArticle[0][0]
-		window1.Content = CurrentArticle[0][3]
-		window1.html = CurrentArticle[0][4]
-		window1.url = CurrentArticle[0][5]
-		window1.links = CurrentArticle[0][6].split("\n")
-		window1.references = CurrentArticle[0][7].split("\n")
-
-#Enable menu items
-		window1.AddToFavouritesItem.Enable(True)
-		window1.SaveArticleItem.Enable(enable=True)
-		window1.CopyArticleLinkItem.Enable(enable=True)
-		window1.SaveAsHtmlItem.Enable(enable=True)
-		window1.CopyArticleItem.Enable(enable=True)
-		window1.LinksItem.Enable(enable=True)
-		window1.ReferencesItem.Enable(enable=True)
-
-		# Enable Button
-		window1.SaveArticle.Enable(True)
-		window1.CopyArticle.Enable(True)
-		window1.CopyArticleLink.Enable(True)
-		window1.GoTo.Enable(True)
 
 
+
+		# load the article
+		window1.LoadOflineArticle(CurrentArticle)
 
 
 	def OnSearch(self, event):

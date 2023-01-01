@@ -79,10 +79,7 @@ class DB:
 	# creating function to Search for specific data
 	def SearchData(self, TableName, ColumnName, SearchText):
 		# Query for the specified Value
-		try:
-			data = self.cursor.execute(f"SELECT * FROM {TableName} WHERE {ColumnName} LIKE '%{SearchText}%';")
-		except sqlite3.OperationalError:
-					return False
+		data = self.cursor.execute(f"SELECT * FROM {TableName} WHERE {ColumnName} LIKE '%{SearchText}%';")
 
 		return data.fetchall()
 

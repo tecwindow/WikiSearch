@@ -145,6 +145,12 @@ class ViewSearch(wx.Dialog):
 		else:
 			window1 = WebViewArticle(None, GetValues, self)
 
+		# Check if the article is saved in the database.
+		SavedArticle = g.Data.SearchData("SavedArticlesTable", "Title", GetValues)
+		if SavedArticle:
+			window1.LoadOflineArticle(SavedArticle)
+			return
+
 		#adding the article to history.
 		#Getting the date and time of visit article.
 		date = datetime.date.today()

@@ -366,3 +366,39 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		robot.MouseClick(True)
 		mouse.move(100, 100, absolute=False, duration=0.5)
 		mouse.click('left')
+
+	# load ofline article.
+	def LoadOflineArticle(self, Article):
+		# stop the threads
+		self.LoadArticle.stop()
+		self.LoadArticle2.stop()
+
+		#make  accessible
+		self.MakeAccessible()
+
+	# set the article
+		self.SetTitle(Article[0][0])
+		self.ArticleTitle.SetLabel(Article[0][0])
+		self.title = Article[0][0]
+		self.Content = Article[0][3]
+		self.html = Article[0][4]
+		self.ViewArticle.SetPage(self.html)
+		self.url = Article[0][5]
+		self.links = Article[0][6].split("\n")
+		self.references = Article[0][7].split("\n")
+
+#Enable menu items
+		self.AddToFavouritesItem.Enable(True)
+		self.SaveArticleItem.Enable(enable=True)
+		self.CopyArticleLinkItem.Enable(enable=True)
+		self.SaveAsHtmlItem.Enable(enable=True)
+		self.CopyArticleItem.Enable(enable=True)
+		self.LinksItem.Enable(enable=True)
+		self.ReferencesItem.Enable(enable=True)
+
+		# Enable Button
+		self.SaveArticle.Enable(True)
+		self.CopyArticle.Enable(True)
+		self.CopyArticleLink.Enable(True)
+		self.GoTo.Enable(True)
+

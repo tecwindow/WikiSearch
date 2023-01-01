@@ -61,6 +61,14 @@ def GetOnlineInfo():
 
 	return info
 
+	# Delete The empty lines.
+def remove_blank_lines(text):
+    lines = text.split("\n")
+    lines = list(filter(lambda x: x.strip(), lines))
+    text = "\n".join(lines)
+    return text
+
+# Getting the tables of article.
 def GetTables(url):
 
 	reqs = requests.get(url)
@@ -73,9 +81,8 @@ def GetTables(url):
  
 	for i in range(len(tables)):
 		content = tables[i].text
-		content = content.replace("\n\n", "\n")
-		content = content.replace("\n\n", "\n")
-		TablesText.append(content)
+		content = remove_blank_lines(content)
+		TablesText.append(content + "\n")
 
 	return TablesText
 
