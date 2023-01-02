@@ -53,6 +53,11 @@ class ViewArticleWindow(wx.Frame):
 
 #Creating panel
 		Panel = wx.Panel(self, -1)
+		#creating states bar
+		self.statusbar = wx.StatusBar(self, -1)
+		self.statusbar.SetFieldsCount(6)
+		self.SetStatusBar(self.statusbar)
+
 		# Create Menus.
 		menubar = wx.MenuBar()
 		actions = wx.Menu()
@@ -203,6 +208,8 @@ do you want to show similar results for this  article?
 		self.ArticleTitle.SetLabel(self.title)
 		if not self.o.is_system_output():
 			self.o.speak(_("Article loaded."), interrupt=True)
+		# set statusbar
+		self.SetStatusbar()
 		self.GoToHeading.Enable(True)
 		self.CopyArticleItem.Enable(True)
 		self.CopyArticle.Enable(True)
@@ -503,6 +510,9 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		self.references = Article[0][7].split("\n")
 		self.tables = Article[0][8]
 
+		# set statusbar
+		self.SetStatusbar()
+
 #Enable menu items
 		self.AddToFavouritesItem.Enable(True)
 		self.SaveArticleItem.Enable(enable=True)
@@ -545,3 +555,11 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 			# user pressed "Cancel", do nothing
 			pass
 
+	# Set the info to statusbar
+	def SetStatusbar(self):
+		info = count_text_items(self.Content)
+		self.statusbar.SetStatusText("Lines count: {}.".format(info['lines']), 0)
+		self.statusbar.SetStatusText("Paragraphs count: {}.".format(info['paragraphs']), 1)
+		self.statusbar.SetStatusText("Sentences count: {}.".format(info['sentences']), 2)
+		self.statusbar.SetStatusText("Words count: {}.".format(info['words']), 3)
+		self.statusbar.SetStatusText("Characters count: {}.".format(info['characters']), 5)

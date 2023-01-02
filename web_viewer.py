@@ -23,7 +23,7 @@ _ = SetLanguage(Settings().ReadSettings())
 #View Article window
 class WebViewArticle(wx.Frame):
 	def __init__(self, parent, GetValues, handle):
-		wx.Frame.__init__(self, parent, title=_("View article"), size=(560, 600))
+		wx.Frame.__init__(self, parent, title=_("View article"), size=(800, 650))
 		self.Center()
 		self.EnableMaximizeButton(False)
 		self.GetValues = GetValues
@@ -44,6 +44,12 @@ class WebViewArticle(wx.Frame):
 
 #Creating panel
 		Panel = wx.Panel(self, -1)
+
+		#creating states bar
+		self.statusbar = wx.StatusBar(self, -1)
+		self.statusbar.SetFieldsCount(6)
+		self.SetStatusBar(self.statusbar)
+
 		# Create Menus.
 		menubar = wx.MenuBar()
 		actions = wx.Menu()
@@ -173,7 +179,6 @@ do you want to show similar results for this  article?
 		self.SetTitle(f"View {self.title}")
 		self.ArticleTitle.SetLabel(self.title)
 		self.url = page.url
-		self.Content = page.content
 
 #Enable menu items
 		self.AddToFavouritesItem.Enable(True)
@@ -191,6 +196,9 @@ do you want to show similar results for this  article?
 
 	def OpenThread2(self):
 		page = wikipedia.page(self.GetValues, auto_suggest=False)
+		self.Content = page.content
+		# set statusbar
+		self.SetStatusbar()
 		self.links = page.links
 		self.LinksItem.Enable(enable=True)
 		self.references = page.references
@@ -387,6 +395,9 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		self.links = Article[0][6].split("\n")
 		self.references = Article[0][7].split("\n")
 
+		# set statusbar
+		self.SetStatusbar()
+
 #Enable menu items
 		self.AddToFavouritesItem.Enable(True)
 		self.SaveArticleItem.Enable(enable=True)
@@ -402,3 +413,11 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		self.CopyArticleLink.Enable(True)
 		self.GoTo.Enable(True)
 
+	# Set the info to statusbar
+	def SetStatusbar(self):
+		info = count_text_items(self.Content)
+		self.statusbar.SetStatusText("Lines count: {}.".format(info['lines']), 0)
+		self.statusbar.SetStatusText("Paragraphs count: {}.".format(info['paragraphs']), 1)
+		self.statusbar.SetStatusText("Sentences count: {}.".format(info['sentences']), 2)
+		self.statusbar.SetStatusText("Words count: {}.".format(info['words']), 3)
+		self.statusbar.SetStatusText("Characters count: {}.".format(info['characters']), 5)

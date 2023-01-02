@@ -122,3 +122,21 @@ def GetTitleFromURL(url):
 	LanguageName = keys[Values.index(LanguageCode)]
 
 	return title, LanguageName, LanguageCode
+
+# Analyze the text.
+def count_text_items(text):
+	lines = text.count('\n') + 1
+	paragraphs = text.count('\n\n') + 1
+	sentences = len(re.findall(r'[^.!?]+[.!?]', text))
+	words = len(re.findall(r'\b\w+\b', text))
+	characters = len(text)
+    
+	information = {
+	'lines': lines,
+	'paragraphs': paragraphs,
+	'sentences': sentences,
+	'words': words,
+	'characters': characters
+	}
+
+	return information
