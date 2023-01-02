@@ -14,7 +14,7 @@ import globals as g
 from dialogs import *
 from settings import Settings
 from functions import *
-from my_classes import my_threads
+from my_classes import *
 
 
 #Set language for View Article window
@@ -34,6 +34,7 @@ class ViewArticleWindow(wx.Frame):
 		self.links = []
 		self.references = []
 		self.html = ""
+		self.tables = ""
 		self.handle = handle
 		self.o = accessible_output2.outputs.auto.Auto()
 		self.rand_id = wx.NewIdRef(count=1)
@@ -79,6 +80,7 @@ class ViewArticleWindow(wx.Frame):
 		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tctrl+shift+H"))
 		self.SaveAsHtmlItem.Enable(False)
 		actions.AppendSubMenu(SaveMenu, _("Save article"))
+		self.PrintItem = actions.Append(-1, _("Print"))
 		self.CloseArticleItem = actions.Append(-1, _("Close article window\tctrl+w"))
 		self.CloseProgramItem = actions.Append(-1, _("Close the program\tctrl+F4"))
 		ViewMenu = wx.Menu()
@@ -118,6 +120,7 @@ class ViewArticleWindow(wx.Frame):
 		self.Bind(wx.EVT_CLOSE, self.OnCloseArticle)
 
 		# events for Menus
+		self.Bind(wx.EVT_MENU, self.on_print, self.PrintItem)
 		self.Bind(wx.EVT_MENU, self.OnCopyArticle, self.CopyArticleItem) 
 		self.Bind(wx.EVT_MENU, self.OnCopyArticleLink, self.CopyArticleLinkItem) 
 		self.Bind(wx.EVT_MENU, self.OnSaveArticle, self.SaveArticleItem) 
@@ -421,7 +424,11 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 
 	def OnTablesItem(self, event):
-		ViewTablesDialog(self, self.url, self.title)
+		TablesDialog = ViewTablesDialog(self, self.url, self.title)
+		if self.tables:
+			TablesDialog.ViewArticleTables.Value = self.tables
+		else:
+			TablesDialog.LoadTables.start()
 
 	# creating a function to add the article to favourites table in Database.
 	def OnFavourites(self, event):
@@ -468,9 +475,13 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		for r in self.references:
 			references += r + "\n"
 
+		TablesList = GetTables(self.url)
+		tables = ""
+		for n,table in enumerate(TablesList):
+			tables += _("Table {}:\n {}").format(n+1, table)
 
-		sql = '''INSERT INTO SavedArticlesTable VALUES (?, ?, ?, ?, ?, ?, ?, ?)'''
-		row = (self.title, name, self.CurrentSettings["search language"], self.Content, self.html, self.url, links, references)
+		sql = '''INSERT INTO SavedArticlesTable VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'''
+		row = (self.title, name, self.CurrentSettings["search language"], self.Content, self.html, self.url, links, references, tables)
 		g.Data.cursor.execute(sql, row)
 		g.Data.conn.commit()
 
@@ -490,6 +501,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		self.url = Article[0][5]
 		self.links = Article[0][6].split("\n")
 		self.references = Article[0][7].split("\n")
+		self.tables = Article[0][8]
 
 #Enable menu items
 		self.AddToFavouritesItem.Enable(True)
@@ -508,4 +520,28 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		self.CopyArticleLink.Enable(True)
 		self.GoTo.Enable(True)
 
+	# Creating print function.
+	def on_print(self, event):
+        # get the text from the TextCtrl
+		text = self.ViewArticle.Value
+
+		# create a TextPrintout object
+		printout = TextPrintout(text)
+
+		# create a wx.PrintData object to hold the printing settings
+		print_data = wx.PrintData()
+
+		# create a wx.PrintDialogData object to hold the print dialog settings
+		print_dialog_data = wx.PrintDialogData(print_data)
+
+        # create a wx.Printer object
+		printer = wx.Printer(print_dialog_data)
+
+		# show the print dialog and get the user's response
+		if printer.PrintDialog(self):
+			# user pressed "OK", print the text
+			printer.Print(self, printout)
+		else:
+			# user pressed "Cancel", do nothing
+			pass
 

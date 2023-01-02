@@ -1,7 +1,35 @@
+import wx
 import threading
 import ctypes
 import sqlite3
 from sqlite3 import Error
+
+class TextPrintout(wx.Printout):
+	def __init__(self, text):
+		wx.Printout.__init__(self)
+		self.text = text
+
+	def OnPrintPage(self, page):
+		dc = self.GetDC()
+
+		# get the page size and margins
+		(w, h) = self.GetPageSizePixels()
+		(lm, tm, rm, bm) = self.GetPageMargins()
+
+		# add the margins to the page size
+		w = w - (lm + rm)
+		h = h - (tm + bm)
+
+		# create a font
+		font = wx.Font(10, wx.FONTFAMILY_MODERN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+		dc.SetFont(font)
+
+		# draw the text
+		dc.DrawText(self.text, lm, tm)
+
+		return True
+
+
 
 
 class my_threads(threading.Thread):

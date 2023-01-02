@@ -7,7 +7,7 @@ if not os.path.exists(DBFile):
 	Data = DB(DBFile)
 	Data.CreateTable("HistoryTable", ("Title", "Date", "Time", "Article language name"))
 	Data.CreateTable("FavouritesTable", ("Title", "Name", "Article language name", "url"))
-	Data.CreateTable("SavedArticlesTable", ("Title", "Name", "language", "content", "html", "url", "links", "references"))
+	Data.CreateTable("SavedArticlesTable", ("Title", "Name", "language", "content", "html", "url", "links", "references", "Tables"))
 else:
 	Data = DB(DBFile)
 

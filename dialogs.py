@@ -108,7 +108,7 @@ class ViewTablesDialog(wx.Dialog):
 		self.Center()
 		self.url = url
 		self.LoadTables = my_threads(target=self.OnViewTable, daemon=True)
-		self.LoadTables.start()
+
 
 	#Creating Panel
 		Panel = wx.Panel(self)
@@ -132,8 +132,8 @@ class ViewTablesDialog(wx.Dialog):
 
 		tables = GetTables(self.url)
 
-		for table in range(len(tables)):
-			self.ViewArticleTables.write(_("Table {}:\n {}").format(table+1,tables[table]))
+		for n,table in enumerate(tables):
+			self.ViewArticleTables.write(_("Table {}:\n {}").format(n+1, table))
 
 		self.ViewArticleTables.SetInsertionPoint(0)
 
