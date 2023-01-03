@@ -7,7 +7,6 @@ import pyperclip
 import webbrowser
 import accessible_output2.outputs.auto
 import os
-import re
 import threading 
 import requests
 import globals as g
@@ -37,12 +36,19 @@ class ViewArticleWindow(wx.Frame):
 		self.tables = ""
 		self.handle = handle
 		self.o = accessible_output2.outputs.auto.Auto()
-		self.rand_id = wx.NewIdRef(count=1)
 		self.CurrentSettings = Settings().ReadSettings()
 		self.LoadArticle = my_threads(target=self.OpenThread, daemon=True)
 		self.LoadArticle.start()
 		self.LoadArticle2 = my_threads(target=self.OpenThread2, daemon=True)
 		self.LoadArticle2.start()
+
+		# creating some ID
+		self.rand_id = wx.NewIdRef(count=1)
+		self.Key1 = wx.NewIdRef(count=1)
+		self.Key2 = wx.NewIdRef(count=1)
+		self.Key3 = wx.NewIdRef(count=1)
+		self.Key4 = wx.NewIdRef(count=1)
+		self.Key5 = wx.NewIdRef(count=1)
 		self.hotKeys = wx.AcceleratorTable([
 			(0, wx.WXK_ESCAPE, self.rand_id)])
 		self.SetAcceleratorTable(self.hotKeys)
@@ -122,7 +128,6 @@ class ViewArticleWindow(wx.Frame):
 		self.CopyArticleLink.Bind(wx.EVT_BUTTON, self.OnCopyArticleLink)
 		self.GoTo.Bind(wx.EVT_BUTTON, self.OnGoToMenu)
 		self.CloseArticle.Bind(wx.EVT_BUTTON, self.OnCloseArticle)
-		self.Bind(wx.EVT_CLOSE, self.OnCloseArticle)
 
 		# events for Menus
 		self.Bind(wx.EVT_MENU, self.on_print, self.PrintItem)
@@ -133,7 +138,6 @@ class ViewArticleWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnChangeTheme, self.ChangeThemeItem) 
 		self.Bind(wx.EVT_MENU, self.OnCloseProgram, self.CloseProgramItem) 
 		self.Bind(wx.EVT_MENU, self.OnGoToheading, self.GoToHeading)
-		self.Bind(wx.EVT_MENU, self.OnEscape, id=self.rand_id)
 		self.Bind(wx.EVT_MENU, self.OnFont, self.FontItem)
 		self.Bind(wx.EVT_MENU, self.OnReferencesItem, self.ReferencesItem)
 		self.Bind(wx.EVT_MENU, self.OnSaveAsHtml, self.SaveAsHtmlItem)
@@ -141,6 +145,16 @@ class ViewArticleWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnTablesItem, self.TablesItem)
 		self.Bind(wx.EVT_MENU, self.OnFavourites, self.AddToFavouritesItem)
 		self.Bind(wx.EVT_MENU, self.OnSavedArticles, self.AddToSavedItem)
+
+		# general events
+		self.Bind(wx.EVT_CLOSE, self.OnCloseArticle)
+		self.Bind(wx.EVT_MENU, self.OnEscape, id=self.rand_id)
+		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(1), self.Key1)
+		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(2), self.Key2)
+		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(3), self.Key3)
+		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(4), self.Key4)
+		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(5), self.Key5)
+
 
 		self.hotKeys = wx.AcceleratorTable((
 (wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
@@ -157,7 +171,12 @@ class ViewArticleWindow(wx.Frame):
 (wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("D"), self.ChangeThemeItem.GetId()),
 (wx.ACCEL_CTRL, ord("W"), self.CloseArticleItem.GetId()),
 (wx.ACCEL_CTRL,wx.WXK_F4, self.CloseProgramItem.GetId()),
-(0, wx.WXK_ESCAPE, self.rand_id)
+(0, wx.WXK_ESCAPE, self.rand_id),
+(0, ord("1"), self.Key1),
+(0, ord("2"), self.Key2),
+(0, ord("3"), self.Key3),
+(0, ord("4"), self.Key4),
+(0, ord("5"), self.Key5)
 ))
 		self.SetAcceleratorTable(self.hotKeys)
 
@@ -219,6 +238,7 @@ do you want to show similar results for this  article?
 		self.url = page.url
 		self.CopyArticleLinkItem.Enable(True)
 		self.CopyArticleLink.Enable(True)
+		self.tables = GetTables(self.url)
 		self.AddToFavouritesItem.Enable(True)
 		self.TablesItem.Enable(True)
 	#Getting the Links associated with the article.
@@ -431,11 +451,14 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 
 	def OnTablesItem(self, event):
-		TablesDialog = ViewTablesDialog(self, self.url, self.title)
-		if self.tables:
-			TablesDialog.ViewArticleTables.Value = self.tables
-		else:
-			TablesDialog.LoadTables.start()
+		# call view tables dialog
+		TablesDialog = ViewTablesDialog(self, self.title)
+		# convert list of tables to str
+		tables = ""
+		for n,table in enumerate(self.tables):
+			tables += _("Table {}:\n {}").format(n+1, table)
+		# write the tables in text ctrl.
+			TablesDialog.ViewArticleTables.Value = tables
 
 	# creating a function to add the article to favourites table in Database.
 	def OnFavourites(self, event):
@@ -448,18 +471,26 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		# Show dialog to choose the name if it is not exists.
 		if not name:
 			AddToFavouriteDialog = wx.TextEntryDialog(self, _("Choose the name of the article in your favourites."), _("Add to Favourites"), self.title)
-			AddToFavouriteDialog.GetChildren()[-3].SetLabel("&Add")
-			AddToFavouriteDialog.GetChildren()[-2].SetLabel("&Cancel")
+			AddToFavouriteDialog.GetChildren()[-3].SetLabel(_("&Add"))
+			AddToFavouriteDialog.GetChildren()[-2].SetLabel(_("&Cancel"))
+			# if the user press add.
 			if AddToFavouriteDialog.ShowModal() == wx.ID_OK:
 					name = AddToFavouriteDialog.GetValue()
 					if name == "":
 						self.OnFavourites(None)
 						return
+			# if the user press cancel.
+			else:
+				return
+			# if the article is there in saved articles table.
 		else:
 			name = name[0][1]
 
 		# inserting the data.
 		g.Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings["search language"], self.url))
+
+		if not self.o.is_system_output():
+			self.o.speak(_("The article added to favourites."), interrupt=True)
 
 	# creating a function to add the article to saved articles table in Database.
 	def OnSavedArticles(self, event):
@@ -470,7 +501,19 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		# Getting the article name from SavedArticlesTable if it is exists.
 		name = g.Data.SearchData("FavouritesTable", "Title", self.title)
 		if not name:
-			name = wx.GetTextFromUser(_("Choose the name of the article in your saved articles."), _("Add to saved articles"), default_value=self.title, parent=self)
+			AddToSavedArticlesDialog = wx.TextEntryDialog(self, _("Choose the name of the article in your saved articles."), _("Add to saved articles"), self.title)
+			AddToSavedArticlesDialog.GetChildren()[-3].SetLabel(_("&Add"))
+			AddToSavedArticlesDialog.GetChildren()[-2].SetLabel(_("&Cancel"))
+			# if the user press add.
+			if AddToSavedArticlesDialog.ShowModal() == wx.ID_OK:
+					name = AddToSavedArticlesDialog.GetValue()
+					if name == "":
+						self.OnSavedArticles(None)
+						return
+			# if the user press cancel.
+			else:
+				return
+			# if the article is there in favourites table.
 		else:
 			name = name[0][1]
 
@@ -482,15 +525,17 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		for r in self.references:
 			references += r + "\n"
 
-		TablesList = GetTables(self.url)
 		tables = ""
-		for n,table in enumerate(TablesList):
+		for n,table in enumerate(self.tables):
 			tables += _("Table {}:\n {}").format(n+1, table)
 
 		sql = '''INSERT INTO SavedArticlesTable VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'''
 		row = (self.title, name, self.CurrentSettings["search language"], self.Content, self.html, self.url, links, references, tables)
 		g.Data.cursor.execute(sql, row)
 		g.Data.conn.commit()
+
+		if not self.o.is_system_output():
+			self.o.speak(_("The article added to saved articles."), interrupt=True)
 
 	# load ofline article.
 	def LoadOflineArticle(self, Article):
@@ -546,20 +591,33 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
         # create a wx.Printer object
 		printer = wx.Printer(print_dialog_data)
+		printer.Print(self, printout)
 
-		# show the print dialog and get the user's response
-		if printer.PrintDialog(self):
-			# user pressed "OK", print the text
-			printer.Print(self, printout)
-		else:
-			# user pressed "Cancel", do nothing
-			pass
-
-	# Set the info to statusbar
+#	 Set the info to statusbar
 	def SetStatusbar(self):
 		info = count_text_items(self.Content)
-		self.statusbar.SetStatusText("Lines count: {}.".format(info['lines']), 0)
-		self.statusbar.SetStatusText("Paragraphs count: {}.".format(info['paragraphs']), 1)
-		self.statusbar.SetStatusText("Sentences count: {}.".format(info['sentences']), 2)
-		self.statusbar.SetStatusText("Words count: {}.".format(info['words']), 3)
-		self.statusbar.SetStatusText("Characters count: {}.".format(info['characters']), 5)
+		self.statusbar.SetStatusText(_("Lines count: {}.").format(info['lines']), 0)
+		self.statusbar.SetStatusText(_("Paragraphs count: {}.").format(info['paragraphs']), 1)
+		self.statusbar.SetStatusText(_("Sentences count: {}.").format(info['sentences']), 2)
+		self.statusbar.SetStatusText(_("Words count: {}.").format(info['words']), 3)
+		self.statusbar.SetStatusText(_("Characters count: {}.").format(info['characters']), 5)
+
+	# Making access keys for article information.
+	def OnKey(self, Key):
+		info = count_text_items(self.Content)
+		match Key:
+			case 1:
+				if not self.o.is_system_output():
+					self.o.speak(_(_("Lines count: {}.").format(info['lines'])), interrupt=True)
+			case 2:
+				if not self.o.is_system_output():
+					self.o.speak(_("Paragraphs count: {}.").format(info['paragraphs']), interrupt=True)
+			case 3:
+				if not self.o.is_system_output():
+					self.o.speak(_("Sentences count: {}.").format(info['sentences']), interrupt=True)
+			case 4:
+				if not self.o.is_system_output():
+					self.o.speak(_("Words count: {}.").format(info['words']), interrupt=True)
+			case 5:
+				if not self.o.is_system_output():
+					self.o.speak(_("Characters count: {}.").format(info['characters']), interrupt=True)

@@ -14,14 +14,14 @@ class TextPrintout(wx.Printout):
 
 		# get the page size and margins
 		(w, h) = self.GetPageSizePixels()
-		(lm, tm, rm, bm) = self.GetPageMargins()
+		(lm, tm, rm, bm) = 1, 1, 1, 1
 
 		# add the margins to the page size
 		w = w - (lm + rm)
 		h = h - (tm + bm)
 
 		# create a font
-		font = wx.Font(10, wx.FONTFAMILY_MODERN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+		font = wx.Font(14, wx.FONTFAMILY_MODERN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
 		dc.SetFont(font)
 
 		# draw the text

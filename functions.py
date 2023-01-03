@@ -129,7 +129,7 @@ def count_text_items(text):
 	paragraphs = text.count('\n\n') + 1
 	sentences = len(re.findall(r'[^.!?]+[.!?]', text))
 	words = len(re.findall(r'\b\w+\b', text))
-	characters = len(text)
+	characters = len(text) + 1
     
 	information = {
 	'lines': lines,

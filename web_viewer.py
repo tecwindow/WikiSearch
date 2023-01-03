@@ -36,10 +36,17 @@ class WebViewArticle(wx.Frame):
 		self.Loaded = False
 		self.handle = handle
 		self.o = accessible_output2.outputs.auto.Auto()
-		self.rand_id = wx.NewIdRef(count=1)
 		self.CurrentSettings = Settings().ReadSettings()
 		self.colour = self.GetBackgroundColour()
 		g.NumberArticle += 1
+
+		# creating some ID
+		self.rand_id = wx.NewIdRef(count=1)
+		self.Key1 = wx.NewIdRef(count=1)
+		self.Key2 = wx.NewIdRef(count=1)
+		self.Key3 = wx.NewIdRef(count=1)
+		self.Key4 = wx.NewIdRef(count=1)
+		self.Key5 = wx.NewIdRef(count=1)
 
 
 #Creating panel
@@ -120,7 +127,12 @@ class WebViewArticle(wx.Frame):
 		self.timer = wx.Timer(self)
 		self.Bind(wx.EVT_TIMER, self.OnLoaded, self.timer)
 		self.timer.Start(100)
-
+		self.Bind(wx.EVT_MENU, self.OnEscape, id=self.rand_id)
+		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(1), self.Key1)
+		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(2), self.Key2)
+		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(3), self.Key3)
+		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(4), self.Key4)
+		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(5), self.Key5)
 
 		self.hotKeys = wx.AcceleratorTable((
 			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
@@ -131,7 +143,12 @@ class WebViewArticle(wx.Frame):
 			(wx.ACCEL_CTRL, ord("L"), self.LinksItem.GetId()),
 			(wx.ACCEL_CTRL, ord("W"), self.CloseArticleItem.GetId()),
 			(wx.ACCEL_CTRL,wx.WXK_F4, self.CloseProgramItem.GetId()),
-			(0, wx.WXK_ESCAPE, self.rand_id)
+			(0, wx.WXK_ESCAPE, self.rand_id),
+(0, ord("1"), self.Key1),
+(0, ord("2"), self.Key2),
+(0, ord("3"), self.Key3),
+(0, ord("4"), self.Key4),
+(0, ord("5"), self.Key5)
 		))
 		self.SetAcceleratorTable(self.hotKeys)
 
@@ -416,8 +433,28 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 	# Set the info to statusbar
 	def SetStatusbar(self):
 		info = count_text_items(self.Content)
-		self.statusbar.SetStatusText("Lines count: {}.".format(info['lines']), 0)
-		self.statusbar.SetStatusText("Paragraphs count: {}.".format(info['paragraphs']), 1)
-		self.statusbar.SetStatusText("Sentences count: {}.".format(info['sentences']), 2)
-		self.statusbar.SetStatusText("Words count: {}.".format(info['words']), 3)
-		self.statusbar.SetStatusText("Characters count: {}.".format(info['characters']), 5)
+		self.statusbar.SetStatusText(_("Lines count: {}.").format(info['lines']), 0)
+		self.statusbar.SetStatusText(_("Paragraphs count: {}.").format(info['paragraphs']), 1)
+		self.statusbar.SetStatusText(_("Sentences count: {}.").format(info['sentences']), 2)
+		self.statusbar.SetStatusText(_("Words count: {}.").format(info['words']), 3)
+		self.statusbar.SetStatusText(_("Characters count: {}.").format(info['characters']), 5)
+
+	# Making access keys for article information.
+	def OnKey(self, Key):
+		info = count_text_items(self.Content)
+		match Key:
+			case 1:
+				if not self.o.is_system_output():
+					self.o.speak(_(_("Lines count: {}.").format(info['lines'])), interrupt=True)
+			case 2:
+				if not self.o.is_system_output():
+					self.o.speak(_("Paragraphs count: {}.").format(info['paragraphs']), interrupt=True)
+			case 3:
+				if not self.o.is_system_output():
+					self.o.speak(_("Sentences count: {}.").format(info['sentences']), interrupt=True)
+			case 4:
+				if not self.o.is_system_output():
+					self.o.speak(_("Words count: {}.").format(info['words']), interrupt=True)
+			case 5:
+				if not self.o.is_system_output():
+					self.o.speak(_("Characters count: {}.").format(info['characters']), interrupt=True)

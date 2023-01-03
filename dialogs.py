@@ -103,12 +103,9 @@ class HeadingsListDialog(wx.Dialog):
 		self.EndModal(position)
 
 class ViewTablesDialog(wx.Dialog):
-	def __init__(self, parent, url, ArticleTitle):
+	def __init__(self, parent, ArticleTitle):
 		wx.Dialog.__init__(self, parent, title=_("Tables in {}:").format(ArticleTitle), size=(550, 550))
 		self.Center()
-		self.url = url
-		self.LoadTables = my_threads(target=self.OnViewTable, daemon=True)
-
 
 	#Creating Panel
 		Panel = wx.Panel(self)
@@ -128,14 +125,6 @@ class ViewTablesDialog(wx.Dialog):
 		#Show dialog
 		self.Show()
 
-	def OnViewTable(self):
-
-		tables = GetTables(self.url)
-
-		for n,table in enumerate(tables):
-			self.ViewArticleTables.write(_("Table {}:\n {}").format(n+1, table))
-
-		self.ViewArticleTables.SetInsertionPoint(0)
 
 # Creating history dialog
 class HistoryDialog(wx.Dialog):
