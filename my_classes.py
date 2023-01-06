@@ -121,6 +121,17 @@ class DB:
 		# Clean the Database from the deleted items.
 		self.cursor.execute(f'VACUUM;')
 
+	# Update the data.
+	def UpdateData(self, TableName, ColumName, OldValue, NewValue):
+		# Query for updating data.
+		sql = f"""UPDATE  {TableName} 
+SET {ColumName} = '{NewValue}'
+WHERE {ColumName} = '{OldValue}';"""
+		self.cursor.execute(sql)
+
+		# Commit your changes in the database	
+		self.conn.commit()
+		self.cursor.execute(f'VACUUM;')
 
 # Closing the connection
 	def CloseConnection(self):

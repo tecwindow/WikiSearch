@@ -415,19 +415,22 @@ class FavouritesDialog(wx.Dialog):
 		OpenItem = menu.Append(-1, _("Open"))
 		OpenInBrowserItem = menu.Append(-1, _("Open in browser"))
 		CopyLinkItem = menu.Append(-1, _("Copy the article link"))
+		RenameItem = menu.Append(-1, _("Rename"))
 		DeleteItem = menu.Append(-1, _("Delete"))
 		self.Bind(wx.EVT_MENU, self.OnGo, OpenItem)
 		self.Bind(wx.EVT_MENU, self.OnOpenInBrowser, OpenInBrowserItem)
 		self.Bind(wx.EVT_MENU, self.OnCopyLinkItem, CopyLinkItem)
 		self.Bind(wx.EVT_MENU, self.OnDeleteItem, DeleteItem)
+		self.Bind(wx.EVT_MENU, self.OnRenameItem, RenameItem)
 		if not len(self.Favourites):
 			OpenItem.Enable(False)
 			OpenInBrowserItem.Enable(False)
 			CopyLinkItem.Enable(False)
+			RenameItem.Enable(False)
 			DeleteItem.Enable(False)
 		self.PopupMenu(menu)
 
-	# creating function to delete any item in the history
+	# creating function to delete any item.
 	def OnDeleteItem(self, event):
 		SelectedItem = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 0)
 		g.Data.DeleteItem("FavouritesTable", "Name", SelectedItem)
@@ -438,6 +441,22 @@ class FavouritesDialog(wx.Dialog):
 		if not self.o.is_system_output():
 			self.o.speak(_("The Item has deleted."), interrupt=True)
 
+# creating function to rename items
+	def OnRenameItem(self, event):
+		SelectedItem = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 0)
+		RenameDialog = wx.TextEntryDialog(self, _("Choose the new name of the article."), _("Rename the article"), SelectedItem)
+		RenameDialog.GetChildren()[-3].SetLabel(_("&Rename"))
+		RenameDialog.GetChildren()[-2].SetLabel(_("&Cancel"))
+		if RenameDialog.ShowModal() == wx.ID_OK:
+			NewName = RenameDialog.GetValue()
+			if NewName == "":
+				self.OnRenameItem(None)
+				return
+		else:
+			return
+
+		g.Data.UpdateData("FavouritesTable", "Name", SelectedItem, NewName)
+		self.FavouritesList.SetItemText(self.FavouritesList.GetFocusedItem(), NewName)
 
 	#Creating OnCopyLinkItem function  to copy the Article Link to Clipboard
 	def OnCopyLinkItem(self, event):
@@ -466,6 +485,9 @@ class FavouritesDialog(wx.Dialog):
 		Key = event.GetKeyCode()
 		if (Key == wx.WXK_DELETE) and (len(self.Favourites)):
 			self.OnDeleteItem(None)
+		elif Key == wx.WXK_F2:
+			self.OnRenameItem(None)
+
 
 # Creating saved articles dialog
 class SavedArticlesDialog(wx.Dialog):
@@ -573,15 +595,18 @@ class SavedArticlesDialog(wx.Dialog):
 		OpenItem = menu.Append(-1, _("Open"))
 		OpenInBrowserItem = menu.Append(-1, _("Open in browser"))
 		CopyLinkItem = menu.Append(-1, _("Copy the article link"))
+		RenameItem = menu.Append(-1, _("Rename"))
 		DeleteItem = menu.Append(-1, _("Delete"))
 		self.Bind(wx.EVT_MENU, self.OnGo, OpenItem)
 		self.Bind(wx.EVT_MENU, self.OnOpenInBrowser, OpenInBrowserItem)
 		self.Bind(wx.EVT_MENU, self.OnCopyLinkItem, CopyLinkItem)
 		self.Bind(wx.EVT_MENU, self.OnDeleteItem, DeleteItem)
+		self.Bind(wx.EVT_MENU, self.OnRenameItem, RenameItem)
 		if not len(self.SavedArticles):
 			OpenItem.Enable(False)
 			OpenInBrowserItem.Enable(False)
 			CopyLinkItem.Enable(False)
+			RenameItem.Enable(False)
 			DeleteItem.Enable(False)
 		self.PopupMenu(menu)
 
@@ -596,6 +621,22 @@ class SavedArticlesDialog(wx.Dialog):
 		if not self.o.is_system_output():
 			self.o.speak(_("The Item has deleted."), interrupt=True)
 
+	# creating function to rename items
+	def OnRenameItem(self, event):
+		SelectedItem = self.SavedArticlesList.GetItemText(self.SavedArticlesList.GetFocusedItem(), 0)
+		RenameDialog = wx.TextEntryDialog(self, _("Choose the new name of the article."), _("Rename the article"), SelectedItem)
+		RenameDialog.GetChildren()[-3].SetLabel(_("&Rename"))
+		RenameDialog.GetChildren()[-2].SetLabel(_("&Cancel"))
+		if RenameDialog.ShowModal() == wx.ID_OK:
+			NewName = RenameDialog.GetValue()
+			if NewName == "":
+				self.OnRenameItem(None)
+				return
+		else:
+			return
+
+		g.Data.UpdateData("SavedArticlesTable", "Name", SelectedItem, NewName)
+		self.SavedArticlesList.SetItemText(self.SavedArticlesList.GetFocusedItem(), NewName)
 
 	#Creating OnCopyLinkItem function  to copy the Article Link to Clipboard
 	def OnCopyLinkItem(self, event):
@@ -624,3 +665,5 @@ class SavedArticlesDialog(wx.Dialog):
 		Key = event.GetKeyCode()
 		if (Key == wx.WXK_DELETE) and (len(self.SavedArticles)):
 			self.OnDeleteItem(None)
+		elif Key == wx.WXK_F2:
+			self.OnRenameItem(None)
