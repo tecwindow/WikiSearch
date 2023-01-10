@@ -5,28 +5,21 @@ import sqlite3
 from sqlite3 import Error
 
 class TextPrintout(wx.Printout):
-	def __init__(self, text):
+	def __init__(self, text, font):
 		wx.Printout.__init__(self)
 		self.text = text
+		self.font = font
 
 	def OnPrintPage(self, page):
+		# This method is called by the printer when it is time to print a page
 		dc = self.GetDC()
 
-		# get the page size and margins
-		(w, h) = self.GetPageSizePixels()
-		(lm, tm, rm, bm) = 1, 1, 1, 1
+		# Set the font and draw the text
+#		font = wx.Font(10, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+		dc.SetFont(self.font)
+		dc.DrawText(self.text, 10, 10)
 
-		# add the margins to the page size
-		w = w - (lm + rm)
-		h = h - (tm + bm)
-
-		# create a font
-		font = wx.Font(14, wx.FONTFAMILY_MODERN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
-		dc.SetFont(font)
-
-		# draw the text
-		dc.DrawText(self.text, lm, tm)
-
+		# Return True to indicate that the page was printed successfully                
 		return True
 
 

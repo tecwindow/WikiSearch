@@ -78,6 +78,8 @@ class WebViewArticle(wx.Frame):
 		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tctrl+shift+H"))
 		self.SaveAsHtmlItem.Enable(False)
 		actions.AppendSubMenu(SaveMenu, _("Save article"))
+		self.PrintItem = actions.Append(-1, _("Print\tctrl+P"))
+		self.PrintItem.Enable(False)
 		self.CloseArticleItem = actions.Append(-1, _("Close article window\tctrl+w"))
 		self.CloseProgramItem = actions.Append(-1, _("Close the program\tctrl+F4"))
 		menubar.Append(actions, _("Actions"))
@@ -133,6 +135,7 @@ class WebViewArticle(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(3), self.Key3)
 		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(4), self.Key4)
 		self.Bind(wx.EVT_MENU, lambda event: self.OnKey(5), self.Key5)
+		self.Bind(wx.EVT_MENU, self.on_print, self.PrintItem)
 
 		self.hotKeys = wx.AcceleratorTable((
 			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("C"), self.CopyArticleItem.GetId()),
@@ -342,6 +345,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		if self.html != _("<h1>Please wait</h1>") and not self.Loaded:
 			self.html = DisableLink(self.html)
 			self.ViewArticle.SetPage(self.html, self.title)
+			self.PrintItem.Enable(True)
 			if not self.o.is_system_output():
 				self.o.speak(_("Article loaded."), interrupt=True)
 			self.Loaded = True
@@ -423,12 +427,18 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		self.CopyArticleItem.Enable(enable=True)
 		self.LinksItem.Enable(enable=True)
 		self.ReferencesItem.Enable(enable=True)
+		self.PrintItem.Enable(True)
 
 		# Enable Button
 		self.SaveArticle.Enable(True)
 		self.CopyArticle.Enable(True)
 		self.CopyArticleLink.Enable(True)
 		self.GoTo.Enable(True)
+
+	# Creating print function.
+	def on_print(self, event):
+		# Print the content of the webview
+		self.ViewArticle.Print()
 
 	# Set the info to statusbar
 	def SetStatusbar(self):

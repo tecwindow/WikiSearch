@@ -91,7 +91,8 @@ class ViewArticleWindow(wx.Frame):
 		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tctrl+shift+H"))
 		self.SaveAsHtmlItem.Enable(False)
 		actions.AppendSubMenu(SaveMenu, _("Save article"))
-		self.PrintItem = actions.Append(-1, _("Print"))
+		self.PrintItem = actions.Append(-1, _("Print\tctrl+P"))
+		self.PrintItem.Enable(False)
 		self.CloseArticleItem = actions.Append(-1, _("Close article window\tctrl+w"))
 		self.CloseProgramItem = actions.Append(-1, _("Close the program\tctrl+F4"))
 		ViewMenu = wx.Menu()
@@ -234,6 +235,7 @@ do you want to show similar results for this  article?
 		self.CopyArticle.Enable(True)
 		self.SaveArticle.Enable(True)
 		self.SaveArticleItem.Enable(True)
+		self.PrintItem.Enable(True)
 	#Getting link of article
 		self.url = page.url
 		self.CopyArticleLinkItem.Enable(True)
@@ -568,7 +570,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		self.ReferencesItem.Enable(enable=True)
 		self.GoToHeading.Enable(True)
 		self.TablesItem.Enable(True)
-
+		self.PrintItem.Enable(True)
 		# Enable Button
 		self.SaveArticle.Enable(True)
 		self.CopyArticle.Enable(True)
@@ -581,10 +583,13 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		text = self.ViewArticle.Value
 
 		# create a TextPrintout object
-		printout = TextPrintout(text)
+		printout = TextPrintout(text, self.font )
 
 		# create a wx.PrintData object to hold the printing settings
 		print_data = wx.PrintData()
+		print_data.SetQuality(wx.PRINT_QUALITY_HIGH)
+		print_data.SetFilename(self.title)
+		print_data.SetPrintMode(wx.PRINT_MODE_PRINTER)
 
 		# create a wx.PrintDialogData object to hold the print dialog settings
 		print_dialog_data = wx.PrintDialogData(print_data)
@@ -593,7 +598,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		printer = wx.Printer(print_dialog_data)
 		printer.Print(self, printout)
 
-#	 Set the info to statusbar
+	#	 Set the info to statusbar
 	def SetStatusbar(self):
 		info = count_text_items(self.Content)
 		self.statusbar.SetStatusText(_("Lines count: {}.").format(info['lines']), 0)
