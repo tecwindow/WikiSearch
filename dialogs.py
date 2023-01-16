@@ -25,13 +25,34 @@ class ReferencesListDialog(wx.Dialog):
 		Panel = wx.Panel(self)
 
 		# Create ListBox
-		self.ReferencesListTitle = wx.StaticText(Panel, -1, _("Article references"), pos=(10,10), size=(380,30))
-		self.ReferencesList = wx.ListBox(Panel, -1, pos=(10,30), size=(290,170))
+		self.ReferencesListTitle = wx.StaticText(Panel, -1, _("Article references"))
+		self.ReferencesList = wx.ListBox(Panel, -1)
 
 		# Create Buttons
-		self.Go = wx.Button(Panel, -1, _("&Open in browser"), pos=(10,235), size=(120,30))
+		self.Go = wx.Button(Panel, -1, _("&Open in browser"))
 		self.Go.SetDefault()
-		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(140,235), size=(120,30))
+		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"))
+
+		# Create sizer
+		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		# Add widgets to sizer
+		sizer.Add(self.ReferencesListTitle, 0, wx.ALL|wx.ALIGN_CENTER, 5)
+		sizer.Add(self.ReferencesList, 1, wx.ALL|wx.EXPAND, 5)
+
+		# Create button sizer
+		buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
+
+		# Add buttons to sizer
+		buttonSizer.Add(self.Go, 0, wx.ALL, 5)
+		buttonSizer.Add(self.GoBack, 0, wx.ALL, 5)
+
+		# Add button sizer to main sizer
+		sizer.Add(buttonSizer, 0, wx.ALL|wx.ALIGN_CENTER, 5)
+
+		# Set sizer for panel
+		Panel.SetSizer(sizer)
+		Panel.Fit()
 
 		self.hotKeys = wx.AcceleratorTable((
 (wx.ACCEL_CTRL, ord("W"), self.GoBack.GetId()),
@@ -73,8 +94,8 @@ class HeadingsListDialog(wx.Dialog):
 		Panel = wx.Panel(self)
 
 		# Create ListBox
-		wx.StaticText(Panel, -1, _("Choose a heading"), pos=(10,10), size=(380,30))
-		self.HeadingsList = wx.ListBox(Panel, -1, pos=(10,30), size=(290,170))
+		HeadingsListTitle = wx.StaticText(Panel, -1, _("Choose a heading"))
+		self.HeadingsList = wx.ListBox(Panel, -1)
 		self.result = re.findall("==.+==", self.content)
 		NewResult = []
 
@@ -85,9 +106,30 @@ class HeadingsListDialog(wx.Dialog):
 		self.HeadingsList.Selection = 0
 
 		# Create Buttons
-		self.Go = wx.Button(Panel, -1, _("&Go"), pos=(10,235), size=(120,30))
+		self.Go = wx.Button(Panel, -1, _("&Go"))
 		self.Go.SetDefault()
-		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"), pos=(140,235), size=(120,30))
+		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("&Cancel"))
+
+		# Create sizer
+		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		# Add widgets to sizer
+		sizer.Add(HeadingsListTitle, 0, wx.ALL|wx.ALIGN_CENTER, 5)
+		sizer.Add(self.HeadingsList, 1, wx.ALL|wx.EXPAND, 5)
+
+		# Create button sizer
+		buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
+
+		# Add buttons to sizer
+		buttonSizer.Add(self.Go, 0, wx.ALL, 5)
+		buttonSizer.Add(self.GoBack, 0, wx.ALL, 5)
+
+		# Add button sizer to main sizer
+		sizer.Add(buttonSizer, 0, wx.ALL|wx.ALIGN_CENTER, 5)
+
+		# Set sizer for panel
+		Panel.SetSizer(sizer)
+		Panel.Fit()
 
 		self.hotKeys = wx.AcceleratorTable((
 (wx.ACCEL_CTRL, ord("W"), self.GoBack.GetId()),
@@ -111,11 +153,31 @@ class ViewTablesDialog(wx.Dialog):
 		Panel = wx.Panel(self)
 
 	#Creating text ctrl to view article tables
-		wx.StaticText(Panel, -1, _("Tables in {}:").format(ArticleTitle), pos=(10,10), size=(380, 30))
-		self.ViewArticleTables = wx.TextCtrl(Panel, -1, pos=(10, 50), size=(500, 400), style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY)
+		ArticleTitle = wx.StaticText(Panel, -1, _("Tables in {}:").format(ArticleTitle))
+		self.ViewArticleTables = wx.TextCtrl(Panel, -1, style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY)
 
 	#Creating cancel button
-		self.close = wx.Button(Panel, wx.ID_CANCEL, _("&Close"), pos=(200,450), size=(120,30))
+		self.close = wx.Button(Panel, wx.ID_CANCEL, _("&Close"))
+
+		# create sizer
+		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		# Add widgets to sizer
+		sizer.Add(ArticleTitle, 0, wx.ALL|wx.ALIGN_CENTER, 5)
+		sizer.Add(self.ViewArticleTables, 1, wx.ALL|wx.EXPAND, 5)
+
+		# Create button sizer
+		buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
+
+		# Add buttons to sizer
+		buttonSizer.Add(self.close, 0, wx.ALL, 5)
+
+		# Add button sizer to main sizer
+		sizer.Add(buttonSizer, 0, wx.ALL|wx.ALIGN_CENTER, 5)
+
+		# Set sizer for panel
+		Panel.SetSizer(sizer)
+		Panel.Fit()
 
 		self.hotKeys = wx.AcceleratorTable((
 (wx.ACCEL_CTRL, ord("W"), self.close.GetId()),

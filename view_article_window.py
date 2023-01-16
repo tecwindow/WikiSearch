@@ -25,7 +25,6 @@ class ViewArticleWindow(wx.Frame):
 	def __init__(self, parent, GetValues, handle):
 		wx.Frame.__init__(self, parent, title=_("View article"), size=(900, 720))
 		self.Center()
-		self.EnableMaximizeButton(False)
 		self.GetValues = GetValues
 		self.Content = ""
 		self.url = ""
@@ -127,7 +126,7 @@ class ViewArticleWindow(wx.Frame):
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
 		# Add widgets to sizer
-		sizer.Add(self.ArticleTitle, 0, wx.ALL, 5)
+		sizer.Add(self.ArticleTitle, 0, wx.ALL|wx.ALIGN_CENTER, 5)
 		sizer.Add(self.ViewArticle, 1, wx.ALL|wx.EXPAND, 5)
 
 		# Create button sizer
@@ -141,11 +140,12 @@ class ViewArticleWindow(wx.Frame):
 		buttonSizer.Add(self.CloseArticle, 0, wx.ALL, 5)
 
 		# Add button sizer to main sizer
-		sizer.Add(buttonSizer, 0, wx.ALL|wx.ALIGN_RIGHT, 5)
+		sizer.Add(buttonSizer, 0, wx.ALL|wx.ALIGN_CENTER, 5)
 
 		# Set sizer for panel
 		Panel.SetSizer(sizer)
 		Panel.Fit()
+		self.Layout()
 
 		# events for buttons
 		self.CopyArticle.Bind(wx.EVT_BUTTON, self.OnCopyArticle)

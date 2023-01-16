@@ -112,7 +112,7 @@ class WebViewArticle(wx.Frame):
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
 		# Add widgets to sizer
-		sizer.Add(self.ArticleTitle, 0, wx.ALL, 5)
+		sizer.Add(self.ArticleTitle, 0, wx.ALL|wx.ALIGN_CENTER, 5)
 		sizer.Add(self.ViewArticle, 1, wx.ALL|wx.EXPAND, 5)
 
 		# Create button sizer
