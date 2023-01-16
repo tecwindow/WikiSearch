@@ -107,7 +107,12 @@ class DB:
 	# Creating function to delete the selected item in any table.
 	def DeleteItem(self, TableName, ColumnName, Value):
 		# Query for delete item
-		data = self.cursor.execute(f"  DELETE FROM {TableName} WHERE {ColumnName} = '{Value}';")
+		self.cursor.execute(f"  DELETE FROM {TableName} WHERE {ColumnName} = '{Value}';")
+
+	# clean table.
+	def CleanTable(self, TableName):
+		# Query for delete table.
+		self.cursor.execute(f"  DELETE FROM {TableName};")
 
 		# Commit your changes in the database	
 		self.conn.commit()
