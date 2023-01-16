@@ -20,26 +20,50 @@ _ = SetLanguage(Settings().ReadSettings())
 #create View  Search Dialog
 class ViewSearch(wx.Dialog):
 	def __init__(self, parent, TextSearch):
-		wx.Dialog.__init__(self, parent, title=_("Search results"), size=(300, 400))
-		self.Center()
+		wx.Dialog.__init__(self, parent, title=_("Search results"), size=(450, 400))
+		self.CenterOnParent()
 		self.TextSearch = TextSearch
 		self.o = accessible_output2.outputs.auto.Auto()
+
 		# Create panel
 		Panel = wx.Panel(self)
 
 		# Create ListBox
-		self.ListTitle = wx.StaticText(Panel, -1, _("Search results"), pos=(10,10), size=(380,30))
-		self.ListResults = wx.ListBox(Panel, -1, pos=(10,30), size=(290,170))
+		self.ListTitle = wx.StaticText(Panel, -1, _("Search results"))
+		self.ListResults = wx.ListBox(Panel, -1)
 
 		# Create Buttons
-		self.ViewArticle = wx.Button(Panel, -1, _("&View Article"), pos=(10,235), size=(120,30))
+		self.ViewArticle = wx.Button(Panel, -1, _("&View Article"))
 		self.ViewArticle.SetDefault()
 		self.ViewArticle.Enable(enable=False)
-		self.OpenInWebBrowser = wx.Button(Panel, -1, _("&Open in browser"), pos=(140,235), size=(120,30))
+		self.OpenInWebBrowser = wx.Button(Panel, -1, _("&Open in browser"))
 		self.OpenInWebBrowser.Enable(enable=False)
-		self.CopyArticleLink = wx.Button(Panel, -1, _("&Copy article link"), pos=(10,280), size=(120,30))
+		self.CopyArticleLink = wx.Button(Panel, -1, _("&Copy article link"))
 		self.CopyArticleLink.Enable(enable=False)
-		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("Go&Back"), pos=(140,280), size=(120,30))
+		self.GoBack = wx.Button(Panel, wx.ID_CANCEL, _("Go&Back"))
+
+		# Create main sizer
+		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		# Add widgets to sizer
+		sizer.Add(self.ListTitle, 0, wx.ALIGN_CENTER|wx.ALL, 5)
+		sizer.Add(self.ListResults, 2, wx.EXPAND|wx.ALL, 5)
+
+		# Create horizontal sizer.
+		button_sizer = wx.BoxSizer(wx.HORIZONTAL)
+
+		# Add buttons to horizontal sizer
+		button_sizer.Add(self.ViewArticle, 0, wx.ALL, 5)
+		button_sizer.Add(self.OpenInWebBrowser, 0, wx.ALL, 5)
+		button_sizer.Add(self.CopyArticleLink, 0, wx.ALL, 5)
+		button_sizer.Add(self.GoBack, 0, wx.ALL, 5)
+
+		# Add horizontal sizer to vertical sizer
+		sizer.Add(button_sizer, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
+
+		# Set sizer for panel
+		Panel.SetSizer(sizer)
+		Panel.Fit()
 
 		self.hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_ALT, ord("V"), self.ViewArticle.GetId()),

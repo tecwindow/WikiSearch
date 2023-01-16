@@ -105,23 +105,47 @@ class ViewArticleWindow(wx.Frame):
 
 
 		# Create RichEdit to View Article Content
-		self.ArticleTitle = wx.StaticText(Panel, -1, _("Please wait."), pos=(10,10), size=(380,30))
-		self.ViewArticle = wx.TextCtrl(Panel, -1, pos=(30,40), size=(840,530), style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY)
+		self.ArticleTitle = wx.StaticText(Panel, -1, _("Please wait."))
+		self.ViewArticle = wx.TextCtrl(Panel, -1, style=wx.TE_RICH2+wx.TE_MULTILINE+wx.TE_READONLY)
 		#Getting current font and colour for text
 		self.font = self.ViewArticle.GetFont()
 		self.colour  = self.ViewArticle.GetForegroundColour()
 
 		# Create Buttons
-		self.CopyArticle = wx.Button(Panel, -1, _("Copy article"), pos=(10,610), size=(120,30))
+		self.CopyArticle = wx.Button(Panel, -1, _("Copy article"))
 		self.CopyArticle.Enable(False)
-		self.SaveArticle = wx.Button(Panel, -1, _("Save article"), pos=(140,610), size=(120,30))
+		self.SaveArticle = wx.Button(Panel, -1, _("Save article"))
 		self.SaveArticle.Enable(False)
 		self.SaveArticle.SetDefault()
-		self.CopyArticleLink = wx.Button(Panel, -1, _("Copy article link"), pos=(270,610), size=(120,30))
+		self.CopyArticleLink = wx.Button(Panel, -1, _("Copy article link"))
 		self.CopyArticleLink.Enable(False)
-		self.GoTo = wx.Button(Panel, -1, _("Go to"), pos=(400,610), size=(70,30))
+		self.GoTo = wx.Button(Panel, -1, _("Go to"))
 		self.GoTo.Enable(False)
-		self.CloseArticle = wx.Button(Panel, -1, _("Close article"), pos=(480,610), size=(120,30))
+		self.CloseArticle = wx.Button(Panel, -1, _("Close article"))
+
+		# Create sizer
+		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		# Add widgets to sizer
+		sizer.Add(self.ArticleTitle, 0, wx.ALL, 5)
+		sizer.Add(self.ViewArticle, 1, wx.ALL|wx.EXPAND, 5)
+
+		# Create button sizer
+		buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
+
+		# Add buttons to sizer
+		buttonSizer.Add(self.CopyArticle, 0, wx.ALL, 5)
+		buttonSizer.Add(self.SaveArticle, 0, wx.ALL, 5)
+		buttonSizer.Add(self.CopyArticleLink, 0, wx.ALL, 5)
+		buttonSizer.Add(self.GoTo, 0, wx.ALL, 5)
+		buttonSizer.Add(self.CloseArticle, 0, wx.ALL, 5)
+
+		# Add button sizer to main sizer
+		sizer.Add(buttonSizer, 0, wx.ALL|wx.ALIGN_RIGHT, 5)
+
+		# Set sizer for panel
+		Panel.SetSizer(sizer)
+		Panel.Fit()
 
 		# events for buttons
 		self.CopyArticle.Bind(wx.EVT_BUTTON, self.OnCopyArticle)
@@ -610,7 +634,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 	# Making access keys for article information.
 	def OnKey(self, Key):
 		info = count_text_items(self.Content)
-		match Key:
+		'''match Key:
 			case 1:
 				if not self.o.is_system_output():
 					self.o.speak(_(_("Lines count: {}.").format(info['lines'])), interrupt=True)
@@ -625,4 +649,4 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 					self.o.speak(_("Words count: {}.").format(info['words']), interrupt=True)
 			case 5:
 				if not self.o.is_system_output():
-					self.o.speak(_("Characters count: {}.").format(info['characters']), interrupt=True)
+					self.o.speak(_("Characters count: {}.").format(info['characters']), interrupt=True)'''
