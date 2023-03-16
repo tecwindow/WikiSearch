@@ -291,18 +291,21 @@ do you want to show similar results for this  article?
 
 		# Close Program 
 	def OnCloseProgram(self, event):
-
-		state = self.CurrentSettings["close message"]
-
+		CurrentSettings = Settings().ReadSettings()
 		if g.NumberArticle == 1:
-			ArticleCounte = _("There is 1 open article.")
+						ArticleCounte = _("There is 1 open article.")
 		elif g.NumberArticle > 1:
 			ArticleCounte = _("There are {} open articles.").format(g.NumberArticle)
-		if (g.NumberArticle >= 1) and (state == "True"):
-			ConfirmClosProgram = wx.MessageDialog(self, _("""{}
+		if (g.NumberArticle >= 1) and (CurrentSettings["close message"] == "True"):
+			ConfirmClosProgram = wx.RichMessageDialog(self,_("""{}
 Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+			ConfirmClosProgram.ShowCheckBox(_("Don't show that again"))
 			ConfirmClosProgram.SetYesNoLabels(_("&Yes"), _("&No"))
-			if ConfirmClosProgram.ShowModal() == wx.ID_YES:
+			ConfirmClosProgramResult = ConfirmClosProgram.ShowModal()
+			if ConfirmClosProgram.IsCheckBoxChecked():
+				CurrentSettings["close message"] = "False"
+				Settings().WriteSettings(**CurrentSettings)
+			if ConfirmClosProgramResult == wx.ID_YES:
 				wx.Exit()
 				g.Data.CloseConnection()
 			else:
@@ -310,7 +313,6 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		else:
 			wx.Exit()
 			g.Data.CloseConnection()
-
 
 	def OnReferencesItem(self, event):
 		ReferencesDialog = ReferencesListDialog(self, *self.references)
@@ -478,7 +480,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 	# Making access keys for article information.
 	def OnKey(self, Key):
 		info = count_text_items(self.Content)
-		'''match Key:
+		match Key:
 			case 1:
 				if not self.o.is_system_output():
 					self.o.speak(_(_("Lines: {}.").format(info['lines'])), interrupt=True)
@@ -493,4 +495,4 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 					self.o.speak(_("Words: {}.").format(info['words']), interrupt=True)
 			case 5:
 				if not self.o.is_system_output():
-					self.o.speak(_("Characters: {}.").format(info['characters']), interrupt=True)'''
+					self.o.speak(_("Characters: {}.").format(info['characters']), interrupt=True)
