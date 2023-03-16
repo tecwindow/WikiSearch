@@ -191,7 +191,7 @@ class ViewTablesDialog(wx.Dialog):
 # Creating history dialog
 class HistoryDialog(wx.Dialog):
 	def __init__(self, parent):
-		wx.Dialog.__init__(self, parent, title=_("history"), size=(450, 450))
+		wx.Dialog.__init__(self, parent, title=_("History"), size=(450, 450))
 		self.CenterOnParent()
 		self.o = accessible_output2.outputs.auto.Auto()
 		self.OpenInBrowser_id = wx.NewIdRef(count=1)
@@ -210,10 +210,10 @@ class HistoryDialog(wx.Dialog):
 		#creating listbox to show history.
 		self.HistoryLabel = wx.StaticText(panel, -1, _("History"), pos=(12, 51), size=(50, 20))
 		self.HistoryList = wx.ListCtrl(panel, -1, style = wx.LC_REPORT)
-		self.HistoryList.InsertColumn(0, "Title", width=100)
-		self.HistoryList.InsertColumn(1, "Date", wx.LIST_FORMAT_RIGHT, width= 100)
-		self.HistoryList.InsertColumn(2, "Time", wx.LIST_FORMAT_RIGHT, 100)
-		self.HistoryList.InsertColumn(3, "Article language", wx.LIST_FORMAT_RIGHT, 100)
+		self.HistoryList.InsertColumn(0, _("Title"), width=100)
+		self.HistoryList.InsertColumn(1, _("Date"), wx.LIST_FORMAT_RIGHT, width= 100)
+		self.HistoryList.InsertColumn(2, _("Time"), wx.LIST_FORMAT_RIGHT, 100)
+		self.HistoryList.InsertColumn(3, _("Article language"), wx.LIST_FORMAT_RIGHT, 100)
 
 		for item in reversed(self.history):
 			self.HistoryList.Append(item)
@@ -222,7 +222,7 @@ class HistoryDialog(wx.Dialog):
 		self.HistoryList.Focus(0)
 
 		#creating buttons
-		self.Go = wx.Button(panel, wx.ID_OK, _("&Go"), size=(50, 20))
+		self.Go = wx.Button(panel, wx.ID_OK, _("&View Article"), size=(50, 20))
 		if not len(self.history):
 			self.Go.Enable(False)
 		self.Cancel = wx.Button(panel, wx.ID_CANCEL, _("&Cancel"), size=(50, 20))
@@ -297,10 +297,10 @@ class HistoryDialog(wx.Dialog):
 	# creating context menue
 	def ContextMenu(self, event):
 		menu = wx.Menu()
-		OpenItem = menu.Append(-1, _("Open"))
-		OpenInBrowserItem = menu.Append(-1, _("Open in browser"))
-		CopyLinkItem = menu.Append(-1, _("Copy the article link"))
-		DeleteItem = menu.Append(-1, _("Delete"))
+		OpenItem = menu.Append(-1, _("&View Article"))
+		OpenInBrowserItem = menu.Append(-1, _("&Open in browser"))
+		CopyLinkItem = menu.Append(-1, _("&Copy article link"))
+		DeleteItem = menu.Append(-1, _("&Delete"))
 		self.Bind(wx.EVT_MENU, self.OnGo, OpenItem)
 		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnOpenInBrowser, daemon=True).start(), OpenInBrowserItem)
 		self.Bind(wx.EVT_MENU, lambda event: my_threads(target=self.OnCopyLinkItem, daemon=True).start(), CopyLinkItem)
@@ -321,7 +321,7 @@ class HistoryDialog(wx.Dialog):
 		if not len(self.history):
 			self.Go.Enable(False)
 		if not self.o.is_system_output():
-			self.o.speak(_("The Item has deleted."), interrupt=True)
+			self.o.speak(_("The selected item has been deleted."), interrupt=True)
 
 	#Creating OnCopyLinkItem function  to copy the Article Link to Clipboard
 	def OnCopyLinkItem(self):
@@ -387,8 +387,8 @@ class FavouritesDialog(wx.Dialog):
 		#creating listbox to show history.
 		self.FavouritesLabel = wx.StaticText(panel, -1, _("Favourite Articles"), pos=(12, 51), size=(50, 20))
 		self.FavouritesList = wx.ListCtrl(panel, -1, style = wx.LC_REPORT)
-		self.FavouritesList.InsertColumn(0, _("Name"), width=100)
-		self.FavouritesList.InsertColumn(1, "Article language", wx.LIST_FORMAT_RIGHT, 100)
+		self.FavouritesList.InsertColumn(0, _("Title"), width=100)
+		self.FavouritesList.InsertColumn(1, _("Article language"), wx.LIST_FORMAT_RIGHT, 100)
 
 		self.ArticleTitle = {}
 		for item in reversed(self.Favourites):
@@ -399,7 +399,7 @@ class FavouritesDialog(wx.Dialog):
 		self.FavouritesList.Focus(0)
 
 		#creating buttons
-		self.Go = wx.Button(panel, wx.ID_OK, _("&Go"), size=(50, 20))
+		self.Go = wx.Button(panel, wx.ID_OK, _("&View Article"), size=(50, 20))
 		if not len(self.Favourites):
 			self.Go.Enable(False)
 		self.Cancel = wx.Button(panel, wx.ID_CANCEL, _("&Cancel"), size=(50, 20))
@@ -474,11 +474,11 @@ class FavouritesDialog(wx.Dialog):
 	# creating context menue
 	def ContextMenu(self, event):
 		menu = wx.Menu()
-		OpenItem = menu.Append(-1, _("Open"))
-		OpenInBrowserItem = menu.Append(-1, _("Open in browser"))
-		CopyLinkItem = menu.Append(-1, _("Copy the article link"))
-		RenameItem = menu.Append(-1, _("Rename"))
-		DeleteItem = menu.Append(-1, _("Delete"))
+		OpenItem = menu.Append(-1, _("&View Article"))
+		OpenInBrowserItem = menu.Append(-1, _("&Open in browser"))
+		CopyLinkItem = menu.Append(-1, _("&Copy article link"))
+		RenameItem = menu.Append(-1, _("&Rename"))
+		DeleteItem = menu.Append(-1, _("&Delete"))
 		self.Bind(wx.EVT_MENU, self.OnGo, OpenItem)
 		self.Bind(wx.EVT_MENU, self.OnOpenInBrowser, OpenInBrowserItem)
 		self.Bind(wx.EVT_MENU, self.OnCopyLinkItem, CopyLinkItem)
@@ -501,12 +501,12 @@ class FavouritesDialog(wx.Dialog):
 		if not len(self.Favourites):
 			self.Go.Enable(False)
 		if not self.o.is_system_output():
-			self.o.speak(_("The Item has deleted."), interrupt=True)
+			self.o.speak(_("The selected item has been deleted."), interrupt=True)
 
 # creating function to rename items
 	def OnRenameItem(self, event):
 		SelectedItem = self.FavouritesList.GetItemText(self.FavouritesList.GetFocusedItem(), 0)
-		RenameDialog = wx.TextEntryDialog(self, _("Choose the new name of the article."), _("Rename the article"), SelectedItem)
+		RenameDialog = wx.TextEntryDialog(self, _("Choose the new name for the article."), _("Rename the article"), SelectedItem)
 		RenameDialog.GetChildren()[-3].SetLabel(_("&Rename"))
 		RenameDialog.GetChildren()[-2].SetLabel(_("&Cancel"))
 		if RenameDialog.ShowModal() == wx.ID_OK:
@@ -572,8 +572,8 @@ class SavedArticlesDialog(wx.Dialog):
 		#creating listbox to show history.
 		self.SavedArticlesLabel = wx.StaticText(panel, -1, _("Saved Articles"), pos=(12, 51), size=(50, 20))
 		self.SavedArticlesList = wx.ListCtrl(panel, -1, style = wx.LC_REPORT)
-		self.SavedArticlesList.InsertColumn(0, _("Name"), width=100)
-		self.SavedArticlesList.InsertColumn(1, "Article language", wx.LIST_FORMAT_RIGHT, 100)
+		self.SavedArticlesList.InsertColumn(0, _("Title"), width=100)
+		self.SavedArticlesList.InsertColumn(1, _("Article language"), wx.LIST_FORMAT_RIGHT, 100)
 
 		self.ArticleTitle = {}
 		for item in reversed(self.SavedArticles):
@@ -584,7 +584,7 @@ class SavedArticlesDialog(wx.Dialog):
 		self.SavedArticlesList.Focus(0)
 
 		#creating buttons
-		self.Go = wx.Button(panel, wx.ID_OK, _("&Go"), size=(50, 20))
+		self.Go = wx.Button(panel, wx.ID_OK, _("&View Article"), size=(50, 20))
 		if not len(self.SavedArticles):
 			self.Go.Enable(False)
 		self.Cancel = wx.Button(panel, wx.ID_CANCEL, _("&Cancel"), size=(50, 20))
@@ -654,11 +654,11 @@ class SavedArticlesDialog(wx.Dialog):
 	# creating context menue
 	def ContextMenu(self, event):
 		menu = wx.Menu()
-		OpenItem = menu.Append(-1, _("Open"))
-		OpenInBrowserItem = menu.Append(-1, _("Open in browser"))
-		CopyLinkItem = menu.Append(-1, _("Copy the article link"))
-		RenameItem = menu.Append(-1, _("Rename"))
-		DeleteItem = menu.Append(-1, _("Delete"))
+		OpenItem = menu.Append(-1, _("&View Article"))
+		OpenInBrowserItem = menu.Append(-1, _("&Open in browser"))
+		CopyLinkItem = menu.Append(-1, _("&Copy article link"))
+		RenameItem = menu.Append(-1, _("&Rename"))
+		DeleteItem = menu.Append(-1, _("&Delete"))
 		self.Bind(wx.EVT_MENU, self.OnGo, OpenItem)
 		self.Bind(wx.EVT_MENU, self.OnOpenInBrowser, OpenInBrowserItem)
 		self.Bind(wx.EVT_MENU, self.OnCopyLinkItem, CopyLinkItem)
@@ -681,7 +681,7 @@ class SavedArticlesDialog(wx.Dialog):
 		if not len(self.SavedArticles):
 			self.Go.Enable(False)
 		if not self.o.is_system_output():
-			self.o.speak(_("The Item has deleted."), interrupt=True)
+			self.o.speak(_("The selected item has been deleted."), interrupt=True)
 
 	# creating function to rename items
 	def OnRenameItem(self, event):

@@ -59,11 +59,11 @@ class WebViewArticle(wx.Frame):
 		# Create Menus.
 		menubar = wx.MenuBar()
 		actions = wx.Menu()
-		self.CopyArticleItem = actions.Append(-1, _("Copy article\tctrl+shift+c"))
+		self.CopyArticleItem = actions.Append(-1, _("&Copy article\tctrl+shift+c"))
 		self.CopyArticleItem.Enable(False)
-		self.CopyArticleLinkItem = actions.Append(-1, _("Copy article link\t+alt+c"))
+		self.CopyArticleLinkItem = actions.Append(-1, _("&Copy article link\talt+c"))
 		self.CopyArticleLinkItem.Enable(False)
-		self.AddToFavouritesItem = actions.Append(-1, _("Add to favourites\tAlt+D"))
+		self.AddToFavouritesItem = actions.Append(-1, _("Add to favourites\tctrl+f"))
 		self.AddToFavouritesItem.Enable(False)
 		GoToMenu = wx.Menu()
 		self.ReferencesItem = GoToMenu.Append(-1, _("&References in article\tCtrl+r"))
@@ -166,6 +166,8 @@ class WebViewArticle(wx.Frame):
 			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("H"), self.SaveAsHtmlItem.GetId()),
 			(0+wx.ACCEL_ALT, ord("C"), self.CopyArticleLinkItem.GetId()),
 			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("T"), self.SaveArticleItem.GetId()),
+(wx.ACCEL_CTRL, ord("P"), self.PrintItem.GetId()),
+(wx.ACCEL_CTRL, ord("F"), self.AddToFavouritesItem.GetId()),
 			(wx.ACCEL_CTRL, ord("R"), self.ReferencesItem.GetId()),
 			(wx.ACCEL_CTRL, ord("L"), self.LinksItem.GetId()),
 			(wx.ACCEL_CTRL, ord("W"), self.CloseArticleItem.GetId()),
@@ -467,11 +469,11 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 	# Set the info to statusbar
 	def SetStatusbar(self):
 		info = count_text_items(self.Content)
-		self.statusbar.SetStatusText(_("Lines count: {}.").format(info['lines']), 0)
-		self.statusbar.SetStatusText(_("Paragraphs count: {}.").format(info['paragraphs']), 1)
-		self.statusbar.SetStatusText(_("Sentences count: {}.").format(info['sentences']), 2)
-		self.statusbar.SetStatusText(_("Words count: {}.").format(info['words']), 3)
-		self.statusbar.SetStatusText(_("Characters count: {}.").format(info['characters']), 5)
+		self.statusbar.SetStatusText(_("Lines: {}.").format(info['lines']), 0)
+		self.statusbar.SetStatusText(_("Paragraphs: {}.").format(info['paragraphs']), 1)
+		self.statusbar.SetStatusText(_("Sentences: {}.").format(info['sentences']), 2)
+		self.statusbar.SetStatusText(_("Words: {}.").format(info['words']), 3)
+		self.statusbar.SetStatusText(_("Characters: {}.").format(info['characters']), 5)
 
 	# Making access keys for article information.
 	def OnKey(self, Key):
@@ -479,16 +481,16 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		'''match Key:
 			case 1:
 				if not self.o.is_system_output():
-					self.o.speak(_(_("Lines count: {}.").format(info['lines'])), interrupt=True)
+					self.o.speak(_(_("Lines: {}.").format(info['lines'])), interrupt=True)
 			case 2:
 				if not self.o.is_system_output():
-					self.o.speak(_("Paragraphs count: {}.").format(info['paragraphs']), interrupt=True)
+					self.o.speak(_("Paragraphs: {}.").format(info['paragraphs']), interrupt=True)
 			case 3:
 				if not self.o.is_system_output():
-					self.o.speak(_("Sentences count: {}.").format(info['sentences']), interrupt=True)
+					self.o.speak(_("Sentences: {}.").format(info['sentences']), interrupt=True)
 			case 4:
 				if not self.o.is_system_output():
-					self.o.speak(_("Words count: {}.").format(info['words']), interrupt=True)
+					self.o.speak(_("Words: {}.").format(info['words']), interrupt=True)
 			case 5:
 				if not self.o.is_system_output():
-					self.o.speak(_("Characters count: {}.").format(info['characters']), interrupt=True)'''
+					self.o.speak(_("Characters: {}.").format(info['characters']), interrupt=True)'''

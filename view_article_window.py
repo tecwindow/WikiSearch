@@ -66,23 +66,23 @@ class ViewArticleWindow(wx.Frame):
 		# Create Menus.
 		menubar = wx.MenuBar()
 		actions = wx.Menu()
-		self.CopyArticleItem = actions.Append(-1, _("Copy article\tCtrl+shift+c"))
+		self.CopyArticleItem = actions.Append(-1, _("&Copy article\tctrl+shift+c"))
 		self.CopyArticleItem.Enable(False)
-		self.CopyArticleLinkItem = actions.Append(-1, _("Copy article link\tAlt+c"))
+		self.CopyArticleLinkItem = actions.Append(-1, _("&Copy article link\talt+c"))
 		self.CopyArticleLinkItem.Enable(False)
-		self.AddToFavouritesItem = actions.Append(-1, _("Add to favourites\tAlt+D"))
+		self.AddToFavouritesItem = actions.Append(-1, _("Add to favourites\tctrl+f"))
 		self.AddToFavouritesItem.Enable(False)
-		self.AddToSavedItem = actions.Append(-1, _("Add to saved articles\tAlt+S"))
+		self.AddToSavedItem = actions.Append(-1, _("Add to saved articles\tctrl+shift+s"))
 		self.AddToSavedItem.Enable(False)
 		GoToMenu = wx.Menu()
-		self.GoToHeading = GoToMenu.Append(-1, _("Go to a &heading\tCtrl+h"))
+		self.GoToHeading = GoToMenu.Append(-1, _("&Headings in article\tCtrl+h"))
 		self.GoToHeading.Enable(False)
-		self.LinksItem = GoToMenu.Append(-1, _("&Linked articles\tCtrl+l"))
-		self.LinksItem.Enable(False)
 		self.ReferencesItem = GoToMenu.Append(-1, _("&References in article\tCtrl+r"))
 		self.ReferencesItem.Enable(False)
 		self.TablesItem = GoToMenu.Append(-1, _("&Tables in article\tCtrl+t"))
 		self.TablesItem.Enable(False)
+		self.LinksItem = GoToMenu.Append(-1, _("&Linked articles\tCtrl+l"))
+		self.LinksItem.Enable(False)
 		actions.AppendSubMenu(GoToMenu, _("Go to"))
 		SaveMenu = wx.Menu()
 		self.SaveArticleItem = SaveMenu.Append(-1, _("Save article as &txt\tctrl+shift+T"))
@@ -90,7 +90,7 @@ class ViewArticleWindow(wx.Frame):
 		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tctrl+shift+H"))
 		self.SaveAsHtmlItem.Enable(False)
 		actions.AppendSubMenu(SaveMenu, _("Save article"))
-		self.PrintItem = actions.Append(-1, _("Print\tctrl+P"))
+		self.PrintItem = actions.Append(-1, _("&Print\tctrl+P"))
 		self.PrintItem.Enable(False)
 		self.CloseArticleItem = actions.Append(-1, _("Close article window\tctrl+w"))
 		self.CloseProgramItem = actions.Append(-1, _("Close the program\tctrl+F4"))
@@ -111,11 +111,11 @@ class ViewArticleWindow(wx.Frame):
 		self.colour  = self.ViewArticle.GetForegroundColour()
 
 		# Create Buttons
-		self.CopyArticle = wx.Button(Panel, -1, _("Copy article"))
-		self.CopyArticle.Enable(False)
 		self.SaveArticle = wx.Button(Panel, -1, _("Save article"))
 		self.SaveArticle.Enable(False)
 		self.SaveArticle.SetDefault()
+		self.CopyArticle = wx.Button(Panel, -1, _("Copy article"))
+		self.CopyArticle.Enable(False)
 		self.CopyArticleLink = wx.Button(Panel, -1, _("Copy article link"))
 		self.CopyArticleLink.Enable(False)
 		self.GoTo = wx.Button(Panel, -1, _("Go to"))
@@ -193,6 +193,9 @@ class ViewArticleWindow(wx.Frame):
 (wx.ACCEL_CTRL, ord("G"), self.GoTo.GetId()),
 (wx.ACCEL_CTRL, ord("T"), self.TablesItem.GetId()),
 (wx.ACCEL_CTRL, ord("D"), self.FontItem.GetId()),
+(wx.ACCEL_CTRL, ord("P"), self.PrintItem.GetId()),
+(wx.ACCEL_CTRL, ord("F"), self.AddToFavouritesItem.GetId()),
+(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("S"), self.AddToSavedItem.GetId()),
 (wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("D"), self.ChangeThemeItem.GetId()),
 (wx.ACCEL_CTRL, ord("W"), self.CloseArticleItem.GetId()),
 (wx.ACCEL_CTRL,wx.WXK_F4, self.CloseProgramItem.GetId()),
@@ -382,13 +385,9 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 
 		GoToMenu = wx.Menu()
 
-		GoToHeadingItem = GoToMenu.Append(-1, _("Go to a &heading\tCtrl+h"))
+		GoToHeadingItem = GoToMenu.Append(-1, _("&Headings in article\tCtrl+h"))
 		if self.Content == "":
 			GoToHeadingItem.Enable(False)
-
-		ArticlesLinkedItem = GoToMenu.Append(-1, _("&Linked articles\tCtrl+l"))
-		if self.links == []:
-			ArticlesLinkedItem.Enable(False)
 
 		ArticleReferencesItem = GoToMenu.Append(-1, _("&References in article\tCtrl+r"))
 		if self.references == []:
@@ -397,6 +396,10 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		ArticleTablesItem = GoToMenu.Append(-1, _("&Tables in article\tCtrl+t"))
 		if self.url == "":
 			ArticleTablesItem.Enable(False)
+
+		ArticlesLinkedItem = GoToMenu.Append(-1, _("&Linked articles\tCtrl+l"))
+		if self.links == []:
+			ArticlesLinkedItem.Enable(False)
 
 		self.Bind(wx.EVT_MENU, self.OnGoToheading, GoToHeadingItem)
 		self.Bind(wx.EVT_MENU, self.OnReferencesItem, ArticleReferencesItem)
@@ -561,7 +564,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		g.Data.conn.commit()
 
 		if not self.o.is_system_output():
-			self.o.speak(_("The article added to saved articles."), interrupt=True)
+			self.o.speak(_("The article has been added to your saved articles."), interrupt=True)
 
 	# load ofline article.
 	def LoadOflineArticle(self, Article):
@@ -595,7 +598,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		self.GoToHeading.Enable(True)
 		self.TablesItem.Enable(True)
 		self.PrintItem.Enable(True)
-		# Enable Button
+		# Enable Buttons
 		self.SaveArticle.Enable(True)
 		self.CopyArticle.Enable(True)
 		self.CopyArticleLink.Enable(True)
@@ -625,11 +628,11 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 	#	 Set the info to statusbar
 	def SetStatusbar(self):
 		info = count_text_items(self.Content)
-		self.statusbar.SetStatusText(_("Lines count: {}.").format(info['lines']), 0)
-		self.statusbar.SetStatusText(_("Paragraphs count: {}.").format(info['paragraphs']), 1)
-		self.statusbar.SetStatusText(_("Sentences count: {}.").format(info['sentences']), 2)
-		self.statusbar.SetStatusText(_("Words count: {}.").format(info['words']), 3)
-		self.statusbar.SetStatusText(_("Characters count: {}.").format(info['characters']), 5)
+		self.statusbar.SetStatusText(_("Lines: {}.").format(info['lines']), 0)
+		self.statusbar.SetStatusText(_("Paragraphs: {}.").format(info['paragraphs']), 1)
+		self.statusbar.SetStatusText(_("Sentences: {}.").format(info['sentences']), 2)
+		self.statusbar.SetStatusText(_("Words: {}.").format(info['words']), 3)
+		self.statusbar.SetStatusText(_("Characters: {}.").format(info['characters']), 5)
 
 	# Making access keys for article information.
 	def OnKey(self, Key):
@@ -637,16 +640,16 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		'''match Key:
 			case 1:
 				if not self.o.is_system_output():
-					self.o.speak(_(_("Lines count: {}.").format(info['lines'])), interrupt=True)
+					self.o.speak(_(_("Lines: {}.").format(info['lines'])), interrupt=True)
 			case 2:
 				if not self.o.is_system_output():
-					self.o.speak(_("Paragraphs count: {}.").format(info['paragraphs']), interrupt=True)
+					self.o.speak(_("Paragraphs: {}.").format(info['paragraphs']), interrupt=True)
 			case 3:
 				if not self.o.is_system_output():
-					self.o.speak(_("Sentences count: {}.").format(info['sentences']), interrupt=True)
+					self.o.speak(_("Sentences: {}.").format(info['sentences']), interrupt=True)
 			case 4:
 				if not self.o.is_system_output():
-					self.o.speak(_("Words count: {}.").format(info['words']), interrupt=True)
+					self.o.speak(_("Words: {}.").format(info['words']), interrupt=True)
 			case 5:
 				if not self.o.is_system_output():
-					self.o.speak(_("Characters count: {}.").format(info['characters']), interrupt=True)'''
+					self.o.speak(_("Characters: {}.").format(info['characters']), interrupt=True)'''

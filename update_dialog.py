@@ -28,7 +28,7 @@ class UpdateDialog(wx.Dialog):
 		Panel = wx.Panel(self)
 
 		#creating field to show what's new.
-		wx.StaticText(Panel, -1, _("version {} is available.").format(RecentVersion), pos=(20,20), size=(170, 30))
+		wx.StaticText(Panel, -1, _("Version {} is available.").format(RecentVersion), pos=(20,20), size=(170, 30))
 		self.WhatsNew = wx.TextCtrl(Panel, -1, value=whatIsNew, pos=(10,60), size=(450,320), style=wx.HSCROLL+wx.TE_MULTILINE+wx.TE_READONLY)
 
 		# Creating Buttons

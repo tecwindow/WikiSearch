@@ -153,9 +153,9 @@ class SettingsDialog(wx.Dialog):
 		clean_page = wx.Panel(notebook)
 
 		# Add widgets to the Clean page
-		self.CleanHistoryButton = wx.Button(clean_page, -1, _("Clean history"))
-		self.CleanFavouritesButton = wx.Button(clean_page, -1, _("Clean favourites"))
-		self.CleanSavedArticlesButton = wx.Button(clean_page, -1, _("Clean saved articles"))
+		self.CleanHistoryButton = wx.Button(clean_page, -1, _("Delete history"))
+		self.CleanFavouritesButton = wx.Button(clean_page, -1, _("Delete favourites"))
+		self.CleanSavedArticlesButton = wx.Button(clean_page, -1, _("Delete saved articles"))
 		self.DefaultSettingsButton = wx.Button(clean_page, -1, _("Reset to default settings"))
 
 		# Creating sizer for the clean tab
@@ -172,7 +172,7 @@ class SettingsDialog(wx.Dialog):
 		clean_sizer.Fit(self)
 
 		# add clean page to the notebook.
-		notebook.AddPage(clean_page, _("Clean"))
+		notebook.AddPage(clean_page, _("Advanced"))
 
 		# Create general Buttons
 		self.SaveSettings = wx.Button(Panel, -1, _("&Save changes"))
@@ -242,8 +242,8 @@ Do you want to restart the program now?"""), _("Confirm"), style=wx.YES_NO+wx.YE
 
 	# reset default settings function.
 	def OnDefaultSettings(self, event):
-		ConfirmRestartProgram = wx.MessageDialog(self, _("""Are you sure want to reset the settings?
-If the settings are restored, the program will be restart."""), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+		ConfirmRestartProgram = wx.MessageDialog(self, _("""Are you sure you want to reset all settings?
+The program will restart."""), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
 		ConfirmRestartProgram.SetYesNoLabels(_("&Yes"), _("&No"))
 		if ConfirmRestartProgram.ShowModal() == wx.ID_YES:
 			Settings().ResetSettings()
@@ -251,21 +251,21 @@ If the settings are restored, the program will be restart."""), _("Confirm"), st
 
 	# Clean savedArticles
 	def OnCleanSavedArticles(self, event):
-		Confirmclean = wx.MessageDialog(self, _("Are you sure clean your saved articles?"), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+		Confirmclean = wx.MessageDialog(self, _("Are you sure you want to delete the saved articles content?"), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
 		Confirmclean.SetYesNoLabels(_("&Yes"), _("&No"))
 		if Confirmclean.ShowModal() == wx.ID_YES:
 			g.Data.CleanTable("SavedArticlesTable")
 
 	# Clean favourites.
 	def OnCleanFavourites(self, event):
-		Confirmclean = wx.MessageDialog(self, _("Are you sure clean your favourites?"), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+		Confirmclean = wx.MessageDialog(self, _("Are you sure you want to delete your favourites content?"), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
 		Confirmclean.SetYesNoLabels(_("&Yes"), _("&No"))
 		if Confirmclean.ShowModal() == wx.ID_YES:
 			g.Data.CleanTable("FavouritesTable")
 
 	# Clean history.
 	def OnCleanHistory(self, event):
-		Confirmclean = wx.MessageDialog(self, _("Are you sure clean your history?"), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
+		Confirmclean = wx.MessageDialog(self, _("Are you sure you want to delete the history content?"), _("Confirm"), style=wx.YES_NO+wx.YES_DEFAULT+wx.ICON_WARNING+wx.ICON_QUESTION)
 		Confirmclean.SetYesNoLabels(_("&Yes"), _("&No"))
 		if Confirmclean.ShowModal() == wx.ID_YES:
 			g.Data.CleanTable("HistoryTable")

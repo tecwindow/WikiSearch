@@ -89,9 +89,9 @@ class window(wx.Frame):
 		ContactMenu.AppendSubMenu(MesterPerfectMenu, _("Ahmed Bakr"))
 		TecWindow=ContactMenu.Append(-1, "TecWindow on Telegram")
 		MainMenu.AppendSubMenu(ContactMenu, _("&Contact us"))
-		self.SavedArticlesItem = MainMenu.Append(-1, _("&Saved articles\tAlt+S"))
-		self.FavouritesItem = MainMenu.Append(-1, _("&Favourite articles\tAlt+F"))
-		self.HistoryItems = MainMenu.Append(-1, _("&History\tAlt+H"))
+		self.SavedArticlesItem = MainMenu.Append(-1, _("&Saved articles\tctrl+S"))
+		self.FavouritesItem = MainMenu.Append(-1, _("&Favourite articles\tctrl+F"))
+		self.HistoryItems = MainMenu.Append(-1, _("&History\tctrl+H"))
 		self.PreferencesItem = MainMenu.Append(-1, _("Program &settings\tAlt+S"))
 		self.CheckForItem = MainMenu.Append(-1, _("Check for &update\tctrl+u"))
 		self.CloseProgramItem = MainMenu.Append(-1, _("Close program\tctrl+w"))
@@ -106,6 +106,9 @@ class window(wx.Frame):
 			(0, wx.WXK_F1, self.HelpFile.GetId()),
 			(wx.ACCEL_CTRL, ord("U"), self.CheckForItem.GetId()),
 (wx.ACCEL_CTRL, ord("R"), self.RandomArticles.GetId()),
+(wx.ACCEL_CTRL, ord("H"), self.HistoryItems.GetId()),
+(wx.ACCEL_CTRL, ord("S"), self.SavedArticlesItem.GetId()),
+(wx.ACCEL_CTRL, ord("F"), self.FavouritesItem.GetId()),
 (wx.ACCEL_ALT, ord("S"), self.PreferencesItem.GetId()),
 		])
 		Panel.SetAcceleratorTable(self.hotKeys)
