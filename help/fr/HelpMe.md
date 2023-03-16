@@ -35,10 +35,9 @@ This version includes many features and bug fixes.
 - WikiSearch no longer uses Sapi5 to speak some actions when used without a screen reader.
 - Several code improvements have been made, as well as a number of small bug fixes here and there.
 
-#### Notes:
+#### Note:
 
 - The Print Article feature has been added, it should work fine when used from the article view window in html. If you are using the classic view to read the article, we are sorry to say that we have not been able to get the feature to work optimally at this time. If you are able to contribute to the completion of the feature, you can do so via GitHub.
-- Please note that saving a large number of articles offline may increase the file size.
 
 ### Version 1.3:
 
