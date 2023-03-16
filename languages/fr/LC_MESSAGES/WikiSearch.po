@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-08-09 21:50+0300\n"
-"PO-Revision-Date: 2022-08-09 23:50+0300\n"
+"POT-Creation-Date: 2023-03-16 14:59+0300\n"
+"PO-Revision-Date: 2023-03-16 15:21+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -15,13 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: pygettext.py 1.5\n"
-"X-Generator: Poedit 3.0\n"
-
-msgid "Some required files are missing."
-msgstr "Certains fichiers requis sont manquants."
-
-msgid "Error"
-msgstr "Erreur"
+"X-Generator: Poedit 3.2.2\n"
 
 msgid ""
 "With this program, you can search or browse any Wikipedia article. site: "
@@ -63,6 +57,15 @@ msgstr "Ahmed Bakr"
 msgid "&Contact us"
 msgstr "&Contactez-nous"
 
+msgid "&Saved articles\tctrl+S"
+msgstr ""
+
+msgid "&Favourite articles\tctrl+F"
+msgstr ""
+
+msgid "&History\tctrl+H"
+msgstr ""
+
 msgid "Program &settings\tAlt+S"
 msgstr "&réglages du programme Alt+S"
 
@@ -91,6 +94,9 @@ msgstr ""
 msgid "Confirm"
 msgstr "Confirmer"
 
+msgid "Don't show that again"
+msgstr ""
+
 msgid "&No"
 msgstr "&Non"
 
@@ -118,6 +124,22 @@ msgstr "A propos du programme"
 msgid "&Ok"
 msgstr "&Ok"
 
+msgid ""
+"A link to an article with the title {} has been detected in your clipboard."
+msgstr ""
+
+msgid "AutoDetect"
+msgstr ""
+
+msgid "&Open in browser"
+msgstr "&Ouvrir dans le navigateur"
+
+msgid "&Cancel"
+msgstr "&Annuler"
+
+msgid "&View Article"
+msgstr "&Afficher l'article"
+
 msgid "Connection error"
 msgstr "Erreur de connexion"
 
@@ -128,17 +150,10 @@ msgid "No update available"
 msgstr "Aucune mise à jour n'a été trouvée."
 
 msgid "You are using version {} which is the latest version."
-msgstr ""
-"Vous utilisez la version {} qui se trouve être la dernière version."
+msgstr "Vous utilisez la version {} qui se trouve être la dernière version."
 
 msgid "Article references"
 msgstr "Références de l'article"
-
-msgid "&Open in browser"
-msgstr "&Ouvrir dans le navigateur"
-
-msgid "&Cancel"
-msgstr "&Annuler"
 
 msgid "Reference {}: {}"
 msgstr "Référence {}: {}"
@@ -149,8 +164,8 @@ msgstr "Entêtes de cet article"
 msgid "Choose a heading"
 msgstr "Choisissez une entête"
 
-msgid "Go"
-msgstr "Aller"
+msgid "&Go"
+msgstr "&Aller"
 
 msgid "Tables in {}:"
 msgstr "Tableaux listés dans {}:"
@@ -158,12 +173,62 @@ msgstr "Tableaux listés dans {}:"
 msgid "&Close"
 msgstr "&Fermer"
 
-msgid ""
-"Table {}:\n"
-" {}"
+msgid "History"
 msgstr ""
-"Tableau {}:\n"
-" {}"
+
+msgid "Search"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Article language"
+msgstr ""
+
+msgid "&Copy article link"
+msgstr "&Copier le lien de l'article"
+
+msgid "&Delete"
+msgstr ""
+
+msgid "The selected item has been deleted."
+msgstr ""
+
+msgid "Article link copied."
+msgstr "Lien de l'article copié."
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "This link cannot be copied."
+msgstr "Ce lien ne peut pas être copié."
+
+msgid "Opening:"
+msgstr "Ouverture de :"
+
+msgid "This link cannot be opened in the browser."
+msgstr "Ce lien ne peut pas être ouvert dans le navigateur."
+
+msgid "Favourite Articles"
+msgstr ""
+
+msgid "&Rename"
+msgstr ""
+
+msgid "Choose the new name for the article."
+msgstr ""
+
+msgid "Rename the article"
+msgstr ""
+
+msgid "Saved Articles"
+msgstr ""
 
 msgid "Program Settings"
 msgstr "Réglages du programme"
@@ -188,8 +253,11 @@ msgstr "Sélectionnez le nombre d'articles choisis au hasard :"
 
 msgid "Show Close message when at least an article is open"
 msgstr ""
-"Afficher le message de fermeture du programme lorsqu'au moins un article "
-"est ouvert"
+"Afficher le message de fermeture du programme lorsqu'au moins un article est "
+"ouvert"
+
+msgid "Auto detect links from the clipboard"
+msgstr ""
 
 msgid "Check for updates automatically"
 msgstr "Vérifier les mises à jour automatiquement"
@@ -197,6 +265,24 @@ msgstr "Vérifier les mises à jour automatiquement"
 msgid "Close the article via the Escape key"
 msgstr ""
 "Fermer l'article via la touche ÉchapClose the article via the Escape key"
+
+msgid "General"
+msgstr ""
+
+msgid "Delete history"
+msgstr ""
+
+msgid "Delete favourites"
+msgstr ""
+
+msgid "Delete saved articles"
+msgstr ""
+
+msgid "Reset to default settings"
+msgstr ""
+
+msgid "Advanced"
+msgstr ""
 
 msgid "&Save changes"
 msgstr "&Sauvegarder les modifications"
@@ -209,10 +295,26 @@ msgstr ""
 "effet.\n"
 "Voulez-vous redémarrer le programme maintenant ?"
 
+msgid ""
+"Are you sure you want to reset all settings?\n"
+"The program will restart."
+msgstr ""
+
+msgid "Are you sure you want to delete the saved articles content?"
+msgstr ""
+
+msgid "Are you sure you want to delete your favourites content?"
+msgstr ""
+
+msgid "Are you sure you want to delete the history content?"
+msgstr ""
+
 msgid "Update found"
 msgstr "Mise à jour trouvée"
 
-msgid "version {} is available."
+#, fuzzy
+#| msgid "version {} is available."
+msgid "Version {} is available."
 msgstr "La version {} est disponible."
 
 msgid "&Update"
@@ -227,23 +329,35 @@ msgstr "Veuiller patienter."
 msgid "View article"
 msgstr "Voir l'article"
 
-msgid "Copy article\tctrl+shift+c"
+#, fuzzy
+#| msgid "Copy article\tctrl+shift+c"
+msgid "&Copy article\tctrl+shift+c"
 msgstr "Copier l'article ctrl+maj+c"
 
-msgid "Copy article link\t+alt+c"
+#, fuzzy
+#| msgid "Copy article link\t+alt+c"
+msgid "&Copy article link\talt+c"
 msgstr "Copier le lien de l'article\t+alt+c"
 
-msgid "Go to a &heading\tCtrl+h"
-msgstr "Aller à une &entête\tCtrl+h"
+msgid "Add to favourites\tctrl+f"
+msgstr ""
 
-msgid "&Linked articles\tCtrl+l"
-msgstr "&Articles présentés comme liens\tCtrl+l"
+msgid "Add to saved articles\tctrl+shift+s"
+msgstr ""
+
+#, fuzzy
+#| msgid "&Tables in article\tCtrl+t"
+msgid "&Headings in article\tCtrl+h"
+msgstr "&Tableaux de l'article\tCtrl+t"
 
 msgid "&References in article\tCtrl+r"
 msgstr "&Références de l'article\\tCtrl+r"
 
 msgid "&Tables in article\tCtrl+t"
 msgstr "&Tableaux de l'article\tCtrl+t"
+
+msgid "&Linked articles\tCtrl+l"
+msgstr "&Articles présentés comme liens\tCtrl+l"
 
 msgid "Go to"
 msgstr "Aller à"
@@ -256,6 +370,9 @@ msgstr "sauvegarder l'article sous format &html\tctrl+shift+H"
 
 msgid "Save article"
 msgstr "Sauvegarder l'article"
+
+msgid "&Print\tctrl+P"
+msgstr ""
 
 msgid "Close article window\tctrl+w"
 msgstr "Fermer la fenêtre de l'article\tctrl+w"
@@ -306,23 +423,59 @@ msgstr "Article chargé."
 msgid "Article copied."
 msgstr "Article copié."
 
-msgid "Article link copied."
-msgstr "Lien de l'article copié."
-
 msgid "Save {}:"
 msgstr "Sauvegarder {}:"
 
 msgid "Linked articles"
 msgstr "Articles présentés comme lien"
 
+msgid ""
+"Table {}:\n"
+" {}"
+msgstr ""
+"Tableau {}:\n"
+" {}"
+
+msgid "Add to Favourites"
+msgstr ""
+
+msgid "Choose the name of the article in your favourites."
+msgstr ""
+
+msgid "&Add"
+msgstr ""
+
+msgid "The article has been added to favourites."
+msgstr ""
+
+#, fuzzy
+#| msgid "Save article"
+msgid "Add to saved articles"
+msgstr "Sauvegarder l'article"
+
+msgid "Choose the name of the article in your saved articles."
+msgstr ""
+
+msgid "The article has been added to your saved articles."
+msgstr ""
+
+msgid "Lines: {}."
+msgstr ""
+
+msgid "Paragraphs: {}."
+msgstr ""
+
+msgid "Sentences: {}."
+msgstr ""
+
+msgid "Words: {}."
+msgstr ""
+
+msgid "Characters: {}."
+msgstr ""
+
 msgid "Search results"
 msgstr "Résultats de recherche"
-
-msgid "&View Article"
-msgstr "&Afficher l'article"
-
-msgid "&Copy article link"
-msgstr "&Copier le lien de l'article"
 
 msgid "Go&Back"
 msgstr "&Retourner"
@@ -333,14 +486,11 @@ msgstr "Articles choisis au hasard"
 msgid "We couldn't find  any articles that match your search."
 msgstr "Aucun article correspondant à votre recherche n'a pu être trouvé."
 
-msgid "Opening:"
-msgstr "Ouverture de :"
-
-msgid "This link cannot be opened in the browser."
-msgstr "Ce lien ne peut pas être ouvert dans le navigateur."
-
-msgid "This link cannot be copied."
-msgstr "Ce lien ne peut pas être copié."
-
 msgid "<h1>Please wait</h1>"
 msgstr "<h1>Veuiller patienter</h1>"
+
+#~ msgid "Some required files are missing."
+#~ msgstr "Certains fichiers requis sont manquants."
+
+#~ msgid "Go to a &heading\tCtrl+h"
+#~ msgstr "Aller à une &entête\tCtrl+h"

@@ -15,11 +15,11 @@ build_exe_options = {
 "include_msvcr": False
 }
 
-description="With this program, you can search or browse any Wikipedia article. site: https://t.me/tecwindow"
+description="WikiSearch"
 
 # GUI applications require a different base on Windows (the default is for a
 # console application).
 base= None
 if sys.platform == "win32":
 	base = "Win32GUI"
-	setup(name="WikiSearch", version="1.3.0", description=description, options={"build_exe": build_exe_options}, executables=[Executable("WikiSearch.py", base=base)])
+	setup(name="WikiSearch", version="1.4.0", description=description, options={"build_exe": build_exe_options}, executables=[Executable("WikiSearch.py", base=base)])

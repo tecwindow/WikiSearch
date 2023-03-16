@@ -5,24 +5,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-08-09 21:50+0300\n"
-"PO-Revision-Date: 2022-08-10 00:23+0300\n"
+"POT-Creation-Date: 2023-03-16 14:59+0300\n"
+"PO-Revision-Date: 2023-03-16 15:03+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n"
-"%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "Generated-By: pygettext.py 1.5\n"
-"X-Generator: Poedit 3.0\n"
-
-msgid "Some required files are missing."
-msgstr "بعض ملفات البرنامج مفقودة."
-
-msgid "Error"
-msgstr "خطأ"
+"X-Generator: Poedit 3.2.2\n"
 
 msgid ""
 "With this program, you can search or browse any Wikipedia article. site: "
@@ -64,6 +58,15 @@ msgstr "أحمد بكر"
 msgid "&Contact us"
 msgstr "&اتصل بنا"
 
+msgid "&Saved articles\tctrl+S"
+msgstr "المقالات ال&محفوظة\tctrl+S"
+
+msgid "&Favourite articles\tctrl+F"
+msgstr "المقالات الم&فضلة\tctrl+F"
+
+msgid "&History\tctrl+H"
+msgstr "الس&جل\tctrl+H"
+
 msgid "Program &settings\tAlt+S"
 msgstr "&إعدادات البرنامج\tAlt+S"
 
@@ -92,6 +95,9 @@ msgstr ""
 msgid "Confirm"
 msgstr "تأكيد"
 
+msgid "Don't show that again"
+msgstr "لا تظهر ذلك مرة أخرى"
+
 msgid "&No"
 msgstr "&لا"
 
@@ -119,6 +125,22 @@ msgstr "حول البرنامج"
 msgid "&Ok"
 msgstr "&موافق"
 
+msgid ""
+"A link to an article with the title {} has been detected in your clipboard."
+msgstr "تم اكتشاف رابط مقال بعنوان {} في حافظتك."
+
+msgid "AutoDetect"
+msgstr "الاكتشاف التلقائي"
+
+msgid "&Open in browser"
+msgstr "&فتح في المتصفح"
+
+msgid "&Cancel"
+msgstr "&إلغاء"
+
+msgid "&View Article"
+msgstr "&عرض المقال"
+
 msgid "Connection error"
 msgstr "خطأ في الاتصال"
 
@@ -134,12 +156,6 @@ msgstr "أنت تستخدم الإصدار {}وهو الإصدار الأخير.
 msgid "Article references"
 msgstr "مراجع المقال"
 
-msgid "&Open in browser"
-msgstr "&فتح في المتصفح"
-
-msgid "&Cancel"
-msgstr "&إلغاء"
-
 msgid "Reference {}: {}"
 msgstr "المرجع {}: {}"
 
@@ -149,8 +165,8 @@ msgstr "العناوين في هذا المقال"
 msgid "Choose a heading"
 msgstr "اختر عنواناً"
 
-msgid "Go"
-msgstr "الذهاب"
+msgid "&Go"
+msgstr "ال&ذهاب"
 
 msgid "Tables in {}:"
 msgstr "الجداول في  {}:"
@@ -158,18 +174,68 @@ msgstr "الجداول في  {}:"
 msgid "&Close"
 msgstr "&إغلاق"
 
-msgid ""
-"Table {}:\n"
-" {}"
-msgstr ""
-"الجدول {}:\n"
-" {}"
+msgid "History"
+msgstr "السجل"
+
+msgid "Search"
+msgstr "بحث"
+
+msgid "Title"
+msgstr "العنوان"
+
+msgid "Date"
+msgstr "التاريخ"
+
+msgid "Time"
+msgstr "الوقت"
+
+msgid "Article language"
+msgstr "لغة المقال"
+
+msgid "&Copy article link"
+msgstr "&نسخ رابط المقال"
+
+msgid "&Delete"
+msgstr "&حذف"
+
+msgid "The selected item has been deleted."
+msgstr "تم حذف العنصر المحدد."
+
+msgid "Article link copied."
+msgstr "تم نسخ رابط المقال."
+
+msgid "Error"
+msgstr "خطأ"
+
+msgid "This link cannot be copied."
+msgstr "لا يمكن نسخ هذا الرابط."
+
+msgid "Opening:"
+msgstr "يجري الفتح:"
+
+msgid "This link cannot be opened in the browser."
+msgstr "لا يمكن فتح هذا الرابط في المتصفح."
+
+msgid "Favourite Articles"
+msgstr "المقالات المفضلة"
+
+msgid "&Rename"
+msgstr "إع&ادة التسمية"
+
+msgid "Choose the new name for the article."
+msgstr "اختر الاسم الجديد للمقال."
+
+msgid "Rename the article"
+msgstr "أعد تسمية المقال"
+
+msgid "Saved Articles"
+msgstr "المقالات المحفوظة"
 
 msgid "Program Settings"
 msgstr "إعدادات البرنامج"
 
 msgid "Choose language:"
-msgstr "اختر اللغة"
+msgstr "اختر اللغة:"
 
 msgid "Choose your prefered view:"
 msgstr "اختر العارض المفضل لك:"
@@ -189,11 +255,32 @@ msgstr "حدد عدد المقالات العشوائية:"
 msgid "Show Close message when at least an article is open"
 msgstr "إظهار رسالة الإغلاق عندما يكون مقال واحد مفتوحاً على الأقل"
 
+msgid "Auto detect links from the clipboard"
+msgstr "الاكتشاف التلقائي  عن الروابط من الحافظة"
+
 msgid "Check for updates automatically"
 msgstr "التحقق التلقائي من التحديثات"
 
 msgid "Close the article via the Escape key"
 msgstr "إغلاق المقال بواسطة مفتاح الهروب"
+
+msgid "General"
+msgstr "عام"
+
+msgid "Delete history"
+msgstr "حذف السجل"
+
+msgid "Delete favourites"
+msgstr "حذف المفضلة"
+
+msgid "Delete saved articles"
+msgstr "حذف المقالات المحفوظة"
+
+msgid "Reset to default settings"
+msgstr "إعادة تعيين الإعدادات الافتراضية"
+
+msgid "Advanced"
+msgstr "متقدم"
 
 msgid "&Save changes"
 msgstr "&حفظ التغييرات"
@@ -205,10 +292,26 @@ msgstr ""
 "لتغيير اللغة, تحتاج إلى إعادة تشغيل البرنامج.\n"
 "هل تريد إعادة تشغيل البرنامج الآن؟"
 
+msgid ""
+"Are you sure you want to reset all settings?\n"
+"The program will restart."
+msgstr ""
+"هل تريد بالتأكيد إعادة تعيين كافة الإعدادات؟\n"
+"ستتم إعادة تشغيل البرنامج."
+
+msgid "Are you sure you want to delete the saved articles content?"
+msgstr "هل أنت متأكد أنك تريد حذف محتوى المقالات المحفوظة؟"
+
+msgid "Are you sure you want to delete your favourites content?"
+msgstr "هل أنت متأكد أنك تريد حذف المحتوى المفضلة؟"
+
+msgid "Are you sure you want to delete the history content?"
+msgstr "هل أنت متأكد أنك تريد حذف محتوى السجل؟"
+
 msgid "Update found"
 msgstr "تم العثور على تحديث"
 
-msgid "version {} is available."
+msgid "Version {} is available."
 msgstr "الإصدار {} متاح."
 
 msgid "&Update"
@@ -223,23 +326,29 @@ msgstr "يرجى الانتظار."
 msgid "View article"
 msgstr "عرض المقال"
 
-msgid "Copy article\tctrl+shift+c"
-msgstr "نسخ المقال\tctrl+shift+c"
+msgid "&Copy article\tctrl+shift+c"
+msgstr "& نسخ المقال \\ tctrl + shift + c"
 
-msgid "Copy article link\t+alt+c"
-msgstr "نسخ رابط المقال\t+alt+c"
+msgid "&Copy article link\talt+c"
+msgstr "&نسخ رابط المقال\t+alt+c"
 
-msgid "Go to a &heading\tCtrl+h"
-msgstr "الذهاب إلى &عنوان\tCtrl+h"
+msgid "Add to favourites\tctrl+f"
+msgstr "إضافة إلى المفضلة\tctrl+f"
 
-msgid "&Linked articles\tCtrl+l"
-msgstr "&المقالات المرتبطة\tCtrl+l"
+msgid "Add to saved articles\tctrl+shift+s"
+msgstr "إضافة إلى المقالات المحفوظة\tctrl+shift+s"
+
+msgid "&Headings in article\tCtrl+h"
+msgstr "العناوين &في المقال\tCtrl+h"
 
 msgid "&References in article\tCtrl+r"
 msgstr "الم&راجع في المقال\tCtrl+r"
 
 msgid "&Tables in article\tCtrl+t"
 msgstr "الج&داول في المقال\tCtrl+t"
+
+msgid "&Linked articles\tCtrl+l"
+msgstr "&المقالات المرتبطة\tCtrl+l"
 
 msgid "Go to"
 msgstr "الذهاب إلى"
@@ -252,6 +361,9 @@ msgstr "حفظ المقال بصيغة &html\tctrl+shift+H"
 
 msgid "Save article"
 msgstr "حفظ المقال"
+
+msgid "&Print\tctrl+P"
+msgstr "&طباعة"
 
 msgid "Close article window\tctrl+w"
 msgstr "إغلاق نافذة المقال\tctrl+w"
@@ -278,7 +390,7 @@ msgid "Copy article link"
 msgstr "نسخ رابط المقال"
 
 msgid "Close article"
-msgstr "إغلاق المقال."
+msgstr "إغلاق المقال"
 
 msgid "Loading article:"
 msgstr "يجري تحميل المقال:"
@@ -302,23 +414,57 @@ msgstr "تم تحميل المقال."
 msgid "Article copied."
 msgstr "تم نسخ المقال."
 
-msgid "Article link copied."
-msgstr "تم نسخ رابط المقال."
-
 msgid "Save {}:"
 msgstr "حفظ {}:"
 
 msgid "Linked articles"
 msgstr "المقالات المرتبطة"
 
+msgid ""
+"Table {}:\n"
+" {}"
+msgstr ""
+"الجدول {}:\n"
+" {}"
+
+msgid "Add to Favourites"
+msgstr "إضافة إلى المفضلة"
+
+msgid "Choose the name of the article in your favourites."
+msgstr "اختر اسم المقال في المفضلة."
+
+msgid "&Add"
+msgstr "&إضافة"
+
+msgid "The article has been added to favourites."
+msgstr "تمت إضافة المقال إلى المفضلة."
+
+msgid "Add to saved articles"
+msgstr "إضافة إلى المقالات المحفوظة"
+
+msgid "Choose the name of the article in your saved articles."
+msgstr "اختر اسم المقال في مقالاتك المحفوظة."
+
+msgid "The article has been added to your saved articles."
+msgstr "تمت إضافة المقال إلى مقالاتك المحفوظة."
+
+msgid "Lines: {}."
+msgstr "السطور:  {}."
+
+msgid "Paragraphs: {}."
+msgstr "الفقرات: {}."
+
+msgid "Sentences: {}."
+msgstr "الجمل: {}."
+
+msgid "Words: {}."
+msgstr "الكلمات:  {}."
+
+msgid "Characters: {}."
+msgstr "الحروف:  {}."
+
 msgid "Search results"
 msgstr "نتائج البحث"
-
-msgid "&View Article"
-msgstr "&عرض المقال"
-
-msgid "&Copy article link"
-msgstr "&نسخ رابط المقال"
 
 msgid "Go&Back"
 msgstr "&رجوع"
@@ -329,14 +475,20 @@ msgstr "المقالات العشوائية"
 msgid "We couldn't find  any articles that match your search."
 msgstr "لم نتمكن من العثور على أي مقالات تطابق بحثك."
 
-msgid "Opening:"
-msgstr "يجري الفتح:"
-
-msgid "This link cannot be opened in the browser."
-msgstr "لا يمكن فتح هذا الرابط في المتصفح."
-
-msgid "This link cannot be copied."
-msgstr "لا يمكن نسخ هذا الرابط."
-
 msgid "<h1>Please wait</h1>"
 msgstr "<h1>يرجى الانتظار</h1>"
+
+#~ msgid "Opening."
+#~ msgstr "يجري الفتح."
+
+#~ msgid "Favourites"
+#~ msgstr "المفضلة"
+
+#~ msgid "Saved articles"
+#~ msgstr "المقالات المحفوظة"
+
+#~ msgid "Choose the new name of the article."
+#~ msgstr "اختر الاسم الجديد للمقال."
+
+#~ msgid "Print\tctrl+P"
+#~ msgstr "طباعة"

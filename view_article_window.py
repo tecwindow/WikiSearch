@@ -519,7 +519,7 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		g.Data.InsertData("FavouritesTable", (self.title, name, self.CurrentSettings["search language"], self.url))
 
 		if not self.o.is_system_output():
-			self.o.speak(_("The article added to favourites."), interrupt=True)
+			self.o.speak(_("The article has been added to favourites."), interrupt=True)
 
 	# creating a function to add the article to saved articles table in Database.
 	def OnSavedArticles(self, event):

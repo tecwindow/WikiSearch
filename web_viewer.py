@@ -77,7 +77,7 @@ class WebViewArticle(wx.Frame):
 		self.SaveAsHtmlItem = SaveMenu.Append(-1, _("Save article as &html\tctrl+shift+H"))
 		self.SaveAsHtmlItem.Enable(False)
 		actions.AppendSubMenu(SaveMenu, _("Save article"))
-		self.PrintItem = actions.Append(-1, _("Print\tctrl+P"))
+		self.PrintItem = actions.Append(-1, _("&Print\tctrl+P"))
 		self.PrintItem.Enable(False)
 		self.CloseArticleItem = actions.Append(-1, _("Close article window\tctrl+w"))
 		self.CloseProgramItem = actions.Append(-1, _("Close the program\tctrl+F4"))

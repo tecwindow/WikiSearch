@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2022-08-09 21:50+0300\n"
+"POT-Creation-Date: 2023-03-16 14:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,12 +14,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-
-msgid "Some required files are missing."
-msgstr ""
-
-msgid "Error"
-msgstr ""
 
 msgid "With this program, you can search or browse any Wikipedia article. site: https://github.com/tecwindow/WikiSearch"
 msgstr ""
@@ -57,6 +51,15 @@ msgstr ""
 msgid "&Contact us"
 msgstr ""
 
+msgid "&Saved articles\tctrl+S"
+msgstr ""
+
+msgid "&Favourite articles\tctrl+F"
+msgstr ""
+
+msgid "&History\tctrl+H"
+msgstr ""
+
 msgid "Program &settings\tAlt+S"
 msgstr ""
 
@@ -83,6 +86,9 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
+msgid "Don't show that again"
+msgstr ""
+
 msgid "&No"
 msgstr ""
 
@@ -104,6 +110,21 @@ msgstr ""
 msgid "&Ok"
 msgstr ""
 
+msgid "A link to an article with the title {} has been detected in your clipboard."
+msgstr ""
+
+msgid "AutoDetect"
+msgstr ""
+
+msgid "&Open in browser"
+msgstr ""
+
+msgid "&Cancel"
+msgstr ""
+
+msgid "&View Article"
+msgstr ""
+
 msgid "Connection error"
 msgstr ""
 
@@ -119,12 +140,6 @@ msgstr ""
 msgid "Article references"
 msgstr ""
 
-msgid "&Open in browser"
-msgstr ""
-
-msgid "&Cancel"
-msgstr ""
-
 msgid "Reference {}: {}"
 msgstr ""
 
@@ -134,7 +149,7 @@ msgstr ""
 msgid "Choose a heading"
 msgstr ""
 
-msgid "Go"
+msgid "&Go"
 msgstr ""
 
 msgid "Tables in {}:"
@@ -143,9 +158,61 @@ msgstr ""
 msgid "&Close"
 msgstr ""
 
-msgid ""
-"Table {}:\n"
-" {}"
+msgid "History"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Article language"
+msgstr ""
+
+msgid "&Copy article link"
+msgstr ""
+
+msgid "&Delete"
+msgstr ""
+
+msgid "The selected item has been deleted."
+msgstr ""
+
+msgid "Article link copied."
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "This link cannot be copied."
+msgstr ""
+
+msgid "Opening:"
+msgstr ""
+
+msgid "This link cannot be opened in the browser."
+msgstr ""
+
+msgid "Favourite Articles"
+msgstr ""
+
+msgid "&Rename"
+msgstr ""
+
+msgid "Choose the new name for the article."
+msgstr ""
+
+msgid "Rename the article"
+msgstr ""
+
+msgid "Saved Articles"
 msgstr ""
 
 msgid "Program Settings"
@@ -172,10 +239,31 @@ msgstr ""
 msgid "Show Close message when at least an article is open"
 msgstr ""
 
+msgid "Auto detect links from the clipboard"
+msgstr ""
+
 msgid "Check for updates automatically"
 msgstr ""
 
 msgid "Close the article via the Escape key"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Delete history"
+msgstr ""
+
+msgid "Delete favourites"
+msgstr ""
+
+msgid "Delete saved articles"
+msgstr ""
+
+msgid "Reset to default settings"
+msgstr ""
+
+msgid "Advanced"
 msgstr ""
 
 msgid "&Save changes"
@@ -186,10 +274,24 @@ msgid ""
 "Do you want to restart the program now?"
 msgstr ""
 
+msgid ""
+"Are you sure you want to reset all settings?\n"
+"The program will restart."
+msgstr ""
+
+msgid "Are you sure you want to delete the saved articles content?"
+msgstr ""
+
+msgid "Are you sure you want to delete your favourites content?"
+msgstr ""
+
+msgid "Are you sure you want to delete the history content?"
+msgstr ""
+
 msgid "Update found"
 msgstr ""
 
-msgid "version {} is available."
+msgid "Version {} is available."
 msgstr ""
 
 msgid "&Update"
@@ -204,22 +306,28 @@ msgstr ""
 msgid "View article"
 msgstr ""
 
-msgid "Copy article\tctrl+shift+c"
+msgid "&Copy article\tctrl+shift+c"
 msgstr ""
 
-msgid "Copy article link\t+alt+c"
+msgid "&Copy article link\talt+c"
 msgstr ""
 
-msgid "Go to a &heading\tCtrl+h"
+msgid "Add to favourites\tctrl+f"
 msgstr ""
 
-msgid "&Linked articles\tCtrl+l"
+msgid "Add to saved articles\tctrl+shift+s"
+msgstr ""
+
+msgid "&Headings in article\tCtrl+h"
 msgstr ""
 
 msgid "&References in article\tCtrl+r"
 msgstr ""
 
 msgid "&Tables in article\tCtrl+t"
+msgstr ""
+
+msgid "&Linked articles\tCtrl+l"
 msgstr ""
 
 msgid "Go to"
@@ -232,6 +340,9 @@ msgid "Save article as &html\tctrl+shift+H"
 msgstr ""
 
 msgid "Save article"
+msgstr ""
+
+msgid "&Print\tctrl+P"
 msgstr ""
 
 msgid "Close article window\tctrl+w"
@@ -281,22 +392,54 @@ msgstr ""
 msgid "Article copied."
 msgstr ""
 
-msgid "Article link copied."
-msgstr ""
-
 msgid "Save {}:"
 msgstr ""
 
 msgid "Linked articles"
 msgstr ""
 
+msgid ""
+"Table {}:\n"
+" {}"
+msgstr ""
+
+msgid "Add to Favourites"
+msgstr ""
+
+msgid "Choose the name of the article in your favourites."
+msgstr ""
+
+msgid "&Add"
+msgstr ""
+
+msgid "The article has been added to favourites."
+msgstr ""
+
+msgid "Add to saved articles"
+msgstr ""
+
+msgid "Choose the name of the article in your saved articles."
+msgstr ""
+
+msgid "The article has been added to your saved articles."
+msgstr ""
+
+msgid "Lines: {}."
+msgstr ""
+
+msgid "Paragraphs: {}."
+msgstr ""
+
+msgid "Sentences: {}."
+msgstr ""
+
+msgid "Words: {}."
+msgstr ""
+
+msgid "Characters: {}."
+msgstr ""
+
 msgid "Search results"
-msgstr ""
-
-msgid "&View Article"
-msgstr ""
-
-msgid "&Copy article link"
 msgstr ""
 
 msgid "Go&Back"
@@ -306,15 +449,6 @@ msgid "Random articles"
 msgstr ""
 
 msgid "We couldn't find  any articles that match your search."
-msgstr ""
-
-msgid "Opening:"
-msgstr ""
-
-msgid "This link cannot be opened in the browser."
-msgstr ""
-
-msgid "This link cannot be copied."
 msgstr ""
 
 msgid "<h1>Please wait</h1>"

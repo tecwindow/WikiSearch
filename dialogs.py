@@ -352,7 +352,7 @@ class HistoryDialog(wx.Dialog):
 			url = wikipedia.page(SelectedItem).url
 			webbrowser.open_new(url)
 			if not self.o.is_system_output():
-				self.o.speak(_("Opening."), interrupt=True)
+				self.o.speak(_("Opening:"), interrupt=True)
 		except:
 			CantOpen = wx.MessageDialog(self, _("This link cannot be opened in the browser."), _("Error"), style=wx.ICON_ERROR+wx.OK)
 			CantOpen.SetOKLabel(_("&Ok"))
@@ -370,7 +370,7 @@ class HistoryDialog(wx.Dialog):
 # Creating favourites dialog
 class FavouritesDialog(wx.Dialog):
 	def __init__(self, parent):
-		wx.Dialog.__init__(self, parent, title=_("Favourites"), size=(450, 450))
+		wx.Dialog.__init__(self, parent, title=_("Favourite Articles"), size=(450, 450))
 		self.CenterOnParent()
 		self.o = accessible_output2.outputs.auto.Auto()
 		self.OpenInBrowser_id = wx.NewIdRef(count=1)
@@ -539,7 +539,7 @@ class FavouritesDialog(wx.Dialog):
 		# Open the link in browser.
 		webbrowser.open_new(url)
 		if not self.o.is_system_output():
-			self.o.speak(_("Opening."), interrupt=True)
+			self.o.speak(_("Opening:"), interrupt=True)
 
 	# making access key
 	def OnKeyDown(self, event):
@@ -554,7 +554,7 @@ class FavouritesDialog(wx.Dialog):
 # Creating saved articles dialog
 class SavedArticlesDialog(wx.Dialog):
 	def __init__(self, parent):
-		wx.Dialog.__init__(self, parent, title=_("Saved articles"), size=(450, 450))
+		wx.Dialog.__init__(self, parent, title=_("Saved Articles"), size=(450, 450))
 		self.CenterOnParent()
 		self.o = accessible_output2.outputs.auto.Auto()
 		self.OpenInBrowser_id = wx.NewIdRef(count=1)
@@ -686,7 +686,7 @@ class SavedArticlesDialog(wx.Dialog):
 	# creating function to rename items
 	def OnRenameItem(self, event):
 		SelectedItem = self.SavedArticlesList.GetItemText(self.SavedArticlesList.GetFocusedItem(), 0)
-		RenameDialog = wx.TextEntryDialog(self, _("Choose the new name of the article."), _("Rename the article"), SelectedItem)
+		RenameDialog = wx.TextEntryDialog(self, _("Choose the new name for the article."), _("Rename the article"), SelectedItem)
 		RenameDialog.GetChildren()[-3].SetLabel(_("&Rename"))
 		RenameDialog.GetChildren()[-2].SetLabel(_("&Cancel"))
 		if RenameDialog.ShowModal() == wx.ID_OK:
@@ -719,7 +719,7 @@ class SavedArticlesDialog(wx.Dialog):
 		# Open the link in browser.
 		webbrowser.open_new(url)
 		if not self.o.is_system_output():
-			self.o.speak(_("Opening."), interrupt=True)
+			self.o.speak(_("Opening:"), interrupt=True)
 
 	# making access key
 	def OnKeyDown(self, event):
