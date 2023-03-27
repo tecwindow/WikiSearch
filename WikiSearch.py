@@ -117,6 +117,12 @@ class window(wx.Frame):
 		self.Show()
 
 
+	# Check if the is there link in the clipboard in case the feature is enabled.
+		if CurrentSettings["auto detect"] == "True":
+			self.AutoDetect()
+		# Check if the is there update in case the feature is enabled.
+		if CurrentSettings["auto update"] == "True":
+			threading.Thread(target=self.OnCheckForItem(None, AutoCheck="yes"), daemon=True).start()
 
 		# events for buttons
 		self.StartSearch.Bind(wx.EVT_BUTTON, self.OnViewSearch)
@@ -143,7 +149,10 @@ class window(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://twitter.com/my_nvda"), MesterPerfectTw)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://wa.me/201554240991"), MesterPerfectWh)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://www.facebook.com/my.nvda.1"), MesterPerfectFa)
-		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/TecWindow"), TecWindow)
+		if CurrentSettings["language"] == "Arabic":
+			self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/TecWindow"), TecWindow)
+		else:
+			self.Bind(wx.EVT_MENU, lambda event: webbrowser.open_new("https://t.me/TecWindowProjects"), TecWindow)
 		self.Bind(wx.EVT_MENU, self.OnClose, self.CloseProgramItem)
 		self.Bind(wx.EVT_MENU, lambda event: HistoryDialog(self), self.HistoryItems)
 		self.Bind(wx.EVT_MENU, lambda event: FavouritesDialog(self), self.FavouritesItem)
@@ -343,11 +352,5 @@ if __name__ == "__main__":
 	app= wx.App()
 	# Call up the main window.
 	main_window = window()
-	# Check if the is there link in the clipboard in case the feature is enabled.
-	if CurrentSettings["auto detect"] == "True":
-		main_window.AutoDetect()
-	# Check if the is there update in case the feature is enabled.
-	if CurrentSettings["auto update"] == "True":
-		threading.Thread(target=main_window.OnCheckForItem(None, AutoCheck="yes"), daemon=True).start()
 	# make loop for the main window
 	app.MainLoop()
