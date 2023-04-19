@@ -5,6 +5,48 @@
 <h2 id="fonction-du-programme-">Fonction du programme :</h2>
 <p>Ce programme simple vous permet de faire des recherches dans Wikipédia, l&#39;encyclopédie libre, sans avoir à ouvrir votre navigateur.</p>
 <h2 id="nouveaut-s-">Nouveautés :</h2>
+<h3 id="version-1-4-">Version 1.4 :</h3>
+<p>Cette version comprend de nombreuses fonctionnalités et corrections de bugs.</p>
+<ul>
+<li>Ajout de plusieurs listes d&#39;articles.<ul>
+<li>Ajout de la possibilité de sauvegarder des articles pour une lecture hors ligne. Vous pouvez sauvegarder l&#39;article dans le programme et y revenir à tout moment.</li>
+<li>Ajout de la fonction Articles favoris, qui vous permet d&#39;enregistrer n&#39;importe quel article dans la liste des articles favoris afin de pouvoir y revenir à tout moment à partir de la même liste.</li>
+<li>Ajout de la fonction Historique, une liste qui enregistre les articles que vous avez consultés et vous permet d&#39;y revenir à tout moment.<ul>
+<li>Les listes Favoris et Articles sauvegardés vous permettent de renommer l&#39;article et de supprimer les articles sauvegardés. Appuyez sur la touche Applications sur n&#39;importe quel élément de l&#39;une ou l&#39;autre liste et vous trouverez les options appropriées. Vous pouvez également utiliser la touche Suppr pour supprimer des articles ou la touche F2 pour les renommer.</li>
+<li>Vous pouvez sauvegarder n&#39;importe quel article à partir du menu d&#39;action de la fenêtre d&#39;affichage des articles, et vous pouvez accéder à ces listes à partir du menu principal de la fenêtre principale. Chaque option possède son propre raccourci.</li>
+<li>Les données des articles sont stockées dans un fichier nommé WikiSearch.db dans le dossier WikiSearch dans AppData\Roaming. Vous pouvez supprimer une partie spécifique du contenu du fichier à partir des paramètres du programme.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Ajout d&#39;une fonctionnalité permettant de détecter les liens Wikipédia à partir de votre presse-papiers lorsque vous ouvrez WikiSearch. Vous pouvez afficher l&#39;article dans le programme, l&#39;ouvrir dans le navigateur ou ignorer le message. Vous pouvez activer ou désactiver cette fonctionnalité dans les paramètres.</li>
+<li>Si vous collez le lien d&#39;un article de Wikipedia dans le champ de recherche et que vous appuyez sur Entrée, l&#39;article s&#39;affichera immédiatement.</li>
+<li>WikiSearch se lance désormais dans la langue sélectionnée lors de l&#39;installation.</li>
+<li>Des améliorations ont été apportées à la fenêtre d&#39;affichage des articles dans la page html. En raison d&#39;un changement dans wxPython, le lecteur d&#39;écran nvda ne peut pas naviguer dans la liste des actions. Pour contourner ce problème, allez sur n&#39;importe quel bouton de la fenêtre et appuyez sur alt, et les menus fonctionneront correctement.</li>
+<li>Ajout d&#39;une barre d&#39;état à la fenêtre Affichage de l&#39;article, contenant un compteur pour le nombre de lettres, de mots, etc. dans l&#39;article. Vous pouvez obtenir la même information en appuyant sur les chiffres de 1 à 5.</li>
+<li>Ajout d&#39;une case à cocher pour désactiver la fenêtre d&#39;avertissement de fermeture lorsqu&#39;il y a des articles ouverts, la case à cocher apparaît dans la même fenêtre.</li>
+<li>La fenêtre d&#39;affichage des tableaux n&#39;affiche plus de lignes vides.</li>
+<li>Les fenêtres du programme peuvent désormais être redimensionnées et déplacées sur l&#39;écran.</li>
+<li>Ajout d&#39;une option dans les paramètres pour restaurer les paramètres par défaut du programme.</li>
+<li>Mise à jour de la version de Python utilisée à Python 3.10 et de wxPython à 4.2.0. Remplacement de Pyinstaller par Cx_Frees.</li>
+<li>Correction d&#39;un bug à cause duquel WikiSearch renvoyait un article différent de celui sélectionné dans les résultats de la recherche.</li>
+<li>Correction d&#39;un bug à cause duquel WikiSearch recherchait dans une langue différente de celle sélectionnée dans la langue de recherche.</li>
+<li>Correction d&#39;un bug à cause duquel la fenêtre d&#39;avertissement de fermeture n&#39;affichait pas correctement le nombre d&#39;articles ouverts.</li>
+<li>Désactivation de l&#39;astuce permettant d&#39;augmenter le nombre de résultats au-delà de 100.</li>
+<li>WikiSearch n&#39;utilise plus Sapi5 pour prononcer certaines actions lorsqu&#39;il est utilisé sans lecteur d&#39;écran.</li>
+<li>Plusieurs améliorations du code ont été apportées, ainsi qu&#39;un certain nombre de petites corrections de bugs ici et là.</li>
+</ul>
+<h4 id="note-">Note :</h4>
+<ul>
+<li>La fonction Imprimer l&#39;article a été ajoutée. Elle devrait fonctionner correctement lorsqu&#39;elle est utilisée à partir de la fenêtre d&#39;affichage de l&#39;article en html. Si vous utilisez le ode d&#39;affichage classique pour lire l&#39;article, nous sommes désolés de vous dire que nous n&#39;avons pas réussi à faire fonctionner cette fonctionnalité de manière optimale pour le moment. Si vous êtes en mesure de contribuer à l&#39;achèvement de cette fonctionnalité, vous pouvez le faire via GitHub.</li>
+</ul>
+<h3 id="version-1-3-">Version 1.3 :</h3>
+<p>Cette version contient quelques corrections de bugs.</p>
+<ul>
+<li>La traduction française s&#39;affiche désormais correctement.</li>
+<li>Correction du problème lié à l&#39;Unicode.</li>
+<li>Correction du bug où le programme ne se lançait pas s&#39;il était installé pour la première fois et n&#39;était pas mis à jour depuis une version précédente.</li>
+</ul>
 <h3 id="version-1-2-">Version 1.2:</h3>
 <p>Cette version comporte de nombreuses nouvelles fonctionnalités et corrections de bugs.</p>
 <ul>
@@ -69,7 +111,5 @@
 <li>Mahmoud Atef: mahmoud.atef.987123@gmail.com</li>
 <li>Mester Perfect: AhmedBakr593@gmail.com</li>
 <li>Qais Alrefai: ww258148@gmail.com</li>
-<li>TecWindow sur Telegram: <a href="https://t.me/TecWindow">https://t.me/TecWindow</a></li>
-<li>a2ztec sur Telegram: <a href="https://t.me/A2zTecChannel">https://t.me/A2zTecChannel</a></li>
 </ul>
 </body></html>

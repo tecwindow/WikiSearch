@@ -6,46 +6,45 @@ Ce programme simple vous permet de faire des recherches dans Wikipédia, l'encyc
 
 ## Nouveautés :
 
-### Version 1.4:
+### Version 1.4 :
 
-This version includes many features and bug fixes.
+Cette version comprend de nombreuses fonctionnalités et corrections de bugs.
 
-- Added several article lists.
-    - Added the ability to save articles for offline reading. You can save the article within the program and return to it at any time.
-    - Added the Favorite articles feature, which allows you to save any article to the list of favorite articles so that you can return to it at any time from the same list.
-    - Added the History feature, a list that stores the articles you have visited and allows you to return to them at any time.
-        - The Favorites and Saved articles lists allow you to rename the article and delete any saved articles. Press the Applications key on any item in either list and you will find the appropriate options. You can also use the Delete key to delete items or the F2 key to rename them.
-        - You can save any article from the action menu in the article view window, and you can access these lists from the main menu in the main window. Each option has its own shortcut.
-        - Articles data is stored in a file named WikiSearch.db in the WikiSearch folder in AppData\Roaming. You can delete a specific portion of the file's contents from within the program's settings.
+- Ajout de plusieurs listes d'articles.
+    - Ajout de la possibilité de sauvegarder des articles pour une lecture hors ligne. Vous pouvez sauvegarder l'article dans le programme et y revenir à tout moment.
+    - Ajout de la fonction Articles favoris, qui vous permet d'enregistrer n'importe quel article dans la liste des articles favoris afin de pouvoir y revenir à tout moment à partir de la même liste.
+    - Ajout de la fonction Historique, une liste qui enregistre les articles que vous avez consultés et vous permet d'y revenir à tout moment.
+        - Les listes Favoris et Articles sauvegardés vous permettent de renommer l'article et de supprimer les articles sauvegardés. Appuyez sur la touche Applications sur n'importe quel élément de l'une ou l'autre liste et vous trouverez les options appropriées. Vous pouvez également utiliser la touche Suppr pour supprimer des articles ou la touche F2 pour les renommer.
+        - Vous pouvez sauvegarder n'importe quel article à partir du menu d'action de la fenêtre d'affichage des articles, et vous pouvez accéder à ces listes à partir du menu principal de la fenêtre principale. Chaque option possède son propre raccourci.
+        - Les données des articles sont stockées dans un fichier nommé WikiSearch.db dans le dossier WikiSearch dans AppData\Roaming. Vous pouvez supprimer une partie spécifique du contenu du fichier à partir des paramètres du programme.
+- Ajout d'une fonctionnalité permettant de détecter les liens Wikipédia à partir de votre presse-papiers lorsque vous ouvrez WikiSearch. Vous pouvez afficher l'article dans le programme, l'ouvrir dans le navigateur ou ignorer le message. Vous pouvez activer ou désactiver cette fonctionnalité dans les paramètres.
+- Si vous collez le lien d'un article de Wikipedia dans le champ de recherche et que vous appuyez sur Entrée, l'article s'affichera immédiatement.
+- WikiSearch se lance désormais dans la langue sélectionnée lors de l'installation.
+- Des améliorations ont été apportées à la fenêtre d'affichage des articles dans la page html. En raison d'un changement dans wxPython, le lecteur d'écran nvda ne peut pas naviguer dans la liste des actions. Pour contourner ce problème, allez sur n'importe quel bouton de la fenêtre et appuyez sur alt, et les menus fonctionneront correctement.
+- Ajout d'une barre d'état à la fenêtre Affichage de l'article, contenant un compteur pour le nombre de lettres, de mots, etc. dans l'article. Vous pouvez obtenir la même information en appuyant sur les chiffres de 1 à 5.
+- Ajout d'une case à cocher pour désactiver la fenêtre d'avertissement de fermeture lorsqu'il y a des articles ouverts, la case à cocher apparaît dans la même fenêtre.
+- La fenêtre d'affichage des tableaux n'affiche plus de lignes vides.
+- Les fenêtres du programme peuvent désormais être redimensionnées et déplacées sur l'écran.
+- Ajout d'une option dans les paramètres pour restaurer les paramètres par défaut du programme.
+- Mise à jour de la version de Python utilisée à Python 3.10 et de wxPython à 4.2.0. Remplacement de Pyinstaller par Cx_Frees.
+- Correction d'un bug à cause duquel WikiSearch renvoyait un article différent de celui sélectionné dans les résultats de la recherche.
+- Correction d'un bug à cause duquel WikiSearch recherchait dans une langue différente de celle sélectionnée dans la langue de recherche.
+- Correction d'un bug à cause duquel la fenêtre d'avertissement de fermeture n'affichait pas correctement le nombre d'articles ouverts.
+- Désactivation de l'astuce permettant d'augmenter le nombre de résultats au-delà de 100.
+- WikiSearch n'utilise plus Sapi5 pour prononcer certaines actions lorsqu'il est utilisé sans lecteur d'écran.
+- Plusieurs améliorations du code ont été apportées, ainsi qu'un certain nombre de petites corrections de bugs ici et là.
 
-- Added a feature to detect Wikipedia links from your clipboard when you open WikiSearch. You can view the article in the program, open it in the browser, or ignore the message. You can enable or disable this feature in the settings.
-- If you paste the link of an article from Wikipedia into the search field and press Enter, the article will be displayed immediately.
-- WikiSearch now launches in the language selected during installation.
-- Some  improvements have been made to the article display window in the html page. Due to a change in wxPython, the nvda screen reader cannot navigate through the list of actions. To work around this problem, go to any button in the window and press alt, and the menus will work fine.
-- Added the status bar to View article window, containing a counter for the number of letters, words, etc. in the article. You can get the same information by pressing numbers from 1 to 5.
-- Added a checkbox to disable the closing warning window when there are open articles, the checkbox appears in the same window.
-- The view tables window no longer shows empty lines.
-- Program windows now support resizing and dragging on the screen.
-- Added an option in the settings to restore the program to its default settings.
-- Updated the version of Python used to Python 3.10 and wxPython to 4.2.0. Replaced Pyinstaller with Cx_Frees.
-- Fixed a bug where WikiSearch returned a different article than the one selected in the search results.
-- Fixed a bug where WikiSearch would search in a different language than the one selected in the search language.
-- Fixed a bug where the closing warning window did not correctly display the number of open articles.
-- Disabled the previously available trick to increase the number of results above 100.
-- WikiSearch no longer uses Sapi5 to speak some actions when used without a screen reader.
-- Several code improvements have been made, as well as a number of small bug fixes here and there.
+#### Note :
 
-#### Note:
+- La fonction Imprimer l'article a été ajoutée. Elle devrait fonctionner correctement lorsqu'elle est utilisée à partir de la fenêtre d'affichage de l'article en html. Si vous utilisez le ode d'affichage classique pour lire l'article, nous sommes désolés de vous dire que nous n'avons pas réussi à faire fonctionner cette fonctionnalité de manière optimale pour le moment. Si vous êtes en mesure de contribuer à l'achèvement de cette fonctionnalité, vous pouvez le faire via GitHub.
 
-- The Print Article feature has been added, it should work fine when used from the article view window in html. If you are using the classic view to read the article, we are sorry to say that we have not been able to get the feature to work optimally at this time. If you are able to contribute to the completion of the feature, you can do so via GitHub.
+### Version 1.3 :
 
-### Version 1.3:
+Cette version contient quelques corrections de bugs.
 
-This version comes with some bug fixes.
-
-- Now the French translation will appear correctly.
-- Fixed the issue related to the Unicode.
-- Fixed the bug where the program did not launch if it was installed for the first time and not updated from a previous version.
+- La traduction française s'affiche désormais correctement.
+- Correction du problème lié à l'Unicode.
+- Correction du bug où le programme ne se lançait pas s'il était installé pour la première fois et n'était pas mis à jour depuis une version précédente.
 
 ### Version 1.2:
 
@@ -115,5 +114,3 @@ Dépôt GitHub : https://github.com/tecwindow/WikiSearch
 - Mahmoud Atef: mahmoud.atef.987123@gmail.com
 - Mester Perfect: AhmedBakr593@gmail.com
 - Qais Alrefai: ww258148@gmail.com
-- TecWindow sur Telegram: https://t.me/TecWindow
-- a2ztec sur Telegram: https://t.me/A2zTecChannel

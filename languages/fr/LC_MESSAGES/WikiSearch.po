@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2023-03-16 14:59+0300\n"
-"PO-Revision-Date: 2023-03-16 15:21+0300\n"
+"PO-Revision-Date: 2023-04-19 12:22+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -58,13 +58,13 @@ msgid "&Contact us"
 msgstr "&Contactez-nous"
 
 msgid "&Saved articles\tctrl+S"
-msgstr ""
+msgstr "&Articles sauvegardés\tctrl+S"
 
 msgid "&Favourite articles\tctrl+F"
-msgstr ""
+msgstr "&Articles favoris\tctrl+F"
 
 msgid "&History\tctrl+H"
-msgstr ""
+msgstr "&Historique\tctrl+H"
 
 msgid "Program &settings\tAlt+S"
 msgstr "&réglages du programme Alt+S"
@@ -95,7 +95,7 @@ msgid "Confirm"
 msgstr "Confirmer"
 
 msgid "Don't show that again"
-msgstr ""
+msgstr "Ne plus montrer cela"
 
 msgid "&No"
 msgstr "&Non"
@@ -127,9 +127,11 @@ msgstr "&Ok"
 msgid ""
 "A link to an article with the title {} has been detected in your clipboard."
 msgstr ""
+"Un lien vers un article portant le titre {} a été détecté dans votre presse-"
+"papiers."
 
 msgid "AutoDetect"
-msgstr ""
+msgstr "Détection automatique"
 
 msgid "&Open in browser"
 msgstr "&Ouvrir dans le navigateur"
@@ -147,7 +149,7 @@ msgid "There is no internet connection."
 msgstr "Pas de connexion internet."
 
 msgid "No update available"
-msgstr "Aucune mise à jour n'a été trouvée."
+msgstr "Aucune mise à jour n'a été trouvée"
 
 msgid "You are using version {} which is the latest version."
 msgstr "Vous utilisez la version {} qui se trouve être la dernière version."
@@ -174,31 +176,31 @@ msgid "&Close"
 msgstr "&Fermer"
 
 msgid "History"
-msgstr ""
+msgstr "Historique"
 
 msgid "Search"
-msgstr ""
+msgstr "Recherche"
 
 msgid "Title"
-msgstr ""
+msgstr "Titre"
 
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 msgid "Time"
-msgstr ""
+msgstr "Temps"
 
 msgid "Article language"
-msgstr ""
+msgstr "Langue de l'article"
 
 msgid "&Copy article link"
 msgstr "&Copier le lien de l'article"
 
 msgid "&Delete"
-msgstr ""
+msgstr "&Supprimer"
 
 msgid "The selected item has been deleted."
-msgstr ""
+msgstr "L'élément sélectionné a été supprimé."
 
 msgid "Article link copied."
 msgstr "Lien de l'article copié."
@@ -216,19 +218,19 @@ msgid "This link cannot be opened in the browser."
 msgstr "Ce lien ne peut pas être ouvert dans le navigateur."
 
 msgid "Favourite Articles"
-msgstr ""
+msgstr "Articles favoris"
 
 msgid "&Rename"
-msgstr ""
+msgstr "&Renommer"
 
 msgid "Choose the new name for the article."
-msgstr ""
+msgstr "Choisissez le nouveau nom de l'article."
 
 msgid "Rename the article"
-msgstr ""
+msgstr "Renommer l'article"
 
 msgid "Saved Articles"
-msgstr ""
+msgstr "Articles sauvegardés"
 
 msgid "Program Settings"
 msgstr "Réglages du programme"
@@ -257,7 +259,7 @@ msgstr ""
 "ouvert"
 
 msgid "Auto detect links from the clipboard"
-msgstr ""
+msgstr "Détection automatique des liens à partir du presse-papiers"
 
 msgid "Check for updates automatically"
 msgstr "Vérifier les mises à jour automatiquement"
@@ -267,22 +269,22 @@ msgstr ""
 "Fermer l'article via la touche ÉchapClose the article via the Escape key"
 
 msgid "General"
-msgstr ""
+msgstr "Général"
 
 msgid "Delete history"
-msgstr ""
+msgstr "Supprimer l'historique"
 
 msgid "Delete favourites"
-msgstr ""
+msgstr "Supprimer les favoris"
 
 msgid "Delete saved articles"
-msgstr ""
+msgstr "Supprimer les articles sauvegardés"
 
 msgid "Reset to default settings"
-msgstr ""
+msgstr "Rétablir les paramètres par défaut"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avancé"
 
 msgid "&Save changes"
 msgstr "&Sauvegarder les modifications"
@@ -299,15 +301,18 @@ msgid ""
 "Are you sure you want to reset all settings?\n"
 "The program will restart."
 msgstr ""
+"Êtes-vous sûr de vouloir réinitialiser tous les paramètres ?\n"
+"Le programme va redémarrer."
 
 msgid "Are you sure you want to delete the saved articles content?"
 msgstr ""
+"Êtes-vous sûr de vouloir supprimer le contenu des articles sauvegardés ?"
 
 msgid "Are you sure you want to delete your favourites content?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir supprimer le contenu de vos favoris ?"
 
 msgid "Are you sure you want to delete the history content?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir supprimer le contenu de l'historique ?"
 
 msgid "Update found"
 msgstr "Mise à jour trouvée"
@@ -329,26 +334,20 @@ msgstr "Veuiller patienter."
 msgid "View article"
 msgstr "Voir l'article"
 
-#, fuzzy
-#| msgid "Copy article\tctrl+shift+c"
 msgid "&Copy article\tctrl+shift+c"
 msgstr "Copier l'article ctrl+maj+c"
 
-#, fuzzy
-#| msgid "Copy article link\t+alt+c"
 msgid "&Copy article link\talt+c"
 msgstr "Copier le lien de l'article\t+alt+c"
 
 msgid "Add to favourites\tctrl+f"
-msgstr ""
+msgstr "Ajouter aux favoris\tctrl+f"
 
 msgid "Add to saved articles\tctrl+shift+s"
-msgstr ""
+msgstr "Ajouter aux articles sauvegardés\tctrl+maj+s"
 
-#, fuzzy
-#| msgid "&Tables in article\tCtrl+t"
 msgid "&Headings in article\tCtrl+h"
-msgstr "&Tableaux de l'article\tCtrl+t"
+msgstr "&entètes de l'article\tCtrl+t"
 
 msgid "&References in article\tCtrl+r"
 msgstr "&Références de l'article\\tCtrl+r"
@@ -363,16 +362,16 @@ msgid "Go to"
 msgstr "Aller à"
 
 msgid "Save article as &txt\tctrl+shift+T"
-msgstr "sauvegarder l'article sous format &txt\tctrl+shift+T"
+msgstr "Sauvegarder l'article sous format &txt\tctrl+shift+T"
 
 msgid "Save article as &html\tctrl+shift+H"
-msgstr "sauvegarder l'article sous format &html\tctrl+shift+H"
+msgstr "Sauvegarder l'article sous format &html\tctrl+shift+H"
 
 msgid "Save article"
 msgstr "Sauvegarder l'article"
 
 msgid "&Print\tctrl+P"
-msgstr ""
+msgstr "&Imprimer\tctrl+P"
 
 msgid "Close article window\tctrl+w"
 msgstr "Fermer la fenêtre de l'article\tctrl+w"
@@ -437,42 +436,40 @@ msgstr ""
 " {}"
 
 msgid "Add to Favourites"
-msgstr ""
+msgstr "Ajouter aux Favoris"
 
 msgid "Choose the name of the article in your favourites."
-msgstr ""
+msgstr "Choisissez le nom de l'article dans vos favoris."
 
 msgid "&Add"
-msgstr ""
+msgstr "&Ajouter"
 
 msgid "The article has been added to favourites."
-msgstr ""
+msgstr "L'article a été ajouté aux favoris."
 
-#, fuzzy
-#| msgid "Save article"
 msgid "Add to saved articles"
-msgstr "Sauvegarder l'article"
+msgstr "Ajouter aux articles sauvegardés"
 
 msgid "Choose the name of the article in your saved articles."
-msgstr ""
+msgstr "Choisissez le nom de l'article dans vos articles sauvegardés."
 
 msgid "The article has been added to your saved articles."
-msgstr ""
+msgstr "L'article a été ajouté à vos articles sauvegardés."
 
 msgid "Lines: {}."
-msgstr ""
+msgstr "Lignes : {}."
 
 msgid "Paragraphs: {}."
-msgstr ""
+msgstr "Paragraphes : {}."
 
 msgid "Sentences: {}."
-msgstr ""
+msgstr "Phrases : {}."
 
 msgid "Words: {}."
-msgstr ""
+msgstr "Mots : {}."
 
 msgid "Characters: {}."
-msgstr ""
+msgstr "Lettres {}."
 
 msgid "Search results"
 msgstr "Résultats de recherche"

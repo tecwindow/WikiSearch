@@ -5,7 +5,50 @@
 <h2 id="funci-n-del-programa">Función del programa</h2>
 <p>Este simple programa permite buscar en Wikipedia, la enciclopedia libre, sin tener que abrir el navegador.</p>
 <h2 id="-qu-hay-de-nuevo-">¿Qué hay de nuevo?</h2>
-<h3 id="versi-n-1-2-">Versión 1.2:</h3>
+<h3 id="versi-n-1-4">Versión 1.4</h3>
+<p>Esta versión incluye muchas nuevas funcionalidades y corrección de errores.</p>
+<ul>
+<li><p>Añadidas varias listas de artículos.</p><ul>
+<li>Se ha añadido la posibilidad de guardar artículos para leerlos sin conexión. Puede guardar el artículo dentro del programa y volver a él en cualquier momento.</li>
+<li>Se ha añadido la función Artículos favoritos, que permite guardar cualquier artículo en la lista de artículos favoritos para poder volver a él en cualquier momento desde la lista.</li>
+<li>Se ha añadido una función de Historial, una lista que almacena los artículos que ha visitado y le permite volver a ellos en cualquier momento.<ul>
+<li>La lista de Favoritos y la de Artículos guardados permiten cambiar el nombre del artículo al guardarlo y eliminar los artículos almacenados. Pulse la tecla Aplicaciones sobre cualquier artículo de cualquiera de las dos listas y encontrará las opciones adecuadas. También puede utilizar la tecla Suprimir para borrar artículos o la tecla F2 para renombrarlos.
+<li>Puede guardar cualquier artículo desde el menú de acciones de la ventana de vista de artículos, y puede acceder a estas listas desde el menú principal de la ventana principal. Cada opción tiene su propio acceso directo.</li>
+<li>Los datos de los artículos se almacenan en un archivo llamado WikiSearch.db en la carpeta WikiSearch en AppData\Roaming. Puede eliminar una parte específica del contenido del archivo desde los ajustes del programa.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Se ha añadido una función para detectar enlaces de Wikipedia desde el portapapeles al abrir WikiSearch. Se puede ver el artículo en el programa, abrir en el navegador o ignorar el mensaje. Se puede activar o desactivar esta función en los ajustes del programa.</p>
+</li>
+<li>Al pegar un enlace de un artículo de Wikipedia en el campo de búsqueda y pulsar Intro, el artículo se mostrará inmediatamente.</li>
+<li>WikiSearch ahora se inicia en el idioma seleccionado durante la instalación.</li>
+<li>Se han realizado algunas mejoras en la ventana de visualización de artículos en la página html. Debido a un cambio en wxPython, el lector de pantalla nvda no puede navegar por la lista de acciones. Para solucionar este problema, vaya a cualquier botón de la ventana y pulse alt, y los menús funcionarán correctamente.</li>
+<li>Se ha añadido la barra de estado a la ventana Ver artículo, que contiene un contador del número de letras, palabras, etc. del artículo. Se Puede obtener la misma información pulsando los números del 1 al 5.</li>
+<li>Añadida una casilla para desactivar la ventana de aviso de cierre cuando hay artículos abiertos, la casilla aparece en la misma ventana.</li>
+<li>La ventana de ver tablas ya no muestra líneas vacías.</li>
+<li>Las ventanas del programa ahora permiten redimensionar y arrastrar en la pantalla.</li>
+<li>Añadida una opción en los ajustes para restaurar el programa a su configuración por defecto.</li>
+<li>Actualizada la versión de Python utilizada a Python 3.10 y wxPython a 4.2.0. Sustituido Pyinstaller por Cx_Frees.</li>
+<li>Corregido un error por el que WikiSearch devolvía un artículo diferente al seleccionado en los resultados de la búsqueda.</li>
+<li>Corregido un error por el que WikiSearch buscaba en un idioma diferente al seleccionado en el idioma de búsqueda.</li>
+<li>Corregido un error por el que la ventana de aviso de cierre no mostraba correctamente el número de artículos abiertos.</li>
+<li>Desactivado el método disponible anteriormente para aumentar el número de resultados por encima de 100.</li>
+<li>WikiSearch ya no utiliza Sapi5 para pronunciar algunas acciones cuando se utiliza sin un lector de pantalla.</li>
+<li>Se han realizado varias mejoras de código, al igual que algunas correcciones de errores por aquí y por allí.</li>
+</ul>
+<h4 id="notas">Notas</h4>
+<ul>
+<li>La funcionalidad de imprimir un artículo ha sido añadida, debería funcionar bien cuando se trata de la ventana de vista de artículo en HTML. Si lo que usted hace es usar la vista clásica nos entristece decirle que no hemos conseguido hacer que la funcionlidad cumpla su función correctamente. Si cree que es capaz de ayudarnos a resolver esta funcionalidad estamos abiertos a sus contribuciones en github.</li>
+</ul>
+<h3 id="versi-n-1-3">Versión 1.3</h3>
+<p>Esta versión corrige algunos errores:</p>
+<ul>
+<li>La traducción al francés aparecerá correctamente.</li>
+<li>Corregido el problema relacionado con unicode.</li>
+<li>Corregido el error que hacía que el programa no se iniciara si el programa se instalaba por primera vez y no estaba actualizado.</li>
+</ul>
+<h3 id="versi-n-1-2">Versión 1.2</h3>
 <p>Esta versión trae nuevas características y además corrige algunos errores.</p>
 <ul>
 <li>Se ha añadido una traducción al francés. Agradecerle a Riad Assoum por ella.</li>
@@ -23,13 +66,13 @@
 <li>Cambio de algunos atajos de teclado.</li>
 <li>Correción de errores menores.</li>
 </ul>
-<h4 id="notas-">Notas:</h4>
+<h4 id="notas">Notas</h4>
 <ul>
 <li>Debido a un cambio con ajustes de idioma en esta versión, el idioma del programa volverá automáticamente al inglés después de la actualización. Deberá cambiarlo de nuevo una vez y se guardará automáticamente como antes.</li>
 <li>Todas las nuevas opciones relacionadas con los artículos se pueden encontrar presionando alt y navegando por los menús donde puede encontrar y aprender todas las teclas rápidas.</li>
 <li>Todos los atajos serán escritos en este fichero.</li>
 </ul>
-<h3 id="versi-n-1-1-">Versión 1.1:</h3>
+<h3 id="versi-n-1-1">Versión 1.1</h3>
 <p>Todavía estamos aprendiendo y mejorando este software a medida que nosotros mejoramos nuestros conocimientos sobre programación, con lo que hemos podido agregar bastantes funciones en esta versión.</p>
 <ul>
 <li>El programa ahora admite traducciones y usted puede contribuir a traducirlo a su idioma.</li>
@@ -56,7 +99,7 @@
 <li>Mientras se lea el artículo, poder cambiar el color y la fuente de éste.</li>
 <li>Un actualizador automático que permite a los usuarios acceder rápidamente a nuevas funciones.</li>
 </ul>
-<h2 id="notas-">Notas:</h2>
+<h2 id="notas">Notas</h2>
 <ul>
 <li>Seguiremos actualizando el programa de manera constante para añadir nuevas funciones que nos sugieran nuestros usuarios. Es decir, cuantas más veces una característica sea pedida, más rápido se implementará.</li>
 <li>Si desea traducir el programa a su idioma, contáctenos a través de una de las direcciones de correo electrónico en este archivo o nuestras cuentas de Telegram.</li>
@@ -69,7 +112,5 @@
 <li>Mahmoud Atef: mahmoud.atef.987123@gmail.com</li>
 <li>Mester Perfect: AhmedBakr593@gmail.com</li>
 <li>Qais Alrefai: ww258148@gmail.com</li>
-<li>TecWindow en Telegram: <a href="https://t.me/TecWindow">https://t.me/TecWindow</a></li>
-<li>a2ztec en Telegram: <a href="https://t.me/A2zTecChannel">https://t.me/A2zTecChannel</a></li>
 </ul>
 </body></html>

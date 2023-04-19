@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2023-03-16 14:59+0300\n"
-"PO-Revision-Date: 2023-03-16 15:10+0300\n"
+"PO-Revision-Date: 2023-04-19 12:16+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -58,13 +58,13 @@ msgid "&Contact us"
 msgstr "&Contacto"
 
 msgid "&Saved articles\tctrl+S"
-msgstr ""
+msgstr "Artí&culos guardados\tctrl+S"
 
 msgid "&Favourite articles\tctrl+F"
-msgstr ""
+msgstr "&Artículos favoritos\tctrl+F"
 
 msgid "&History\tctrl+H"
-msgstr ""
+msgstr "Historial de artículos"
 
 msgid "Program &settings\tAlt+S"
 msgstr "Ajustes del &programa Alt+S"
@@ -95,7 +95,7 @@ msgid "Confirm"
 msgstr "Confirmar"
 
 msgid "Don't show that again"
-msgstr ""
+msgstr "No volver a mostrar"
 
 msgid "&No"
 msgstr "&No"
@@ -127,9 +127,10 @@ msgstr "&De acuerdo"
 msgid ""
 "A link to an article with the title {} has been detected in your clipboard."
 msgstr ""
+"Un link de un artículo con título {} ha sido detectado en su portapapeles."
 
 msgid "AutoDetect"
-msgstr ""
+msgstr "Autodetectar"
 
 msgid "&Open in browser"
 msgstr "&Abrir en el navegador"
@@ -174,31 +175,31 @@ msgid "&Close"
 msgstr "&Cerrar"
 
 msgid "History"
-msgstr ""
+msgstr "Historial"
 
 msgid "Search"
 msgstr "Buscar"
 
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 msgid "Time"
-msgstr ""
+msgstr "Hora"
 
 msgid "Article language"
-msgstr ""
+msgstr "Idioma del artículo"
 
 msgid "&Copy article link"
 msgstr "&Copiar enlace del artículo"
 
 msgid "&Delete"
-msgstr ""
+msgstr "&Eliminar"
 
 msgid "The selected item has been deleted."
-msgstr ""
+msgstr "El ítem seleccionado ha sido eliminado."
 
 msgid "Article link copied."
 msgstr "Enlace del artículo copiado."
@@ -216,19 +217,19 @@ msgid "This link cannot be opened in the browser."
 msgstr "Este enlace no se puede abrir en el navegador."
 
 msgid "Favourite Articles"
-msgstr ""
+msgstr "Artículos Favoritos"
 
 msgid "&Rename"
-msgstr ""
+msgstr "&Renombrar"
 
 msgid "Choose the new name for the article."
-msgstr ""
+msgstr "Elija el nuevo nombre para el artículo."
 
 msgid "Rename the article"
-msgstr ""
+msgstr "Renombrar artículo"
 
 msgid "Saved Articles"
-msgstr ""
+msgstr "Artículos Guardados"
 
 msgid "Program Settings"
 msgstr "Ajustes del programa"
@@ -246,16 +247,16 @@ msgid "Web View(Not recommended)"
 msgstr "Vista Web (No recomendada)"
 
 msgid "Select the number of results:"
-msgstr "Selecciona el número de resultados:"
+msgstr "Seleccione el número de resultados:"
 
 msgid "Select the number of random articles:"
-msgstr "Selecciona el número de artículos aleatorios:"
+msgstr "Seleccione el número de artículos aleatorios:"
 
 msgid "Show Close message when at least an article is open"
 msgstr "Mostrar mensaje de cierre cuando haya al menos un artículo abierto"
 
 msgid "Auto detect links from the clipboard"
-msgstr ""
+msgstr "Autodetectar links del portapapeles "
 
 msgid "Check for updates automatically"
 msgstr "Buscar actualizaciones automáticamente"
@@ -264,22 +265,22 @@ msgid "Close the article via the Escape key"
 msgstr "Cerrar el artículo con la tecla escape"
 
 msgid "General"
-msgstr ""
+msgstr "General"
 
 msgid "Delete history"
-msgstr ""
+msgstr "Borrar historial"
 
 msgid "Delete favourites"
-msgstr ""
+msgstr "Borrar favoritos"
 
 msgid "Delete saved articles"
-msgstr ""
+msgstr "Borrar artículos guardados"
 
 msgid "Reset to default settings"
-msgstr ""
+msgstr "Restablecer a los ajustes por defecto"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzado"
 
 msgid "&Save changes"
 msgstr "&Guardar cambios"
@@ -295,21 +296,24 @@ msgid ""
 "Are you sure you want to reset all settings?\n"
 "The program will restart."
 msgstr ""
+"¿Está seguro de que desea restablecer todos los ajustes? \n"
+"El programa se reiniciará."
 
 msgid "Are you sure you want to delete the saved articles content?"
 msgstr ""
+"¿Está seguro de que quiere borrar el contenido de sus artículos guardados?"
 
 msgid "Are you sure you want to delete your favourites content?"
-msgstr ""
+msgstr "¿Está seguro de que quiere borrar su contenido de favoritos?"
 
 msgid "Are you sure you want to delete the history content?"
-msgstr ""
+msgstr "¿Está seguro de que quiere borrar el contenido del historial?"
 
 msgid "Update found"
 msgstr "Se ha encontrado una actualización"
 
 msgid "Version {} is available."
-msgstr "Version {} disponible."
+msgstr "Versión {} disponible."
 
 msgid "&Update"
 msgstr "&Actualizar"
@@ -326,21 +330,17 @@ msgstr "Ver artículo"
 msgid "&Copy article\tctrl+shift+c"
 msgstr "Copiar artículo (ctrl+shift+c)"
 
-#, fuzzy
-#| msgid "Copy article link\t+alt+c"
 msgid "&Copy article link\talt+c"
 msgstr "Copiar enlace del artículo (alt+c)"
 
 msgid "Add to favourites\tctrl+f"
-msgstr ""
+msgstr "Añadir a favoritos\tctrl+f"
 
-#, fuzzy
-#| msgid "Save article as &txt\tctrl+shift+T"
 msgid "Add to saved articles\tctrl+shift+s"
-msgstr "Guardar artículo en formato &txt\tctrl+shift+T"
+msgstr "Añadir en artículos guardados\tctrl+shift+s"
 
 msgid "&Headings in article\tCtrl+h"
-msgstr ""
+msgstr "&Encabezados en el artículo\tCtrl+h"
 
 msgid "&References in article\tCtrl+r"
 msgstr "&Referencias del artículo\tCtrl+r"
@@ -364,7 +364,7 @@ msgid "Save article"
 msgstr "Guardar artículo"
 
 msgid "&Print\tctrl+P"
-msgstr ""
+msgstr "&Imprimir\tctrl+P"
 
 msgid "Close article window\tctrl+w"
 msgstr "Cerrar ventana del artículo ctrl+w"
@@ -429,40 +429,40 @@ msgstr ""
 " {}"
 
 msgid "Add to Favourites"
-msgstr ""
+msgstr "Añadir a favoritos"
 
 msgid "Choose the name of the article in your favourites."
-msgstr ""
+msgstr "Escoja el nombre del artículo para añadirlo a sus favoritos"
 
 msgid "&Add"
-msgstr ""
+msgstr "&Añadir"
 
 msgid "The article has been added to favourites."
-msgstr ""
+msgstr "El artículo ha sido añadido a favoritos"
 
 msgid "Add to saved articles"
-msgstr ""
+msgstr "Añadir a atículos guardados."
 
 msgid "Choose the name of the article in your saved articles."
-msgstr ""
+msgstr "Elija el nombre del artículo en los artículos guardados"
 
 msgid "The article has been added to your saved articles."
-msgstr ""
+msgstr "El artículo ha sido añadido a sus artículos guardados"
 
 msgid "Lines: {}."
-msgstr ""
+msgstr "Líneas: {}."
 
 msgid "Paragraphs: {}."
-msgstr ""
+msgstr "Párrafos: {}."
 
 msgid "Sentences: {}."
-msgstr ""
+msgstr "Frases: {}."
 
 msgid "Words: {}."
-msgstr ""
+msgstr "Palabras: {}."
 
 msgid "Characters: {}."
-msgstr ""
+msgstr "Carácteres: {}."
 
 msgid "Search results"
 msgstr "Resultados de búsqueda"
