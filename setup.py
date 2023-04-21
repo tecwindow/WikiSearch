@@ -11,7 +11,7 @@ build_exe_options = {
 "packages": ["web_viewer", "view_search_dialog", "view_article_window", "update_dialog", "settings", "my_classes", "functions", "dialogs"],
 "includes": ["wx", "nlpia2_wikipedia", "pyperclip", "accessible_output2", "mouse", "bs4", "requests", ],
 "zip_include_packages": ["wx"],
-"excludes": ["tkinter", "test", "setuptools", "PyInstaller", "pip"],
+"excludes": ["tkinter", "test", "setuptools", "PyInstaller", "pip", "numpy"],
 "include_msvcr": False
 }
 

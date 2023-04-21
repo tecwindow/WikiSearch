@@ -1,7 +1,7 @@
 ﻿#define MyAppName "WikiSearch"
-#define MyAppVersion "1.3.0"
+#define MyAppVersion "1.4.0"
 #define MyAppPublisher "Tecwindow"
-#define MyAppURL "https://t.me/tecwindow"
+#define MyAppURL "https://tecwindow.net/"
 #define MyAppExeName "WikiSearch.exe"
 
 [Setup]
@@ -30,7 +30,7 @@ CloseApplications=force
 restartApplications=yes
 SolidCompression=yes
 WizardStyle=modern
-
+DisableWelcomePage=no
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "arabic"; MessagesFile: "compiler:Languages\Arabic.isl"
@@ -47,16 +47,21 @@ Source: "WikiSearch\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs cr
 [CustomMessages]
 arabic.AppLNGfile = Arabic
 english.AppLNGfile = English
-french.AppLNGfile = Français
-spanish.AppLNGfile = Español
+french.AppLNGfile = French
+spanish.AppLNGfile = Spanish
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
-[Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall
 
 [INI]
 Filename: "{userappdata}\WikiSearch\Settingss.ini"; Section: "default"; Key: "language"; String: "{cm:AppLNGfile}"
 Filename: "{app}\User Data\Settingss.ini"; Section: "default"; Key: "language"; String: "{cm:AppLNGfile}"
+
+[InstallDelete]
+Type: filesandordirs; Name: "{app}"
+
+[Run]
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall
+

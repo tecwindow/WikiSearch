@@ -215,8 +215,15 @@ class SettingsDialog(wx.Dialog):
 	#Save Settings function
 	def OnSaveSettings(self, event):
 
+		languages = {
+"Arabic": "Arabic",
+"English": "English",
+"Español": "Spanish",
+"Français": "French"
+}
+
 		NewSettings = {
-		"language": self.ProgramLanguage.Value,
+		"language": languages[self.ProgramLanguage.Value],
 		"results number": str(self.NumberResults.Value),
 		"random articles number": str(self.random_articles_number.Value),
 		"close message": str(self.VerificationMsg.Value),

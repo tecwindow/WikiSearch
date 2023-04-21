@@ -87,7 +87,7 @@ class WebViewArticle(wx.Frame):
 
 		 #creating web viewer
 		self.ArticleTitle = wx.StaticText(Panel, -1, "please wait:")
-		self.ViewArticle = wx.html2.WebView.New(Panel, -1)
+		self.ViewArticle = wx.html2.WebView.New(Panel, -1, name="")
 		self.ViewArticle.SetPage(self.html, "")
 		self.ViewArticle.EnableContextMenu(False)
 #loading article
@@ -420,7 +420,6 @@ Do you want to close the program anyway?""").format(ArticleCounte), _("Confirm")
 		position = self.ViewArticle.GetPosition() 
 		position = self.ViewArticle.ClientToScreen(position) 
 		robot.MouseMove(position) 
-		robot.MouseClick(True)
 		mouse.move(100, 100, absolute=False, duration=0.5)
 		mouse.click('left')
 

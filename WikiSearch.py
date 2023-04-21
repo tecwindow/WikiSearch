@@ -1,5 +1,7 @@
 #-*- coding: utf-8 -*-
 # import project libraries.
+from custome_errors import *
+sys.excepthook = my_excepthook
 import wx
 import json
 import nlpia2_wikipedia as wikipedia
@@ -9,7 +11,7 @@ import datetime
 import os
 import sys
 #change working dir to main exe dir
-os.chdir(os.path.dirname(sys.argv[0]))
+#os.chdir(os.path.dirname(sys.argv[0]))
 import globals as g
 from view_search_dialog import ViewSearch
 from update_dialog import UpdateDialog
@@ -19,11 +21,12 @@ from dialogs import HistoryDialog, FavouritesDialog, SavedArticlesDialog
 from packaging import version
 from view_search_dialog import *
 
+
 #Set language for main window 
 _ = SetLanguage(Settings().ReadSettings())
 
 # information of program
-CurrntVersion = "1.3.0"
+CurrntVersion = "1.4.0"
 ProgramName = "WikiSearch"
 ProgramDescription = _("With this program, you can search or browse any Wikipedia article. site: https://github.com/tecwindow/WikiSearch")
 CurrentSettings = Settings().ReadSettings()
@@ -331,8 +334,8 @@ Mahmoud Atef.""").format(ProgramName, CurrntVersion, ProgramDescription), _("Abo
 		language = {
 		"English": "en",
 		"Arabic": "ar",
-		"Español": "es",
-		"Français": "fr"
+		"Spanish": "es",
+		"French": "fr"
 		}
 
 		CurrentLanguage = language[CurrentSettings["language"]]

@@ -19,8 +19,8 @@ def SetLanguage(CurrentSettings):
 	language = {
 	"English": "en",
 	"Arabic": "ar",
-	"Español": "es",
-	"Français": "fr"
+	"Spanish": "es",
+	"French": "fr"
 	}
 
 	try:
