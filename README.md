@@ -3,9 +3,42 @@ This simple program enables you to search Wikipedia, the free encyclopedia, with
 
 ## download:
 
-You can download the latest version [using this link.](https://github.com/tecwindow/WikiSearch/releases/download/v1.3.0/WikiSearchV1.3.0.exe)
+You can download the latest version [using this link.](https://github.com/tecwindow/WikiSearch/releases/download/V1.4.0/WikiSearchV1.4.0.exe)
 
 ## what's new:
+
+### Version 1.4:
+
+This version includes many features and bug fixes.
+
+- Added several article lists.
+    - Added the ability to save articles for offline reading. You can save the article within the program and return to it at any time.
+    - Added the Favorite articles feature, which allows you to save any article to the list of favorite articles so that you can return to it at any time from the same list.
+    - Added the History feature, a list that stores the articles you have visited and allows you to return to them at any time.
+        - The Favorites and Saved articles lists allow you to rename the article and delete any saved articles. Press the Applications key on any item in either list and you will find the appropriate options. You can also use the Delete key to delete items or the F2 key to rename them.
+        - You can save any article from the action menu in the article view window, and you can access these lists from the main menu in the main window. Each option has its own shortcut.
+        - Articles data is stored in a file named WikiSearch.db in the WikiSearch folder in AppData\Roaming. You can delete a specific portion of the file's contents from within the program's settings.
+
+- Added a feature to detect Wikipedia links from your clipboard when you open WikiSearch. You can view the article in the program, open it in the browser, or ignore the message. You can enable or disable this feature in the settings.
+- If you paste the link of an article from Wikipedia into the search field and press Enter, the article will be displayed immediately.
+- WikiSearch now launches in the language selected during installation.
+- Some  improvements have been made to the article display window in the html page. Due to a change in wxPython, the nvda screen reader cannot navigate through the list of actions. To work around this problem, go to any button in the window and press alt, and the menus will work fine.
+- Added the status bar to View article window, containing a counter for the number of letters, words, etc. in the article. You can get the same information by pressing numbers from 1 to 5.
+- Added a checkbox to disable the closing warning window when there are open articles, the checkbox appears in the same window.
+- The view tables window no longer shows empty lines.
+- Program windows now support resizing and dragging on the screen.
+- Added an option in the settings to restore the program to its default settings.
+- Updated the version of Python used to Python 3.10 and wxPython to 4.2.0. Replaced Pyinstaller with Cx_Frees.
+- Fixed a bug where WikiSearch returned a different article than the one selected in the search results.
+- Fixed a bug where WikiSearch would search in a different language than the one selected in the search language.
+- Fixed a bug where the closing warning window did not correctly display the number of open articles.
+- Disabled the previously available trick to increase the number of results above 100.
+- WikiSearch no longer uses Sapi5 to speak some actions when used without a screen reader.
+- Several code improvements have been made, as well as a number of small bug fixes here and there.
+
+#### Note:
+
+- The Print Article feature has been added, it should work fine when used from the article view window in html. If you are using the classic view to read the article, we are sorry to say that we have not been able to get the feature to work optimally at this time. If you are able to contribute to the completion of the feature, you can do so via GitHub.
 
 ### Version 1.3:
 
