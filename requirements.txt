@@ -5,3 +5,4 @@ accessible_output2
 mouse
 bs4
 requests
+cx-Freeze

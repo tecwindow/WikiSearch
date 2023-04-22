@@ -102,13 +102,14 @@ We are still learning and improving this software as we improve our knowledge of
 The software supports Windows 8 and above with both 32 and 64 bit architectures.
 
 ## Requirements
-Python 3.xx 
+Python 3.10 
 
 ## Modules and packages
 * accessible_output2
 * nlpia2_wikipedia
 * webbrowser
 * subprocess
+* cx-Freeze
 * threading 
 * pyperclip
 * wxpython
